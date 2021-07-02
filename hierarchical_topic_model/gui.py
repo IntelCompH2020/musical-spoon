@@ -48,6 +48,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         else:
             uic.loadUi("UIS/musicalSpoonV2.ui", self)
             self.version = "v2"
+
         self.setGeometry(100, 60, 2000, 1600)
         self.centralwidget.setGeometry(100, 60, 2000, 1600)
         self.animation = QtCore.QPropertyAnimation(self.frame_left_menu, b"minimumWidth")
@@ -116,6 +117,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.tableWidgetModelFiles.setColumnCount(2)
         self.tableWidgetModelFiles.setItem(0, 1, QtWidgets.QTableWidgetItem(str("")))
         self.tableWidgetModelFiles.setItem(1, 1, QtWidgets.QTableWidgetItem(str("")))
+
+        # self.tableWidgetHTMVersion.doubleClicked.connect(self.clicked_changeHTM)
 
         # CONFIGURE ELEMENTS IN THE "SELECT ROUTE MODEL VIEW"
         ########################################################################
@@ -536,6 +539,15 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         self.tableWidgetGeneralSettings.setItem(0, 1, QtWidgets.QTableWidgetItem(str(dataset_selected_path)))
 
+    #def clicked_changeHTM(self):
+        #    r = self.tableWidgetHTMVersion.currentRow()
+        #if r == 0:
+        #    self.version = "v1"
+        #    self.statusBar().showMessage("The algorithm of the underlying HTM was changed to version 1.", 10000)
+        #elif r == 1:
+        #    self.version = "v2"
+        #    self.statusBar().showMessage("The algorithm of the underlying HTM was changed to version 2.", 10000)
+
     def show_models(self):
         """Method to list all the model contained in the project folder in the
         "Select model" view.
@@ -630,6 +642,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
                                                                                   "deleting the selected model.")
                     self.set_default_model_parameters()
         self.show_models()
+        self.refresh()
 
     def clicked_selected_model(self):
         """Method to control the change in the selection of the main model. When
@@ -839,17 +852,16 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         else:
             item = self.treeViewShowModelsToExpand_4.currentItem()
             self.model_to_expand = item.text(0)
-        if self.version == "v1":
-            r = self.tableWidgetTrainSubmodel_4.currentRow()
-            if not self.tableWidgetTrainSubmodel_4.item(r, 0):
-                QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
-                                              "You must select the topic whose vocabulary you want to use for creating the submodel.")
-                # self.logging.warning(
-                #    "Submodel training was not proceeded because no topic for creating the submodel from was selected")
-                return
-            else:
-                self.topic_to_expand = int(self.tableWidgetTrainSubmodel_4.item(r, 0).text())
-        elif self.version == "v2":
+        r = self.tableWidgetTrainSubmodel_4.currentRow()
+        if not self.tableWidgetTrainSubmodel_4.item(r, 0):
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
+                                          "You must select the topic whose vocabulary you want to use for creating the submodel.")
+            # self.logging.warning(
+            #    "Submodel training was not proceeded because no topic for creating the submodel from was selected")
+            return
+        else:
+            self.topic_to_expand = int(self.tableWidgetTrainSubmodel_4.item(r, 0).text())
+        if self.version == "v2":
             if not self.InsertThreshold.text():
                 QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
                                               "You must insert the threshold that indicates how representative a "
@@ -946,6 +958,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.refresh()
         self.set_default_model_parameters()
         self.InsertNumberTopicsSubmodel_8.setText("")
+        self.InsertThreshold.setText("")
 
     def clicked_select_model_to_see_description(self):
         """Method to control the selection of a model to show its description

@@ -55,8 +55,10 @@ time = strftime("_%Y-%m-%d_%H-%M-%S", gmtime())
 def create_model():
     # Path to the models in project folder
     models_dir = pathlib.Path(project_path , "models")
+    route_to_persistence = pathlib.Path(project_path, "persistence")
     
     # Available models 
+    models = [model.name for model in models_dir.iterdir() if model.is_dir()]
     model_name = "model" + time + "_" + str(randrange(100))
     if not(os.path.isdir((models_dir / model_name).as_posix())):
         # 1.1. Create model's folder
@@ -174,6 +176,8 @@ def show_topic_model_description(model_selected):
        by the user in option 2 and all its submodels.
     """
     # Model path and model name
+    route_to_model = config['models']['model_selected']
+    model_name = config['models']['model_name']
     route_to_persistence = config['models']['persistence_selected']
     
     infile = open(route_to_persistence,'rb')
@@ -212,7 +216,10 @@ def show_topic_model_description(model_selected):
 def show_topics_to_expand(model_selected):
     # Path to the models in project folder, model path, persistence path 
     # and model name
+    route_to_models = pathlib.Path(project_path, "models")
+    route_to_model = config['models']['model_selected']
     route_to_persistence = config['models']['persistence_selected']
+    model_name = config['models']['model_name']
     
     ## 1. Load the model from the persitence file
     infile = open(route_to_persistence,'rb')
@@ -232,10 +239,13 @@ def show_topics_to_expand(model_selected):
     return topic_ids
 
 def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, version, thr):
-    
+
     # Path to the models in project folder, model path, persistence path 
     # and model name
+    route_to_models = pathlib.Path(project_path, "models")
+    route_to_model = config['models']['model_selected']
     route_to_persistence = config['models']['persistence_selected']
+    model_name = config['models']['model_name']
     
     ## 1. Load the model from the persitence file
     infile = open(route_to_persistence,'rb')
@@ -289,6 +299,12 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
         submodel.add_to_father(model_selected_name, model)
         submodel.set_fathers(model_selected_name, model)
         
+        for i in np.arange(0,len(submodels_paths),1):
+            file = pathlib.Path(submodels_paths[i],model_ids)
+            topics_ids_df = pd.read_csv(file, sep = "\t", header = None)
+            topic_ids = topics_ids_df.values[:,0].tolist()
+            
+     
         saving = True
         for i in np.arange(0,len(submodels_paths),1):
             if saving:

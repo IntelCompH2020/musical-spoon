@@ -33,6 +33,8 @@ class PreConfig(QDialog):
         # Info buttons
         self.infoButtonV1.setIcon(QIcon('Images/help2.png'))
         self.infoButtonV2.setIcon(QIcon('Images/help2.png'))
+        self.infoButtonV1.setToolTip(MessagesGui.INFO_HTM_V1)
+        self.infoButtonV2.setToolTip(MessagesGui.INFO_HTM_V2)
 
     def getProjectFolder(self):
         self.projectFolder = QFileDialog.getExistingDirectory(self, 'Select directory', self.home)

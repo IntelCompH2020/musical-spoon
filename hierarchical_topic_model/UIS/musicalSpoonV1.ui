@@ -1343,7 +1343,7 @@ border:2px #676A6E;</string>
                    <string notr="true">background-color: #DFE6ED;</string>
                   </property>
                   <property name="currentIndex">
-                   <number>2</number>
+                   <number>0</number>
                   </property>
                   <widget class="QWidget" name="tabsPage">
                    <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -1599,7 +1599,7 @@ QHeaderView::section:vertical
                              <x>0</x>
                              <y>0</y>
                              <width>1051</width>
-                             <height>306</height>
+                             <height>293</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1851,7 +1851,7 @@ QHeaderView::section:vertical
                              <x>0</x>
                              <y>0</y>
                              <width>1051</width>
-                             <height>304</height>
+                             <height>292</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2032,7 +2032,7 @@ QHeaderView::section:vertical
                              <x>0</x>
                              <y>0</y>
                              <width>1051</width>
-                             <height>309</height>
+                             <height>295</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2284,7 +2284,7 @@ QHeaderView::section:vertical
                              <x>0</x>
                              <y>0</y>
                              <width>1051</width>
-                             <height>310</height>
+                             <height>296</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2463,6 +2463,135 @@ QHeaderView::section:vertical
                                </spacer>
                               </item>
                              </layout>
+                            </item>
+                           </layout>
+                          </widget>
+                          <widget class="QWidget" name="PagHTM">
+                           <attribute name="label">
+                            <string>HIERARCHICAL TOPIC MODEL ALGORITHM VERSION</string>
+                           </attribute>
+                           <layout class="QHBoxLayout" name="horizontalLayout">
+                            <item>
+                             <widget class="QTableWidget" name="tableWidgetHTMVersion">
+                              <property name="styleSheet">
+                               <string notr="true">QTableWidget {	
+	background-color: rgb(235, 242, 250);
+	padding: 10px;
+	border-radius: 5px;
+	gridline-color: #DFE6ED;
+	border-bottom: 1px solid #DFE6ED;
+}
+QTableWidget::item{
+	border-color: #DFE6ED;
+	padding-left: 5px;
+	padding-right: 5px;
+	gridline-color: #DFE6ED;
+}
+QTableWidget::item:selected{
+	background-color: #C7CDDA;
+}
+QScrollBar:horizontal {
+    border: none;
+    background: #A3A8AD;
+    height: 14px;
+    margin: 0px 21px 0 21px;
+	border-radius: 0px;
+}
+ QScrollBar:vertical {
+	border: none;
+    background: #A3A8AD;
+    width: 14px;
+    margin: 21px 0 21px 0;
+	border-radius: 0px;
+ }
+QHeaderView::section{
+	Background-color: #A3A8AD;
+	max-width: 30px;
+	border: 1px solid #A3A8AD;
+	border-style: none;
+    border-bottom: 1px solid #DFE6ED;
+    border-right: 1px solid #DFE6ED;
+}
+QTableWidget::horizontalHeader {	
+	background-color: #A3A8AD;
+}
+QHeaderView::section:horizontal
+{
+    border: 1px solid #DFE6ED;
+	background-color: #A3A8AD;
+	padding: 3px;
+	border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+QHeaderView::section:vertical
+{
+    border: 1px solid #A3A8AD;
+}
+</string>
+                              </property>
+                              <attribute name="horizontalHeaderStretchLastSection">
+                               <bool>true</bool>
+                              </attribute>
+                              <attribute name="verticalHeaderCascadingSectionResizes">
+                               <bool>false</bool>
+                              </attribute>
+                              <attribute name="verticalHeaderDefaultSectionSize">
+                               <number>100</number>
+                              </attribute>
+                              <attribute name="verticalHeaderStretchLastSection">
+                               <bool>true</bool>
+                              </attribute>
+                              <row>
+                               <property name="text">
+                                <string>Version 1</string>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <weight>75</weight>
+                                 <bold>true</bold>
+                                </font>
+                               </property>
+                              </row>
+                              <row>
+                               <property name="text">
+                                <string>Version 2</string>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <weight>75</weight>
+                                 <bold>true</bold>
+                                </font>
+                               </property>
+                              </row>
+                              <column>
+                               <property name="text">
+                                <string>Description</string>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <weight>75</weight>
+                                 <bold>true</bold>
+                                </font>
+                               </property>
+                              </column>
+                              <item row="0" column="0">
+                               <property name="text">
+                                <string>Hierarchical topic model in which the input documents that constitute the training corpus of the submodels located from the second level in the hierarchy and onwards are generated by grouping the words that belong to a specific topic in the father model.
+</string>
+                               </property>
+                               <property name="flags">
+                                <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                               </property>
+                              </item>
+                              <item row="1" column="0">
+                               <property name="text">
+                                <string>Hierarchical topic model in which the input documents that constitute the training corpus of the submodels located from the second level in the hierarchy and onwards are generated by grouping those documents' words from the original in which the representation of a specific topic in the father model reaches a certain threshold.</string>
+                               </property>
+                               <property name="flags">
+                                <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                               </property>
+                              </item>
+                             </widget>
                             </item>
                            </layout>
                           </widget>

@@ -269,12 +269,14 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
     ## 4. Create subfiles
     
     # 4.3 Create the submodel files
-    time_rnd = time + "_" + str(randrange(100))
+    #time_rnd = time + "_" + str(randrange(100))
     
     if version == "v1":
+        time_rnd = time + "_" + str(randrange(100)) + "_v1"
         submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version, model, thr)
         print("Generating submodels with HTM v1")
     elif version == "v2":
+        time_rnd = time + "_" + str(randrange(100)) + "_v2_" + str(thr)
         submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version, model, thr)
         print("Generating submodels with HTM v2")
     else:

@@ -33,6 +33,7 @@ project_path = config['files']['project_path']
 source_path = config['files']['source_path']
 model_ids = config['out-documents']['model_ids']
 pldavis = config['out-documents']['pldavis']
+diagnostics = config['out-documents']['diagnosis']
 default_project_path = config['default']['project_path']
 
 
@@ -70,6 +71,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.infoButtonSelectSubmodel_4.setIcon(QIcon('Images/help2.png'))
         self.infoButtoSelectTopicExpand_4.setIcon(QIcon('Images/help2.png'))
         self.infoButtonShowDescription.setIcon(QIcon('Images/help2.png'))
+        self.infoButtonDiagnostics.setIcon(QIcon('Images/help2.png'))
         self.infoButtonSelectDataset.setToolTip(MessagesGui.INFO_SELECT_DATASET)
         self.infoButtonLoadFiles.setToolTip(MessagesGui.INFO_LOAD_FILES)
         self.infoButtonTrainModel.setToolTip(MessagesGui.INFO_TRAIN_MODEL)
@@ -147,6 +149,10 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.pushButtonSeeDescription.clicked.connect(self.clicked_see_topics_description)
         self.pushButtonPlotPyLDAvis.clicked.connect(self.clicked_plot_pyldavis)
 
+        # CONFIGURE ELEMENTS IN THE "SHOW Diagnostics"
+        ########################################################################
+        self.pushButtonDiagnostics.clicked.connect(self.clicked_plot_diagnosis)
+
         # MODEL PARAMETERS THAT ARE SAVED TO PASS TO THREADS
         ########################################################################
         self.num_training_topics = 5
@@ -157,6 +163,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.model_to_train = ""
         self.web = None
         self.webExpand = None
+        self.web_diag = None
+        self.webExpand_diag = None
         self.list_names = []
         self.list_description = []
         self.model_get_ids = None
@@ -200,6 +208,14 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.pushButtonShowPylavisBig.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage5))
         self.pushButtonShowPylavisBig.setIcon(QIcon('Images/expand.png'))
 
+        # PAGE 6: See diagnostics
+        self.pushButtonShowDiagnosis.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage6))
+        self.pushButtonShowDiagnosis.setIcon(QIcon('Images/diagnostic.png'))
+
+        # PAGE 7: See diagnostics plot expanded
+        self.pushButtonShowDiagnosticsBig.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage7))
+        self.pushButtonShowDiagnosticsBig.setIcon(QIcon('Images/expand.png'))
+
     def toggleMenu(self, maxWidth):
         """Method to control the movement of the Toggle menu located on the
         left. When collapsed, only the icon for each of the options is shown;
@@ -224,6 +240,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.pushButtonSelectModel_2.setText('Select model')
             self.pushButtonShowDescription_2.setText('Show model')
             self.pushButtonTrainSubmodel_2.setText('Edit model')
+            self.pushButtonShowDiagnosis.setText('Diagnostics')
             self.label_logo.setFixedSize(widthExtended, widthExtended)
 
         else:
@@ -232,6 +249,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.pushButtonSelectModel_2.setText('')
             self.pushButtonShowDescription_2.setText('')
             self.pushButtonTrainSubmodel_2.setText('')
+            self.pushButtonShowDiagnosis.setText('')
             self.label_logo.setFixedSize(widthExtended, widthExtended)
 
         # ANIMATION
@@ -563,6 +581,10 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.web.setParent(None)
         if self.webExpand:
             self.webExpand.setParent(None)
+        if self.web_diag:
+            self.web_diag.setParent(None)
+        if self.webExpand_diag:
+            self.webExpand_diag.setParent(None)
 
     def show_models_to_expand(self):
         """Method to list all the models available for expansion in the
@@ -587,14 +609,17 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         clearQTreeWidget(self.treeWidgetSelectModelToSeeDescription)
         clearQTreeWidget(self.treeViewShowModelsToExpand_4)
+        clearQTreeWidget(self.treeWidgetSelectModelToSeeDiagnostics)
+
 
         if pathlib.Path(route_to_model).is_dir():
             ret = get_model_xml(route_to_model)
             printTree(ret, self.treeWidgetSelectModelToSeeDescription)
             printTree(ret, self.treeViewShowModelsToExpand_4)
+            printTree(ret, self.treeWidgetSelectModelToSeeDiagnostics)
 
     def refresh(self):
-        """Method to clear lists and reaload information in "column_listSelectModel",
+        """Method to clear lists and reload information in "column_listSelectModel",
         "treeViewShowModelsToExpand_4" and "treeWidgetSelectModelToSeeDescription",
         in the "Select model", "Edit model" and "Show model description" views,
         respectively.
@@ -669,6 +694,10 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.web.setParent(None)
         if self.webExpand:
             self.webExpand.setParent(None)
+        if self.web_diag:
+            self.web_diag.setParent(None)
+        if self.webExpand_diag:
+            self.webExpand_diag.setParent(None)
 
     def clicked_train_model(self):
         """Method to control training of a model It checks whether the parameters
@@ -979,6 +1008,10 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.web.setParent(None)
         if self.webExpand:
             self.webExpand.setParent(None)
+        if self.web_diag:
+            self.web_diag.setParent(None)
+        if self.webExpand_diag:
+            self.webExpand_diag.setParent(None)
 
     def clicked_see_topics_description(self):
         """Method to control the displaying of a model/submodel to see its
@@ -1178,6 +1211,43 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         print("Tiempo Pyldavis")
         print(fin - self.inicio)  # 1.0005340576171875
 
+    def clicked_plot_diagnosis(self):
+        """Method to control the generation of the PyLDAVis".
+        """
+        self.inicio = time.time()
+        self.model_to_plot = str(self.treeWidgetSelectModelToSeeDiagnostics.currentItem().text(0))
+
+        config.read(config_file)
+        route_to_persistence = config['models']['persistence_selected']
+        infile = open(route_to_persistence, 'rb')
+        model = pickle.load(infile)
+        model_plot_pyldavis = model.look_for_model(self.model_to_plot)
+        route_to_model_plot_pyldavis = model_plot_pyldavis.model_path
+        file_diagnostics = pathlib.Path(route_to_model_plot_pyldavis, diagnostics).as_posix()
+
+        if not os.path.exists(file_diagnostics):
+            print("The file was not generated with training.")
+        else:
+            if self.web_diag:
+                self.web_diag.setParent(None)
+            if self.webExpand_diag:
+                self.webExpand_diag.setParent(None)
+
+            self.web_diag = QWebEngineView()
+            self.web_diag.load(QUrl.fromLocalFile(file_diagnostics))
+            self.layoutPlotDiagnosis.addWidget(self.web_diag)
+            self.web_diag.show()
+
+            self.webExpand_diag = QWebEngineView()
+            self.webExpand_diag.load(QUrl.fromLocalFile(file_diagnostics))
+            self.layoutPlotDiagnosisExpand.addWidget(self.webExpand_diag)
+            self.webExpand_diag.show()
+
+            fin = time.time()
+            print("Tiempo Pyldavis")
+            print(fin - self.inicio)  # 1.0005340576171875
+        return
+
     def clicked_selected_model_to_delete(self):
         """Method to link the model/submodel selected in the treeWidget
         "treeViewShowModelsToExpand_4" with its deletion.
@@ -1228,3 +1298,4 @@ class UI_MainWindow(QtWidgets.QMainWindow):
                 self.show_models()
                 self.refresh()
         return
+

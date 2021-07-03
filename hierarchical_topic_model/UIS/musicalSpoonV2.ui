@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1486</width>
+    <width>1663</width>
     <height>876</height>
    </rect>
   </property>
@@ -1177,6 +1177,47 @@ QPushButton:pressed {
                  </widget>
                 </item>
                 <item>
+                 <widget class="QPushButton" name="pushButtonShowDiagnosis">
+                  <property name="minimumSize">
+                   <size>
+                    <width>60</width>
+                    <height>60</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+        background-image: ICON_REPLACE;
+        background-position: left center;
+        background-repeat: no-repeat;
+        color: rgb(255, 255, 255);
+		 border: none;
+        background-color: #676A6E;
+        text-align: left;
+        padding-left: 15px;
+    }
+    QPushButton[Active=true] {
+        background-image: ICON_REPLACE;
+        background-position: left center;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: #676A6E;
+        text-align: left;
+		 padding-left: 15px;
+    }
+    QPushButton:hover {
+        background-color: #676A6E;
+      }
+    QPushButton:pressed {
+        background-color: #676A6E;
+    
+    }</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <spacer name="verticalSpacer_14">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -1343,7 +1384,7 @@ border:2px #676A6E;</string>
                    <string notr="true">background-color: #DFE6ED;</string>
                   </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>5</number>
                   </property>
                   <widget class="QWidget" name="tabsPage">
                    <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -1850,8 +1891,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1336</width>
-                             <height>290</height>
+                             <width>102</width>
+                             <height>114</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2031,8 +2072,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1336</width>
-                             <height>293</height>
+                             <width>100</width>
+                             <height>120</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2283,8 +2324,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1336</width>
-                             <height>294</height>
+                             <width>100</width>
+                             <height>122</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2471,8 +2512,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1336</width>
-                             <height>289</height>
+                             <width>100</width>
+                             <height>100</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -4478,6 +4519,323 @@ QWidget:focus {
                       <layout class="QVBoxLayout" name="verticalLayout_14">
                        <item>
                         <layout class="QVBoxLayout" name="layoutPlot_2"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                  <widget class="QWidget" name="tabsPage6">
+                   <layout class="QVBoxLayout" name="verticalLayout_36">
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_26">
+                      <item>
+                       <layout class="QVBoxLayout" name="verticalLayout_27">
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_8">
+                          <item>
+                           <widget class="QPushButton" name="infoButtonDiagnostics">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>35</width>
+                              <height>35</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">QPushButton {
+	border: 5px solid #676A6E;
+	border-radius: 5px;	
+	background-color: #676A6E;
+}
+QPushButton:hover {
+	background-color: #676A6E;
+	border: 2px solid #676A6E;
+}
+QPushButton:pressed {	
+	background-color: #676A6E;
+	border: 2px solid #676A6E;
+}</string>
+                            </property>
+                            <property name="text">
+                             <string/>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="labelSelectModelToShow_3">
+                            <property name="font">
+                             <font>
+                              <weight>75</weight>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="text">
+                             <string>Select the model/submodel to show its diagnostics:</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_10">
+                          <item>
+                           <widget class="QTreeWidget" name="treeWidgetSelectModelToSeeDiagnostics">
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">QTreeWidget {	
+	background-color: #EBF2FA;
+	padding: 10px;
+	border-radius: 5px;
+	gridline-color: #DFE6ED;
+	border-bottom: 1px solid #DFE6ED;
+}
+QTreeWidget::item{
+	border-color: #DFE6ED;
+	padding-left: 5px;
+	padding-right: 5px;
+	gridline-color: #DFE6ED;
+}
+QTreeWidget::item:selected{
+	background-color: #C7CDDA;
+}
+QScrollBar:horizontal {
+    border: none;
+    background: #A3A8AD;
+    height: 14px;
+    margin: 0px 21px 0 21px;
+	border-radius: 0px;
+}
+ QScrollBar:vertical {
+	border: none;
+    background: #A3A8AD;
+    width: 14px;
+    margin: 21px 0 21px 0;
+	border-radius: 0px;
+ }
+QHeaderView::section{
+	Background-color: #A3A8AD;
+	max-width: 30px;
+	border: 1px solid #A3A8AD;
+	border-style: none;
+    border-bottom: 1px solid #DFE6ED;
+    border-right: 1px solid #DFE6ED;
+}
+QTreeWidget::horizontalHeader {	
+	background-color: #A3A8AD;
+}
+QHeaderView::section:horizontal
+{
+    border: 1px solid #DFE6ED;
+	background-color: #A3A8AD;
+	padding: 3px;
+	border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+QHeaderView::section:vertical
+{
+    border: 1px solid #A3A8AD;
+}</string>
+                            </property>
+                            <column>
+                             <property name="text">
+                              <string/>
+                             </property>
+                            </column>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_16">
+                        <item>
+                         <spacer name="horizontalSpacer">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="pushButtonDiagnostics">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>0</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QPushButton {
+	background-color: #A3A8AD;
+}
+QPushButton:hover {
+	background-color: #A3A8AD;
+}
+QPushButton:pressed {	
+	background-color: #A3A8AD;
+}</string>
+                          </property>
+                          <property name="text">
+                           <string> See diagnostics</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_4">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_15">
+                        <item>
+                         <layout class="QVBoxLayout" name="verticalLayout_35">
+                          <item>
+                           <widget class="QWidget" name="plotDiagnosis_2" native="true">
+                            <property name="minimumSize">
+                             <size>
+                              <width>550</width>
+                              <height>650</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">QWidget {
+	background-color: #EBF2FA;
+	border-radius: 5px;
+	padding: 10px;
+}
+QWidget:hover {
+	border: 2px solid #A3A8AD;
+}
+QWidget:focus {
+	border: 2px solid #A3A8AD;
+}
+</string>
+                            </property>
+                            <layout class="QVBoxLayout" name="verticalLayout_28">
+                             <item>
+                              <layout class="QVBoxLayout" name="layoutPlotDiagnosis"/>
+                             </item>
+                            </layout>
+                           </widget>
+                          </item>
+                          <item>
+                           <spacer name="horizontalSpacer_18">
+                            <property name="orientation">
+                             <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                             <size>
+                              <width>40</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                           </spacer>
+                          </item>
+                          <item>
+                           <layout class="QHBoxLayout" name="horizontalLayout_39"/>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="pushButtonShowDiagnosticsBig">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QPushButton {
+	border: 5px solid #676A6E;
+	border-radius: 5px;	
+	background-color: #676A6E;
+}
+QPushButton:hover {
+	background-color: #676A6E;
+	border: 2px solid #676A6E;
+}
+QPushButton:pressed {	
+	background-color: #676A6E;
+	border: 2px solid #676A6E;
+}</string>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                  <widget class="QWidget" name="tabsPage7">
+                   <layout class="QVBoxLayout" name="verticalLayout_38">
+                    <item>
+                     <widget class="QWidget" name="plotDiagnosis" native="true">
+                      <property name="minimumSize">
+                       <size>
+                        <width>550</width>
+                        <height>650</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QWidget {
+	background-color: #EBF2FA;
+	border-radius: 5px;
+	padding: 10px;
+}
+QWidget:hover {
+	border: 2px solid #A3A8AD;
+}
+QWidget:focus {
+	border: 2px solid #A3A8AD;
+}
+</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_37">
+                       <item>
+                        <layout class="QVBoxLayout" name="layoutPlotDiagnosisExpand"/>
                        </item>
                       </layout>
                      </widget>

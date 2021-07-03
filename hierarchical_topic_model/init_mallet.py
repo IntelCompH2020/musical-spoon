@@ -19,6 +19,7 @@ import os
 import pathlib
 import configparser
 from colorama import Fore
+import shutil
 
 
 ##############################################################################
@@ -40,6 +41,8 @@ topic_keys = config['out-documents']['topic_keys']
 doc_topics = config['out-documents']['doc_topics']
 topic_word_weights = config['out-documents']['topic_word_weights']
 model_ids = config['out-documents']['model_ids']
+diagnostics_html = config['files']['diagnostics_html_path']
+diagnostics_json = config['files']['diagnostics_json_path']
 
 ##############################################################################
 #                            MALLET CONFIG                                   #
@@ -62,8 +65,11 @@ def create_mallet(route_to_source, route_to_model):
     command  = (mallet_path + " import-file --input " + source_path 
                                           + " --output " + output_mallet 
                                           + " --keep-sequence --remove-stopwords")
-    print(command)
     cmd(command)
+    
+    shutil.copy(diagnostics_json, pathlib.Path(route_to_model))
+    shutil.copy(diagnostics_html, pathlib.Path(route_to_model))
+    
     print("")
     print(Fore.GREEN+'Mallet file "data-model.mallet" created.'+ Fore.WHITE)
     print("")
@@ -85,6 +91,10 @@ def create_sub_mallet(route_to_submodel):
                                           + " --output " + output_mallet 
                                           + " --keep-sequence --remove-stopwords")
     cmd(command)
+    
+    shutil.copy(diagnostics_json, pathlib.Path(route_to_submodel))
+    shutil.copy(diagnostics_html, pathlib.Path(route_to_submodel))
+    
     print("")
     print(Fore.GREEN+"Mallet file submodel.mallet in "+ input_txt + " created." + Fore.WHITE)
     print("")
@@ -113,6 +123,7 @@ def train_a_model(route_to_source, route_to_model, model):
     topic_keys_model = (model_dir / topic_keys).as_posix()
     doc_topics_model = (model_dir/  doc_topics).as_posix()
     topic_word_weights_model = (model_dir / topic_word_weights).as_posix()
+    diagnosis_file = (model_dir/ "diagnostics.xml").as_posix()
     # Train the model
     command = (mallet_path + " train-topics --input " + trainig_input 
                                                               + " --num-topics " + str(model.num_topics)
@@ -120,7 +131,8 @@ def train_a_model(route_to_source, route_to_model, model):
                                                               + " --output-state " + topic_state_model
                                                               + " --output-topic-keys " + topic_keys_model
                                                               + " --output-doc-topics " + doc_topics_model
-                                                              + " --topic-word-weights-file " + topic_word_weights_model)
+                                                              + " --topic-word-weights-file " + topic_word_weights_model
+                                                              + " --diagnostics-file " + diagnosis_file)
     cmd(command)
     
     # Create model's topics
@@ -160,15 +172,18 @@ def train_a_submodel(submodel_name, submodel_path, submodel):
     topic_keys_model = (folder_dir / topic_keys).as_posix() 
     doc_topics_model = (folder_dir/  doc_topics).as_posix()
     topic_word_weights_model = (folder_dir / topic_word_weights).as_posix()
+    diagnosis_file = (folder_dir/ "diagnostics.xml").as_posix()
 
     # Train the submodel
     command = (mallet_path + " train-topics --input " + training_input 
-                                                          + " --num-topics " + str(submodel.num_topics)
-                                                          + " --optimize-interval " + str(optimize_interval)
-                                                          + " --output-state " + topic_state_model
-                                                          + " --output-topic-keys " + topic_keys_model
-                                                          + " --output-doc-topics " + doc_topics_model
-                                                          + " --topic-word-weights-file " + topic_word_weights_model)
+                                                      + " --num-topics " + str(submodel.num_topics)
+                                                      + " --optimize-interval " + str(optimize_interval)
+                                                      + " --output-state " + topic_state_model
+                                                      + " --output-topic-keys " + topic_keys_model
+                                                      + " --output-doc-topics " + doc_topics_model
+                                                      + " --topic-word-weights-file " + topic_word_weights_model
+                                                      + " --diagnostics-file " + diagnosis_file)
+    print(command)                                                      
     cmd(command)
     
     # Create the topics of the submodel

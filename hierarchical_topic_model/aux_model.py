@@ -25,6 +25,7 @@ from gensim.models.wrappers import LdaMallet
 import xml.etree.ElementTree as ET
 from colorama import init, Fore, Back, Style
 
+import matplotlib.pyplot as plt
 
 
 from random import randrange
@@ -236,6 +237,19 @@ def show_topics_to_expand(model_selected):
     topics_ids_df = pd.read_csv(file, sep = "\t", header = None)
     topic_ids = topics_ids_df.values[:,0].tolist()
    
+    return topic_ids
+
+def show_topics_to_expand_general(model_selected, model):
+    models = []
+    models_paths = []
+    model.print_model(models, models_paths, True, '---', False)
+    for i in np.arange(0, len(models), 1):
+        if models[i] == model_selected:
+            model_selected_path = models_paths[i]
+    file = pathlib.Path(model_selected_path, model_ids).as_posix()
+    topics_ids_df = pd.read_csv(file, sep="\t", header=None)
+    topic_ids = topics_ids_df.values[:, 0].tolist()
+
     return topic_ids
 
 def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, version, thr):
@@ -581,3 +595,63 @@ def printTree(xml_ret, treeWidget):
             a.addChild(QtWidgets.QTreeWidgetItem([content]))
 
     displayTree(a, xml_ret)
+
+def get_pickle(model_selected, project_path):
+        project_path = pathlib.Path(project_path)
+        models_dir = (project_path / "persistence").as_posix()
+        with os.scandir(models_dir) as entries:
+            for entry in entries:
+                if entry.is_file():
+                    infile = open(entry.path, 'rb')
+                    model = pickle.load(infile)
+                    if model.model_name == model_selected:
+                        return entry.path
+                    else:
+                        for i in np.arange(0, len(model.topics_models), 1):
+                            if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
+                                if model.topics_models[i].model_name == model_selected:
+                                    return entry.path
+
+
+def get_root_path(model_selected, project_path):
+    project_path = pathlib.Path(project_path)
+    models_dir = (project_path / "persistence").as_posix()
+    with os.scandir(models_dir) as entries:
+        for entry in entries:
+            if entry.is_file():
+                infile = open(entry.path, 'rb')
+                model = pickle.load(infile)
+                if model.model_name == model_selected:
+                    return model.model_path
+                else:
+                    for i in np.arange(0, len(model.topics_models), 1):
+                        if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
+                            if model.topics_models[i].model_name == model_selected:
+                                return model.model_path
+                            
+def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxis, title, figure_to_save):
+    # version = name.split("v2_")[1].split("_")[0]
+    x = []
+    y = []
+    valueY = ""
+    plt.figure()
+    for el in list_diagnostics_id:
+        tree = ET.parse(el[0])
+        root = tree.getroot()
+        model_name = el[1]
+        topic_id = el[2]
+        if measurement2 == "threshold":
+            valueY = model_name.split("v2_")[1].split("_")[0]
+        elif measurement2 == "topics":
+            valueY = model_name.split("_")[-2]
+        else:
+            valueY = [child.get(measurement2) for child in root if child.tag == 'topic' and child.get('id') == topic_id][0]
+        value_measurement = [child.get(measurement) for child in root if child.tag == 'topic' and child.get('id') == topic_id][0]
+        x.append(float(valueY))
+        y.append(float(value_measurement))
+
+    plt.plot(x, y)
+    plt.xlabel(xaxis), plt.ylabel(yaxis), plt.title(title)
+    if figure_to_save:    
+        plt.savefig(figure_to_save)  
+    return x,y

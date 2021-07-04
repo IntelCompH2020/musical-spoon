@@ -13,6 +13,7 @@ from PyQt5 import uic, QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import QUrl, Qt, QThreadPool
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import *
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from MessagesGui import MessagesGui
 from Model import *
@@ -20,7 +21,7 @@ from Worker import Worker
 from aux_model import create_model, list_models, select_model, train_model, show_topic_model_description, \
     show_topics_to_expand, train_save_submodels, change_description, generatePyLavis, \
     delete_submodel, delete_model, get_model_xml, configure_project_folder, \
-    clearQTreeWidget, printTree
+    clearQTreeWidget, printTree, show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics
 
 from styleGrey import styleGrey
 from styleDarkOrange import styleDarkOrange
@@ -44,11 +45,11 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         # Load UI and configure default geometry of the window
         ########################################################################
         if version == "v1":
-            uic.loadUi("UIS/musicalSpoonV2.ui", self)
             self.version = "v1"
         else:
-            uic.loadUi("UIS/musicalSpoonV2.ui", self)
             self.version = "v2"
+
+        uic.loadUi("UIS/musicalSpoonV2.ui", self)
 
         self.setGeometry(100, 60, 2000, 1600)
         self.centralwidget.setGeometry(100, 60, 2000, 1600)
@@ -72,6 +73,9 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.infoButtoSelectTopicExpand_4.setIcon(QIcon('Images/help2.png'))
         self.infoButtonShowDescription.setIcon(QIcon('Images/help2.png'))
         self.infoButtonDiagnostics.setIcon(QIcon('Images/help2.png'))
+        self.infoButtonSelectModelDiagnostic.setIcon(QIcon('Images/help2.png'))
+        self.infoButtonDragTopicDiagnostic.setIcon(QIcon('Images/help2.png'))
+
         self.infoButtonSelectDataset.setToolTip(MessagesGui.INFO_SELECT_DATASET)
         self.infoButtonLoadFiles.setToolTip(MessagesGui.INFO_LOAD_FILES)
         self.infoButtonTrainModel.setToolTip(MessagesGui.INFO_TRAIN_MODEL)
@@ -153,6 +157,11 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         ########################################################################
         self.pushButtonDiagnostics.clicked.connect(self.clicked_plot_diagnosis)
 
+        # CONFIGURE ELEMENTS IN THE "DRAW Diagnostics"
+        ########################################################################
+        self.treeWidgetSelectModelToDiagnostic.clicked.connect(self.clicked_showTopicsDragDiagnosis)
+        self.pushButtonPlotDiagnosisGraph.clicked.connect(self.click_draw_diagnosis)
+
         # MODEL PARAMETERS THAT ARE SAVED TO PASS TO THREADS
         ########################################################################
         self.num_training_topics = 5
@@ -169,6 +178,13 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.list_description = []
         self.model_get_ids = None
         self.threshold = ""
+
+        self.figure = plt.figure()
+        # this is the Canvas Widget that
+        # displays the 'figure'it takes the
+        # 'figure' instance as a parameter to __init__
+        self.canvas = FigureCanvas(self.figure)
+        self.layoutPlot_5.addWidget(self.canvas)
 
         self.initialize_settings()
         self.show_models()
@@ -210,11 +226,15 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         # PAGE 6: See diagnostics
         self.pushButtonShowDiagnosis.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage6))
-        self.pushButtonShowDiagnosis.setIcon(QIcon('Images/diagnostic.png'))
+        self.pushButtonShowDiagnosis.setIcon(QIcon('Images/diagnostic_white.png'))
 
         # PAGE 7: See diagnostics plot expanded
         self.pushButtonShowDiagnosticsBig.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage7))
         self.pushButtonShowDiagnosticsBig.setIcon(QIcon('Images/expand.png'))
+
+        # PAGE 8: Draw diagnostics graphs
+        self.pushButtonDraw.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage8))
+        self.pushButtonDraw.setIcon(QIcon('Images/draw_white.png'))
 
     def toggleMenu(self, maxWidth):
         """Method to control the movement of the Toggle menu located on the
@@ -241,6 +261,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.pushButtonShowDescription_2.setText('Show model')
             self.pushButtonTrainSubmodel_2.setText('Edit model')
             self.pushButtonShowDiagnosis.setText('Diagnostics')
+            self.pushButtonDraw.setText('Draw graph')
             self.label_logo.setFixedSize(widthExtended, widthExtended)
 
         else:
@@ -250,6 +271,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.pushButtonShowDescription_2.setText('')
             self.pushButtonTrainSubmodel_2.setText('')
             self.pushButtonShowDiagnosis.setText('')
+            self.pushButtonDraw.setText('')
             self.label_logo.setFixedSize(widthExtended, widthExtended)
 
         # ANIMATION
@@ -259,7 +281,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.animation.setEndValue(widthExtended)
         self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
         self.animation.start()
-
 
     @QtCore.pyqtSlot()
     def start_animation(self):
@@ -304,7 +325,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
     def execute_to_train_submodel(self, progress_callback):
         """Method to control the execution of the training of a submodel.
         """
-        train_save_submodels(self.model_to_expand, self.topic_to_expand, self.num_training_topics, self, self.version, self.threshold)
+        train_save_submodels(self.model_to_expand, self.topic_to_expand, self.num_training_topics, self, self.version,
+                             self.threshold)
         return "Done."
 
     def execute_to_get_pyldavis(self, progress_callback):
@@ -451,7 +473,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',
                                           "All values were restore to the default settings.")
-        #self.logging.info('All values were restore to the default settings.')
+        # self.logging.info('All values were restore to the default settings.')
 
         self.show_models()
         self.refresh()
@@ -507,7 +529,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.show_models()
         self.refresh()
 
-        QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',"Changes were saved in the configuration file.")
+        QtWidgets.QMessageBox.information(self, 'MusicalSpoon message', "Changes were saved in the configuration file.")
 
         return
 
@@ -557,14 +579,14 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         self.tableWidgetGeneralSettings.setItem(0, 1, QtWidgets.QTableWidgetItem(str(dataset_selected_path)))
 
-    #def clicked_changeHTM(self):
-        #    r = self.tableWidgetHTMVersion.currentRow()
-        #if r == 0:
-        #    self.version = "v1"
-        #    self.statusBar().showMessage("The algorithm of the underlying HTM was changed to version 1.", 10000)
-        #elif r == 1:
-        #    self.version = "v2"
-        #    self.statusBar().showMessage("The algorithm of the underlying HTM was changed to version 2.", 10000)
+    def clicked_changeHTM(self):
+        r = self.tableWidgetHTMVersion.currentRow()
+        if r == 0:
+            self.version = "v1"
+            self.statusBar().showMessage("The algorithm of the underlying HTM was changed to version 1.", 10000)
+        elif r == 1:
+            self.version = "v2"
+            self.statusBar().showMessage("The algorithm of the underlying HTM was changed to version 2.", 10000)
 
     def show_models(self):
         """Method to list all the model contained in the project folder in the
@@ -610,13 +632,19 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         clearQTreeWidget(self.treeWidgetSelectModelToSeeDescription)
         clearQTreeWidget(self.treeViewShowModelsToExpand_4)
         clearQTreeWidget(self.treeWidgetSelectModelToSeeDiagnostics)
-
+        clearQTreeWidget(self.treeWidgetSelectModelToDiagnostic)
 
         if pathlib.Path(route_to_model).is_dir():
             ret = get_model_xml(route_to_model)
             printTree(ret, self.treeWidgetSelectModelToSeeDescription)
             printTree(ret, self.treeViewShowModelsToExpand_4)
             printTree(ret, self.treeWidgetSelectModelToSeeDiagnostics)
+
+        project_dir = pathlib.Path(project_path)
+        all_models = (project_dir / "models").as_posix()
+        if pathlib.Path(all_models).is_dir():
+            ret = get_model_xml(all_models)
+            printTree(ret, self.treeWidgetSelectModelToDiagnostic)
 
     def refresh(self):
         """Method to clear lists and reload information in "column_listSelectModel",
@@ -661,10 +689,11 @@ class UI_MainWindow(QtWidgets.QMainWindow):
                 if button_reply_delete_model == QtWidgets.QMessageBox.Yes:
                     deleted = delete_model(model_to_delete_str)
                     if deleted:
-                        self.statusBar().showMessage("The model " + '"' + model_to_delete_str + '"' + " was deleted.", 10000)
+                        self.statusBar().showMessage("The model " + '"' + model_to_delete_str + '"' + " was deleted.",
+                                                     10000)
                     else:
-                        QtWidgets.QMessageBox.warning(self,'MusicalSpoon message',"An error occurred while "
-                                                                                  "deleting the selected model.")
+                        QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "An error occurred while "
+                                                                                    "deleting the selected model.")
                     self.set_default_model_parameters()
         self.show_models()
         self.refresh()
@@ -731,7 +760,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         #################################################################################
         self.execute_in_thread(self.execute_to_train_model, self.do_after_train, True)
 
-
     def do_after_train(self):
         """Method to show the results of training a model.
         """
@@ -750,7 +778,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         print("Tiempo training")
         print(fin - self.inicio)  # 1.0005340576171875
 
-        QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',"The model ''" + new_model_name + "'' was trained with " + self.num_training_topics + " topics.")
+        QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',
+                                          "The model ''" + new_model_name + "'' was trained with " + self.num_training_topics + " topics.")
 
         # Actualize lists
         self.show_models()
@@ -788,13 +817,11 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetModelTrained.resizeColumnsToContents()
 
-
-
     def clicked_model_to_expand_selected(self):
         """Method to control the selection of a model to expand (i.e. to create
         a submodel out of it). It shows in the status bar the model that has
         been selected by the user and shows the a table containing the information
-        of that model/submodel; that is, the nubmer of topics and the description
+        of that model/submodel; that is, the number of topics and the description
         associated to each of those topics. By double clicking in any row belonging
         to the latter table, the user will choose the topics from which he/she
         wants to create the submodel.
@@ -812,7 +839,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         item = self.treeViewShowModelsToExpand_4.currentItem()
         model_selected = item.text(0)
         self.statusBar().showMessage("You have selected : " + str(model_selected), 10000)
-        #self.logging.info("Model " + str(model_selected) + " was selected for expansion")
+        # self.logging.info("Model " + str(model_selected) + " was selected for expansion")
         topic_ids = show_topics_to_expand(str(model_selected))
         ##########################
         # column 0 = topic nr
@@ -869,14 +896,14 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         if not os.listdir(route_to_models):
             self.statusBar().showMessage("You must train the model first.", 10000)
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "You must train the model first.")
-            #self.logging.warning("Submodel training was not proceeded because no father model has been trainied yet")
+            # self.logging.warning("Submodel training was not proceeded because no father model has been trainied yet")
             return
 
         # Set model to expand, topic to expand and number of topic so they are accessible from the Thread
         if not self.treeViewShowModelsToExpand_4.currentItem():
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
                                           "You must select from which model you want to create the submodel first.")
-            #self.logging.warning("Submodel training was not proceeded because no model for expansion was selected")
+            # self.logging.warning("Submodel training was not proceeded because no model for expansion was selected")
             return
         else:
             item = self.treeViewShowModelsToExpand_4.currentItem()
@@ -907,11 +934,11 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         if not self.InsertNumberTopicsSubmodel_8.text():
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
                                           "You must insert the number of topics that you want to use for training the submodel.")
-            #self.logging.warning(
+            # self.logging.warning(
             #    "Submodel training was not proceeded because the number of topcis to train the submodel was not selected.")
             return
         elif not self.InsertNumberTopicsSubmodel_8.text().isdigit():
-            #self.logging.warning(
+            # self.logging.warning(
             #    "Submodel training did not proceeded because the number of topics selected was not a number.")
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "The number of topics must be a number.")
             return
@@ -1027,11 +1054,12 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         item = self.treeWidgetSelectModelToSeeDescription.currentItem()
         if item is None:
-            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "You need to select first a model or submodel to see its description.")
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
+                                          "You need to select first a model or submodel to see its description.")
         else:
             topic_ids = show_topic_model_description(item.text(0))
             if not topic_ids:
-                #self.logging.info("No model has been trained yet.")
+                # self.logging.info("No model has been trained yet.")
                 QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "No model has been trained yet.")
 
             else:
@@ -1066,7 +1094,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.tableWidgetShowModels.resizeColumnsToContents()
         print("Tiempo ver description")
         fin = time.time()
-        print(fin-self.inicio)
+        print(fin - self.inicio)
 
     def clicked_model_to_change_description(self):
         """Method to control the insertion of a name to describe one or several
@@ -1087,7 +1115,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         item = self.treeViewShowModelsToExpand_4.currentItem()
         topic_ids = show_topic_model_description(item.text(0))
         if not topic_ids:
-            #self.logging.warning("The description change was not proceeded since no model has been trained yet.", 10000)
+            # self.logging.warning("The description change was not proceeded since no model has been trained yet.", 10000)
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "No model has been trained yet.")
 
         else:
@@ -1143,7 +1171,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         item = self.treeViewShowModelsToExpand_4.currentItem()
         QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',
                                           "Topics' description of model " + item.text(0) + " have been updated.")
-        #self.logging.info("Topics' description of model " + item.text(0) + " have been updated.")
+        # self.logging.info("Topics' description of model " + item.text(0) + " have been updated.")
 
     def clicked_reset_changes(self):
         """Method to reset to no name of the topics' name of a model/
@@ -1159,7 +1187,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',
                                           "Topics' description of model " + "''" + item.text(
                                               0) + "'' were changed to its default value.")
-        #self.logging.info(
+        # self.logging.info(
         #    "Topics' description of model " + "''" + item.text(0) + "'' were changed to its default value.")
 
     def clicked_plot_pyldavis(self):
@@ -1292,10 +1320,114 @@ class UI_MainWindow(QtWidgets.QMainWindow):
                 return
             else:
                 QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',
-                                           "The submodel " + '"' + model_to_delete_str + '"' + " was deleted.")
-                #self.logging.info("The submodel " + '"' + model_to_delete_str + '"' + " was deleted.")
+                                                  "The submodel " + '"' + model_to_delete_str + '"' + " was deleted.")
+                # self.logging.info("The submodel " + '"' + model_to_delete_str + '"' + " was deleted.")
                 self.show_models_to_expand()
                 self.show_models()
                 self.refresh()
         return
 
+    def clicked_showTopicsDragDiagnosis(self):
+
+        config.read(config_file)
+        project_path = config['files']['project_path']
+
+        if self.treeWidgetSelectModelToDiagnostic.currentItem().text(0).lower == "models":
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "You must select an item within 'models'.")
+            return
+        if not self.treeWidgetSelectModelToDiagnostic.currentItem().text(0).lower().startswith("model") and \
+                not self.treeWidgetSelectModelToDiagnostic.currentItem().text(0).lower().startswith("submodel"):
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "You must select an item, no an empty space.")
+            return
+
+        item = self.treeWidgetSelectModelToDiagnostic.currentItem()
+        model_selected = item.text(0)
+
+        self.statusBar().showMessage("You have selected : " + str(model_selected), 10000)
+        # self.logging.info("Model " + str(model_selected) + " was selected for expansion")
+
+        route_to_persistence = get_pickle(model_selected, project_path)
+        infile = open(route_to_persistence, 'rb')
+        model = pickle.load(infile)
+
+        topic_ids = show_topics_to_expand_general(str(model_selected), model)
+        ##########################
+        # column 0 = model / topic nr / topic description
+        ##########################
+        self.tableDragFrom.clearContents()
+        self.tableDragFrom.clearContents()
+        self.tableDragFrom.setRowCount(len(topic_ids))
+        self.tableDragFrom.setRowCount(len(topic_ids))
+        self.tableDragFrom.setColumnCount(1)
+
+        model_to_show = model.look_for_model(str(model_selected))
+
+        list_description = []
+        for i in np.arange(0, len(model_to_show.topics_models), 1):
+            if str(type(model_to_show.topics_models[i])) == "<class 'Topic.Topic'>":
+                list_description.append(
+                    model_selected + " / " + str(i) + " / " + model_to_show.topics_models[i].get_description()[0][0])
+
+        for i in np.arange(0, len(list_description), 1):
+            item_topic = QtWidgets.QTableWidgetItem(str(list_description[i]))
+            self.tableDragFrom.setItem(i, 0, item_topic)
+
+        self.tableDragFrom.setSizeAdjustPolicy(
+            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tableDragFrom.resizeColumnsToContents()
+
+        self.tableDragFrom.setSizeAdjustPolicy(
+            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tableDragFrom.resizeColumnsToContents()
+        return
+
+    def click_draw_diagnosis(self):
+
+        if not self.comboBox.currentText():
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
+                                          "You must select a measurement for the Y axis to be represented in the graph.")
+        measurement = str(self.comboBox.currentText())
+
+        if not self.comboBox2.currentText():
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
+                                          "You must select a measurement for the X axis to be represented in the graph.")
+        measurement2 = str(self.comboBox2.currentText())
+        if not self.xaxis_name.text() or not self.yaxis_name.text() or not self.title_name.text():
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
+                                          "X-axis, Y-axis and Title must be filled up in order to proceed with the "
+                                          "graph generation.")
+            return
+        text_xaxis = self.xaxis_name.text()
+        text_yaxis = self.yaxis_name.text()
+        text_title = self.title_name.text()
+        save = self.name_save_plot.text()
+
+        config.read(config_file)
+        project_path = config['files']['project_path']
+
+        figure_to_save = ""
+        if save:
+            figures_save = (pathlib.Path(project_path)) / "Figures"
+            if not os.path.isdir(figures_save):
+                os.mkdir(figures_save)
+            figure_to_save = figures_save / text_title
+            print(figure_to_save)
+
+        diagnostics_paths_id_all = []
+        for i in np.arange(0, self.tableDragTo.rowCount(), 1):
+            model_name = self.tableDragTo.item(i, 0).text().split("/")[0][:-1]
+            topic_id = self.tableDragTo.item(i, 0).text().split("/")[1][1]
+            model_path = get_root_path(model_name, project_path)
+            diagnostics_path = ((pathlib.Path(model_path)) / "diagnostics.xml").as_posix()
+            diagnostics_paths_id_all.append([diagnostics_path, model_name, topic_id])
+
+        x, y = plot_diagnostics(diagnostics_paths_id_all, measurement, measurement2, text_xaxis, text_yaxis, text_title, figure_to_save)
+
+        self.figure.clear()
+        ax = self.figure.add_subplot(111)
+        ax.plot(x, y)
+        ax.set_title(text_title)
+        ax.set_xlabel(text_xaxis)
+        ax.set_ylabel(text_yaxis)
+        # refresh canvas
+        self.canvas.draw()

@@ -15,7 +15,7 @@ from shutil import rmtree
 import pathlib
 from colorama import init, Fore, Back, Style
 import matplotlib.pyplot as plt
-
+import pickle
 
 class Model():
     """
@@ -188,7 +188,7 @@ class Model():
                         return
                     else:
                         self.add_to_father(model_selected, model.topics_models[i])
-
+    
     def rename_child(self, old_name, new_name, new_path):
         """Given a submodel, look which is the model from which it comes from.
            When it is found, such a submodel is added to the topics_models 

@@ -226,7 +226,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         # PAGE 6: See diagnostics
         self.pushButtonShowDiagnosis.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage6))
-        self.pushButtonShowDiagnosis.setIcon(QIcon('Images/diagnostic_white.png'))
+        self.pushButtonShowDiagnosis.setIcon(QIcon('Images/diagnostic_white2.png'))
 
         # PAGE 7: See diagnostics plot expanded
         self.pushButtonShowDiagnosticsBig.clicked.connect(lambda: self.tabs.setCurrentWidget(self.tabsPage7))
@@ -917,19 +917,20 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             return
         else:
             self.topic_to_expand = int(self.tableWidgetTrainSubmodel_4.item(r, 0).text())
+        print(self.version)
         if self.version == "v2":
             if not self.InsertThreshold.text():
                 QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
                                               "You must insert the threshold that indicates how representative a "
                                               "topic in a document must be to keep it in the new submodel's corpus.")
+                return
             else:
                 if float(self.InsertThreshold.text()) < 0 or float(self.InsertThreshold.text()) > 1:
                     QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
                                                   "The threshold must be between 0 and 1.")
+                    return
                 else:
                     self.threshold = float(self.InsertThreshold.text())
-        else:
-            return
 
         if not self.InsertNumberTopicsSubmodel_8.text():
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',

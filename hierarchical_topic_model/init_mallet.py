@@ -124,6 +124,7 @@ def train_a_model(route_to_source, route_to_model, model):
     doc_topics_model = (model_dir/  doc_topics).as_posix()
     topic_word_weights_model = (model_dir / topic_word_weights).as_posix()
     diagnosis_file = (model_dir/ "diagnostics.xml").as_posix()
+    output_model_file = (model_dir/ "model.bin").as_posix()
     # Train the model
     command = (mallet_path + " train-topics --input " + trainig_input 
                                                               + " --num-topics " + str(model.num_topics)
@@ -132,7 +133,8 @@ def train_a_model(route_to_source, route_to_model, model):
                                                               + " --output-topic-keys " + topic_keys_model
                                                               + " --output-doc-topics " + doc_topics_model
                                                               + " --topic-word-weights-file " + topic_word_weights_model
-                                                              + " --diagnostics-file " + diagnosis_file)
+                                                              + " --diagnostics-file " + diagnosis_file
+                                                              + " --output-model " + output_model_file)
     cmd(command)
     
     # Create model's topics
@@ -173,6 +175,8 @@ def train_a_submodel(submodel_name, submodel_path, submodel):
     doc_topics_model = (folder_dir/  doc_topics).as_posix()
     topic_word_weights_model = (folder_dir / topic_word_weights).as_posix()
     diagnosis_file = (folder_dir/ "diagnostics.xml").as_posix()
+    output_model_file = (folder_dir/ "model.bin").as_posix()
+
 
     # Train the submodel
     command = (mallet_path + " train-topics --input " + training_input 
@@ -182,7 +186,9 @@ def train_a_submodel(submodel_name, submodel_path, submodel):
                                                       + " --output-topic-keys " + topic_keys_model
                                                       + " --output-doc-topics " + doc_topics_model
                                                       + " --topic-word-weights-file " + topic_word_weights_model
-                                                      + " --diagnostics-file " + diagnosis_file)
+                                                      + " --diagnostics-file " + diagnosis_file
+                                                      + " --output-model " + output_model_file)
+    print(command)
     print(command)                                                      
     cmd(command)
     
@@ -279,22 +285,25 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
         # Incluir documentos completos que tienen una representación por encima de un determinado umbral
         for top_id in np.arange(0, len(topic_id_list),1):
              thetas_list = model_obj.thetas
-             n_doc = 0
-             #thr = 0.8
-             words_to_keep = []
-             for doc_thetas in thetas_list:
-                 if doc_thetas[top_id] > thr:
-                   print(doc_thetas[top_id])
-                   print("")
-                   topic_state_df_doc = topic_state_df[topic_state_df['docid'] == n_doc]
-                   print(topic_state_df_doc)
-                   print("")
-                   doc_to_corpus = topic_state_df_doc.groupby('docid')['word'].apply(list).reset_index(name='new')
-                   print(doc_to_corpus)
-                   print("")
-                   words_to_keep.append(doc_to_corpus)
-                 n_doc +=1
-             print(len(words_to_keep))
+             doc_id_to_keep =[idx for idx, thetas in enumerate(thetas_list) if thetas[top_id] > thr]
+             words_to_keep = [topic_state_df[topic_state_df['docid'] == n_doc].groupby('docid')['word'].apply(list).reset_index(name='new') for n_doc in doc_id_to_keep]
+
+             # n_doc = 0
+             # #thr = 0.8
+             # words_to_keep = []
+             # for doc_thetas in thetas_list:
+             #     if doc_thetas[top_id] > thr:
+             #       print(doc_thetas[top_id])
+             #       print("")
+             #       topic_state_df_doc = topic_state_df[topic_state_df['docid'] == n_doc]
+             #       print(topic_state_df_doc)
+             #       print("")
+             #       doc_to_corpus = topic_state_df_doc.groupby('docid')['word'].apply(list).reset_index(name='new')
+             #       print(doc_to_corpus)
+             #       print("")
+             #       words_to_keep.append(doc_to_corpus)
+             #     n_doc +=1
+             # print(len(words_to_keep))
              
              text_name = submodel_file 
              submodel_name = 'SubmodelFromTopic_' + str(topic_id_list[top_id]) + time

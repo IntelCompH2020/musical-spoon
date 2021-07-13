@@ -35,7 +35,7 @@ class Model():
     """
 
     def __init__(self, model_name, model_path, num_topics, topics_models, sizes, doc_ids, thetas, dictionary,
-                 father_models):
+                 father_models, n_docs_father):
         self.model_name = model_name
         self.model_path = model_path
         self.num_topics = num_topics
@@ -45,6 +45,7 @@ class Model():
         self.thetas = thetas
         self.dictionary = dictionary
         self.father_models = father_models
+        self.n_docs_father = n_docs_father
 
     def set_after_trained_parameters(self, topics_models, dictionary, topic_keys_weight, file):
         """Set all parameters of a model, with the exception of the number of topics
@@ -164,6 +165,24 @@ class Model():
         * nr_topics      - Number of topics selected by the user
         """
         self.num_topics = nr_topics
+        
+    def get_n_docs_father(self):
+        """Gets the number of docs of the father model.
+        
+        Return:
+        ----------
+        * n_docs_father      - Nr of docs of the father model
+        """
+        return self.n_docs_father
+
+    def set_n_docs_father(self, n_docs_father):
+        """Sets the number of docs of the father model.
+        
+        Parameters:
+        ----------
+        * n_docs_father      - Nr of docs of the father model
+        """
+        self.n_docs_father = n_docs_father
 
     def add_to_father(self, model_selected, model):
         """Given a submodel, look which is the model from which it comes from.

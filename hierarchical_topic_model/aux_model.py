@@ -137,7 +137,7 @@ def train_model(nr_topics):
     name  =  config['models']['model_name']
     
     # 2.1. Create model object
-    model = Model("", "", 0, [],[], [], [], [],[])
+    model = Model("", "", 0, [],[], [], [], [],[], 0)
     
     # 2.2 Get the nr of topics selected by the user
     model.set_nr_topics(nr_topics)
@@ -301,7 +301,7 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
     num_topics_all = []
     for i in np.arange(0,len(submodels_paths),1):
         # 5.1 Create submodel object
-        submodel = Model("", "", 0, [], [], [], [], [], [])
+        submodel = Model("", "", 0, [], [], [], [], [], [], 0)
         submodel.set_nr_topics(nr_topics)
         num_topics_all.append(submodel.num_topics)
         # 5.3 Train the submodel (create an object of type model)
@@ -320,7 +320,9 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
             topics_ids_df = pd.read_csv(file, sep = "\t", header = None)
             topic_ids = topics_ids_df.values[:,0].tolist()
             
-     
+        num_docs_model = len(model.thetas)
+        submodel.set_n_docs_father(num_docs_model)
+
         saving = True
         for i in np.arange(0,len(submodels_paths),1):
             if saving:

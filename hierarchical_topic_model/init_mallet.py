@@ -260,8 +260,8 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
     topic_state_df.fillna('nan_value', inplace=True)
     
     if option == "v1":
-        for top_id in np.arange(0, len(topic_id_list),1):
-            topic_state_df_tpc = topic_state_df[topic_state_df['tpc']==top_id]
+        for top_id in topic_id_list:
+            topic_state_df_tpc = topic_state_df[topic_state_df['tpc'] == top_id]
             topic_to_corpus = topic_state_df_tpc.groupby('docid')['word'].apply(list).reset_index(name='new')
             
             text_name = submodel_file 
@@ -283,7 +283,7 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
     else: #option is v2
         print("entra en v2")
         # Incluir documentos completos que tienen una representación por encima de un determinado umbral
-        for top_id in np.arange(0, len(topic_id_list),1):
+        for top_id in topic_id_list:
              thetas_list = model_obj.thetas
              doc_id_to_keep =[idx for idx, thetas in enumerate(thetas_list) if thetas[top_id] > thr]
              words_to_keep = [topic_state_df[topic_state_df['docid'] == n_doc].groupby('docid')['word'].apply(list).reset_index(name='new') for n_doc in doc_id_to_keep]

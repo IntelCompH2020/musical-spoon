@@ -546,23 +546,30 @@ def configure_project_folder(path2project):
     # Project file structure:
     # Default file and folder names for the folder
     # structure of the project.
-    f_struct = {'models': 'models',
-                'persistence': 'persistence'}
+    #f_struct = {'models': 'models',
+    #            'persistence': 'persistence'}
 
-    if f_struct is not None:
-        f_struct.update(f_struct)
+    #if f_struct is not None:
+    #    f_struct.update(f_struct)
 
-    print("FSTRCUT: fstruct created")
+    #print("FSTRCUT: fstruct created")
 
     # In the following, we assume that all files in self.f_struct are
     # sub-folders of self.path2project
-    for d in f_struct:
-        path2d = path2project / f_struct[d]
-        print(path2d)
-        if not path2d.exists():
-            print("entra porque no existe")
-            path2d.mkdir()
+    #for d in f_struct:
+    #    path2d = path2project / f_struct[d]
+    #    print(path2d)
+    #    if not path2d.exists():
+    #        print("entra porque no existe")
+    #        path2d.mkdir()
 
+    models_dir = path2project / "models"
+    if not os.path.isdir(models_dir):
+        os.mkdir(models_dir)
+
+    persistence_dir = path2project / "persistence"
+    if not os.path.isdir(persistence_dir):
+        os.mkdir(persistence_dir)
 
 def progress_fn(n):
     print("%d%% done" % n)

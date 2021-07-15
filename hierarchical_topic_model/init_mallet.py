@@ -265,7 +265,7 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
             topic_to_corpus = topic_state_df_tpc.groupby('docid')['word'].apply(list).reset_index(name='new')
             
             text_name = submodel_file 
-            submodel_name = 'SubmodelFromTopic_' + str(topic_id_list[top_id]) + time
+            submodel_name = 'SubmodelFromTopic_' + str(top_id) + time
             submodel_dir = pathlib.Path(route)
             if not(os.path.isdir((submodel_dir / submodel_name).as_posix())):
                 os.makedirs((submodel_dir / submodel_name).as_posix())
@@ -306,7 +306,7 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
              # print(len(words_to_keep))
              
              text_name = submodel_file 
-             submodel_name = 'SubmodelFromTopic_' + str(topic_id_list[top_id]) + time
+             submodel_name = 'SubmodelFromTopic_' + str(top_id) + time
              submodel_dir = pathlib.Path(route)
              if not(os.path.isdir((submodel_dir / submodel_name).as_posix())):
                  os.makedirs((submodel_dir / submodel_name).as_posix())

@@ -61,6 +61,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         # Configure project folder
         ########################################################################
+        config.read(config_file)
+        project_path = config['files']['project_path']
         if not pathlib.Path(project_path, "models").is_dir():
             configure_project_folder(project_path)
 

@@ -20,6 +20,7 @@ from base_dm_sql import BaseDMsql
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.tfidfmodel import TfidfModel
 from nltk import Counter
+import pickle
 
 
 ##############################################################################

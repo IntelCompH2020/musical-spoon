@@ -21,20 +21,11 @@ class PreConfig(QDialog):
         self.projectFolder = ""
         self.databaseFile = ""
         self.malletPath = ""
-        self.version = "v1" # default version is v1
 
         self.selectProjectFolder.clicked.connect(self.getProjectFolder)
         self.selectDatabase.clicked.connect(self.getDatabaseFile)
         self.selectMalletPath.clicked.connect(self.getMalletPath)
         self.start.clicked.connect(self.startApplication)
-        self.checkBoxV1.clicked.connect(self.getVersionHTM)
-        self.checkBoxV2.clicked.connect(self.getVersionHTM)
-
-        # Info buttons
-        self.infoButtonV1.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonV2.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonV1.setToolTip(MessagesGui.INFO_HTM_V1)
-        self.infoButtonV2.setToolTip(MessagesGui.INFO_HTM_V2)
 
     def getProjectFolder(self):
         self.projectFolder = QFileDialog.getExistingDirectory(self, 'Select directory', self.home)
@@ -48,33 +39,11 @@ class PreConfig(QDialog):
         self.malletPath = QFileDialog.getOpenFileName(self, 'Select executable', self.home)[0]
         self.showMalletPath.setText(self.malletPath)
 
-    def getVersionHTM(self):
-        if self.checkBoxV1.isChecked() and self.checkBoxV2.isChecked():
-            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
-                                          "You must only check one of the version; only one hierarchical topic model "
-                                          "algorithm can be used at a time")
-            self.checkBoxV1.setChecked(False)
-            self.checkBoxV2.setChecked(False)
-        elif self.checkBoxV1.isChecked():
-            self.version = "v1"
-        elif self.checkBoxV2.isChecked():
-            self.version = "v2"
-        return
-
     def startApplication(self):
         # Write in the config file, also in the default values
         if self.projectFolder == "" or self.databaseFile == "" or self.malletPath == "":
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
                                           "The three input parameters must be filled in to proceed to the main menu.")
-            return
-
-        if self.checkBoxV1.isChecked() and self.checkBoxV2.isChecked():
-            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
-                                          "You must only check one of the version; only one hierarchical topic model "
-                                          "algorithm can be used at a time")
-        elif not self.checkBoxV1.isChecked() and not self.checkBoxV2.isChecked():
-            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
-                                          "You must select a version of the hierarchical topic model algorithm to use.")
             return
 
         config_file = 'config_project.ini'
@@ -92,7 +61,7 @@ class PreConfig(QDialog):
             config.write(configfile)
 
         # Change to gui
-        mainWindow = UI_MainWindow(self.version)
+        mainWindow = UI_MainWindow()
         widget.addWidget(mainWindow)
         widget.setCurrentIndex(widget.currentIndex() + 1)
         widget.resize(1680, 960)

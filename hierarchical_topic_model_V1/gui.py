@@ -39,21 +39,17 @@ default_project_path = config['default']['project_path']
 
 
 class UI_MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, version):
+    def __init__(self):
         super(UI_MainWindow, self).__init__()
 
         # Load UI and configure default geometry of the window
         ########################################################################
-        if version == "v1":
-            self.version = "v1"
-        else:
-            self.version = "v2"
-
         uic.loadUi("UIS/musicalSpoonV2.ui", self)
 
         self.setGeometry(100, 60, 2000, 1600)
         self.centralwidget.setGeometry(100, 60, 2000, 1600)
         self.animation = QtCore.QPropertyAnimation(self.frame_left_menu, b"minimumWidth")
+        self.version = "v1"
 
         # Set style of the window
         ########################################################################
@@ -61,6 +57,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         # Configure project folder
         ########################################################################
+        config.read(config_file)
+        project_path = config['files']['project_path']
         if not pathlib.Path(project_path, "models").is_dir():
             configure_project_folder(project_path)
 

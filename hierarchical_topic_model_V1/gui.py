@@ -82,6 +82,10 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.infoButtonSelectSubmodel_4.setToolTip(MessagesGui.INFO_SELECT_SUBMODEL)
         self.infoButtoSelectTopicExpand_4.setToolTip(MessagesGui.INFO_SELECT_TOPIC_TO_EXPAND)
         self.infoButtonShowDescription.setToolTip(MessagesGui.INFO_SHOW_DESCRIPTION)
+        self.infoButtonDiagnostics.setToolTip(MessagesGui.INFO_DIAGNOSTICS)
+        self.infoButtonSelectModelDiagnostic.setToolTip(MessagesGui.SELECT_COMPARE)
+        self.infoButtonDragTopicDiagnostic.setToolTip(MessagesGui.DRAG_COMPRARE)
+
 
         # CONFIGURE ELEMENTS IN THE "CONFIGURATION VIEW"
         ########################################################################
@@ -161,6 +165,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         ########################################################################
         self.treeWidgetSelectModelToDiagnostic.clicked.connect(self.clicked_showTopicsDragDiagnosis)
         self.pushButtonPlotDiagnosisGraph.clicked.connect(self.click_draw_diagnosis)
+        self.pushButtonClearDiagnostics.clicked.connect(self.clear_tables_graph_diagnostics)
 
         # MODEL PARAMETERS THAT ARE SAVED TO PASS TO THREADS
         ########################################################################
@@ -1432,3 +1437,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         ax.set_ylabel(text_yaxis)
         # refresh canvas
         self.canvas.draw()
+
+    def clear_tables_graph_diagnostics(self):
+        self.tableDragFrom.clearContents()
+        self.tableDragTo.clearContents()
+        self.figure.clear()

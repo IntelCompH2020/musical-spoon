@@ -287,19 +287,12 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
     # 4.3 Create the submodel files
     # time_rnd = time + "_" + str(randrange(100))
 
-    if version == "v1":
-        time_rnd = time + "_" + str(randrange(100)) + "_v1"
-        submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version,
-                                                            model, thr)
-        print("Generating submodels with HTM v1")
-    elif version == "v2":
-        time_rnd = time + "_" + str(randrange(100)) + "_v2_" + str(thr)
-        submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version,
-                                                            model, thr)
-        print("Generating submodels with HTM v2")
-    else:
-        print("No HTM version has been given.")
-        return
+
+    time_rnd = time + "_" + str(randrange(100))
+    submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version,
+                                                        model, thr)
+    print("Generating submodels with HTM v1")
+
 
     ## 5. Train submodels
     num_topics_all = []
@@ -550,27 +543,6 @@ def configure_project_folder(path2project):
     path2project = pathlib.Path(path2project)
     print(path2project)
 
-    # ######################
-    # Project file structure:
-    # Default file and folder names for the folder
-    # structure of the project.
-    # f_struct = {'models': 'models',
-    #            'persistence': 'persistence'}
-
-    # if f_struct is not None:
-    #    f_struct.update(f_struct)
-
-    # print("FSTRCUT: fstruct created")
-
-    # In the following, we assume that all files in self.f_struct are
-    # sub-folders of self.path2project
-    # for d in f_struct:
-    #    path2d = path2project / f_struct[d]
-    #    print(path2d)
-    #    if not path2d.exists():
-    #        print("entra porque no existe")
-    #        path2d.mkdir()
-
     models_dir = path2project / "models"
     if not os.path.isdir(models_dir):
         os.mkdir(models_dir)
@@ -680,9 +652,7 @@ def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxi
         model_name = el[1]
         model_names.append(model_name)
         if measurement2 == "topics":
-            print("Measurement 2 is topics")
             valueY = model_name.split("_")[-2]
-            print(valueY)
         elif measurement2 == "model_name":
             valueY = np.arange(0, len(list_diagnostics_id), 1)
         elif measurement2 == "tokens":

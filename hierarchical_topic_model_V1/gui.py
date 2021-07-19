@@ -1420,8 +1420,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         x, y, model_names = plot_diagnostics(diagnostics_paths, measurement, measurement2, text_xaxis, text_yaxis,
                                              text_title, figure_to_save)
 
-        print(x)
-        print(y)
         self.figure.clear()
         ax = self.figure.add_subplot(111)
         for i in np.arange(0, len(x), 1):

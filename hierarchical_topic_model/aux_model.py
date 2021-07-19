@@ -637,7 +637,7 @@ def get_root_path(model_selected, project_path):
                         if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
                             if model.topics_models[i].model_name == model_selected:
                                 return model.model_path
-                            
+
 def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxis, title, figure_to_save):
     # version = name.split("v2_")[1].split("_")[0]
     x = []
@@ -661,6 +661,6 @@ def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxi
 
     plt.plot(x, y)
     plt.xlabel(xaxis), plt.ylabel(yaxis), plt.title(title)
-    if figure_to_save:    
-        plt.savefig(figure_to_save)  
+    if figure_to_save:
+        plt.savefig(figure_to_save)
     return x,y

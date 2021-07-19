@@ -21,7 +21,7 @@ from Worker import Worker
 from aux_model import create_model, list_models, select_model, train_model, show_topic_model_description, \
     show_topics_to_expand, train_save_submodels, change_description, generatePyLavis, \
     delete_submodel, delete_model, get_model_xml, configure_project_folder, \
-    clearQTreeWidget, printTree, show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics
+    clearQTreeWidget, printTree, show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics, get_root_child
 
 from styleGrey import styleGrey
 from styleDarkOrange import styleDarkOrange
@@ -83,7 +83,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.infoButtonDiagnostics.setToolTip(MessagesGui.INFO_DIAGNOSTICS)
         self.infoButtonSelectModelDiagnostic.setToolTip(MessagesGui.SELECT_COMPARE)
         self.infoButtonDragTopicDiagnostic.setToolTip(MessagesGui.DRAG_COMPRARE)
-
 
         # CONFIGURE ELEMENTS IN THE "CONFIGURATION VIEW"
         ########################################################################
@@ -596,8 +595,11 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         "Select model" view.
         """
         if pathlib.Path(project_path, "models").is_dir():
+            print("este es el path")
+            print(pathlib.Path(project_path, "models").as_posix())
             self.column_listSelectModel.clear()
             models = list_models()
+            print("estos son los modelos")
             if models:
                 for model_nr in np.arange(0, len(models), 1):
                     self.column_listSelectModel.insertItem(model_nr, models[model_nr])
@@ -921,19 +923,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         else:
             self.topic_to_expand = int(self.tableWidgetTrainSubmodel_4.item(r, 0).text())
         print(self.version)
-        if self.version == "v2":
-            if not self.InsertThreshold.text():
-                QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
-                                              "You must insert the threshold that indicates how representative a "
-                                              "topic in a document must be to keep it in the new submodel's corpus.")
-                return
-            else:
-                if float(self.InsertThreshold.text()) < 0 or float(self.InsertThreshold.text()) > 1:
-                    QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
-                                                  "The threshold must be between 0 and 1.")
-                    return
-                else:
-                    self.threshold = float(self.InsertThreshold.text())
 
         if not self.InsertNumberTopicsSubmodel_8.text():
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
@@ -1018,7 +1007,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.refresh()
         self.set_default_model_parameters()
         self.InsertNumberTopicsSubmodel_8.setText("")
-        self.InsertThreshold.setText("")
 
     def clicked_select_model_to_see_description(self):
         """Method to control the selection of a model to show its description
@@ -1360,29 +1348,34 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         ##########################
         self.tableDragFrom.clearContents()
         self.tableDragFrom.clearContents()
-        self.tableDragFrom.setRowCount(len(topic_ids))
-        self.tableDragFrom.setRowCount(len(topic_ids))
+        # self.tableDragFrom.setRowCount(len(topic_ids))
+        # self.tableDragFrom.setRowCount(len(topic_ids))
         self.tableDragFrom.setColumnCount(1)
 
         model_to_show = model.look_for_model(str(model_selected))
 
         list_description = []
+        # for i in np.arange(0, len(model_to_show.topics_models), 1):
+        #    if str(type(model_to_show.topics_models[i])) == "<class 'Topic.Topic'>":
+        #        list_description.append(
+        #            model_selected + " / " + str(i) + " / " + model_to_show.topics_models[i].get_description()[0][0])
+
+        # for i in np.arange(0, len(list_description), 1):
+        #    item_topic = QtWidgets.QTableWidgetItem(str(list_description[i]))
+        #    self.tableDragFrom.setItem(i, 0, item_topic)
+
+        list_submodels = []
+        list_submodels.append(model_to_show.model_name)
         for i in np.arange(0, len(model_to_show.topics_models), 1):
-            if str(type(model_to_show.topics_models[i])) == "<class 'Topic.Topic'>":
-                list_description.append(
-                    model_selected + " / " + str(i) + " / " + model_to_show.topics_models[i].get_description()[0][0])
+            if str(type(model_to_show.topics_models[i])) == "<class 'Model.Model'>":
+                list_submodels.append(model_to_show.topics_models[i].model_name)
 
-        for i in np.arange(0, len(list_description), 1):
-            item_topic = QtWidgets.QTableWidgetItem(str(list_description[i]))
+        self.tableDragFrom.setRowCount(len(list_submodels))
+        self.tableDragFrom.setRowCount(len(list_submodels))
+
+        for i in np.arange(0, len(list_submodels), 1):
+            item_topic = QtWidgets.QTableWidgetItem(str(list_submodels[i]))
             self.tableDragFrom.setItem(i, 0, item_topic)
-
-        self.tableDragFrom.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.tableDragFrom.resizeColumnsToContents()
-
-        self.tableDragFrom.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.tableDragFrom.resizeColumnsToContents()
         return
 
     def click_draw_diagnosis(self):
@@ -1417,22 +1410,27 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             figure_to_save = figures_save / text_title
             print(figure_to_save)
 
-        diagnostics_paths_id_all = []
+        diagnostics_paths = []
         for i in np.arange(0, self.tableDragTo.rowCount(), 1):
-            model_name = self.tableDragTo.item(i, 0).text().split("/")[0][:-1]
-            topic_id = self.tableDragTo.item(i, 0).text().split("/")[1][1]
-            model_path = get_root_path(model_name, project_path)
+            model_name = self.tableDragTo.item(i, 0).text()
+            model_path = get_root_child(model_name, project_path)
             diagnostics_path = ((pathlib.Path(model_path)) / "diagnostics.xml").as_posix()
-            diagnostics_paths_id_all.append([diagnostics_path, model_name, topic_id])
+            diagnostics_paths.append([diagnostics_path, model_name])
 
-        x, y = plot_diagnostics(diagnostics_paths_id_all, measurement, measurement2, text_xaxis, text_yaxis, text_title, figure_to_save)
+        x, y, model_names = plot_diagnostics(diagnostics_paths, measurement, measurement2, text_xaxis, text_yaxis,
+                                             text_title, figure_to_save)
 
+        print(x)
+        print(y)
         self.figure.clear()
         ax = self.figure.add_subplot(111)
-        ax.plot(x, y)
+        for i in np.arange(0, len(x), 1):
+            ax.plot(x[i], y[i], 'o', label=model_names[i], markersize=10)
         ax.set_title(text_title)
         ax.set_xlabel(text_xaxis)
         ax.set_ylabel(text_yaxis)
+        ax.legend()
+        ax.grid()
         # refresh canvas
         self.canvas.draw()
 

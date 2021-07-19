@@ -546,7 +546,7 @@ text_to_save = 'C:\\mallet\\data_news_txt_all_merged.txt'
 with open(text_to_save, 'w', encoding='utf-8') as fout:
     i = 0
     for el in corpus_def:
-        final_text = []
-        [final_text.append(text_tok) for text_tok in el if (text_tok in dictionary_filtered_list)]
-        fout.write(str(indexes[i]) + ' 0 ' + ' '.join(final_text) + '\n')
+        #final_text = []
+        #[final_text.append(text_tok) for text_tok in el if (text_tok in dictionary_filtered_list)]
+        fout.write(str(indexes[i]) + ' 0 ' + ' '.join(el) + '\n')
         i += 1

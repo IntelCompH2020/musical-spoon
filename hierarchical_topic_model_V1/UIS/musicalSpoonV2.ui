@@ -1425,7 +1425,7 @@ border:2px #676A6E;</string>
                    <string notr="true">background-color: #DFE6ED;</string>
                   </property>
                   <property name="currentIndex">
-                   <number>2</number>
+                   <number>7</number>
                   </property>
                   <widget class="QWidget" name="tabsPage">
                    <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -1680,8 +1680,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1337</width>
-                             <height>303</height>
+                             <width>104</width>
+                             <height>116</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1932,8 +1932,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1337</width>
-                             <height>302</height>
+                             <width>102</width>
+                             <height>114</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2113,8 +2113,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1337</width>
-                             <height>305</height>
+                             <width>100</width>
+                             <height>120</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2365,8 +2365,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1337</width>
-                             <height>306</height>
+                             <width>100</width>
+                             <height>122</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -3684,19 +3684,6 @@ QLineEdit:focus {
                                </widget>
                               </item>
                               <item>
-                               <spacer name="horizontalSpacer_19">
-                                <property name="orientation">
-                                 <enum>Qt::Horizontal</enum>
-                                </property>
-                                <property name="sizeHint" stdset="0">
-                                 <size>
-                                  <width>40</width>
-                                  <height>20</height>
-                                 </size>
-                                </property>
-                               </spacer>
-                              </item>
-                              <item>
                                <widget class="QPushButton" name="buttonTrainSub">
                                 <property name="sizePolicy">
                                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -4919,7 +4906,7 @@ QPushButton:pressed {
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>1800</width>
+                            <width>800</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -5011,7 +4998,7 @@ QHeaderView::section:vertical
                           </attribute>
                           <column>
                            <property name="text">
-                            <string>MODEL / TOPIC ID / DESC.</string>
+                            <string>AVAILABLE MODEL/SUBMODELS IN THE SELECTED HTM</string>
                            </property>
                            <property name="font">
                             <font>
@@ -5032,7 +5019,7 @@ QHeaderView::section:vertical
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>1800</width>
+                            <width>800</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -5107,6 +5094,9 @@ QHeaderView::section:vertical
                           <property name="dragDropMode">
                            <enum>QAbstractItemView::DragDrop</enum>
                           </property>
+                          <attribute name="horizontalHeaderCascadingSectionResizes">
+                           <bool>false</bool>
+                          </attribute>
                           <attribute name="horizontalHeaderDefaultSectionSize">
                            <number>150</number>
                           </attribute>
@@ -5118,7 +5108,7 @@ QHeaderView::section:vertical
                           </attribute>
                           <column>
                            <property name="text">
-                            <string>MODEL / TOPIC ID</string>
+                            <string>SELECTED MODELS TO PLOT</string>
                            </property>
                            <property name="font">
                             <font>
@@ -5257,12 +5247,12 @@ comboBox:focus {
                           </item>
                           <item>
                            <property name="text">
-                            <string>threshold</string>
+                            <string>topics</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>topics</string>
+                            <string>model_name</string>
                            </property>
                           </item>
                          </widget>

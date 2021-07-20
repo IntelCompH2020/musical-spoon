@@ -1354,16 +1354,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         model_to_show = model.look_for_model(str(model_selected))
 
-        list_description = []
-        # for i in np.arange(0, len(model_to_show.topics_models), 1):
-        #    if str(type(model_to_show.topics_models[i])) == "<class 'Topic.Topic'>":
-        #        list_description.append(
-        #            model_selected + " / " + str(i) + " / " + model_to_show.topics_models[i].get_description()[0][0])
-
-        # for i in np.arange(0, len(list_description), 1):
-        #    item_topic = QtWidgets.QTableWidgetItem(str(list_description[i]))
-        #    self.tableDragFrom.setItem(i, 0, item_topic)
-
         list_submodels = []
         list_submodels.append(model_to_show.model_name)
         for i in np.arange(0, len(model_to_show.topics_models), 1):
@@ -1411,6 +1401,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             print(figure_to_save)
 
         diagnostics_paths = []
+        if self.tableDragTo.rowCount() == 0:
+            QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message', "There are not models to plot.")
         for i in np.arange(0, self.tableDragTo.rowCount(), 1):
             model_name = self.tableDragTo.item(i, 0).text()
             model_path = get_root_child(model_name, project_path)

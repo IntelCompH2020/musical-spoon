@@ -884,11 +884,11 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         self.tableWidgetTrainSubmodel_4.setSizeAdjustPolicy(
             QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.tableWidgetTrainSubmodel_4.resizeColumnsToContents()
+        #self.tableWidgetTrainSubmodel_4.resizeColumnsToContents()
 
         self.tableWidgetNewTopicName_4.setSizeAdjustPolicy(
             QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.tableWidgetNewTopicName_4.resizeColumnsToContents()
+        #self.tableWidgetNewTopicName_4.resizeColumnsToContents()
 
     def clicked_train_submodel(self):
         """Method to control the training of a submodel. It checks whether the

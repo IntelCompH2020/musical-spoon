@@ -46,11 +46,11 @@ from auxiliary_functions import xml_dir, indent
 ##############################################################################
 #                             VARIABLES                                      #
 ##############################################################################
-project_path = "C:\\Users\\lcalv\\OneDrive\\Documentos\MASTER\\TFM_salud\\project_cord" #/projectNIH
+project_path = "D:\\project_cord_all_v2" #/projectNIH
 source_path = "C:\\mallet\\cord19.txt" #"/mallet/cord19.txt"
 model_ids = "model_ids.txt"
 time = strftime("_%Y-%m-%d_%H-%M-%S", gmtime())
-num_topics_root = 5
+num_topics_root = 8
 ##############################################################################
 
 
@@ -134,7 +134,7 @@ def train_save_submodels(route_to_model, route_to_persistence, model_name, model
         submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version, model, thr)
         print("Generating submodels with HTM v1")
     elif version == "v2":
-        time_rnd = time + "_" + str(randrange(100)) + "_v2_" + str(thr)
+        time_rnd = time + "_" + str(randrange(100)) + "_v2_" + "{:.1f}".format(thr)
         submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version, model, thr)
         print("Generating submodels with HTM v2")
     else:
@@ -188,6 +188,282 @@ def train_save_submodels(route_to_model, route_to_persistence, model_name, model
 ##############################################################################
 
 
+# 1. Create new HTM (folder of the root model)
+model_path, model_name = create_model()
+
+# 2. Train root model
+route_to_persistence, model_name = train_model(model_path, model_name, num_topics_root)
+
+print("Model trained.")
+
+infile = open(route_to_persistence,'rb')
+model = pickle.load(infile)
+infile.close()
+
+nr_topics_sub_1 = 4
+nr_topics_sub_2 = 5
+nr_topics_sub_3 = 6
+nr_topics_sub_4 = 7
+nr_topics_sub_5 = 8
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_1)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_2)
+        
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_3)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_4)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_5)
+
+########################################################################################################
+print("Running for the second time")
+# 1. Create new HTM (folder of the root model)
+model_path, model_name = create_model()
+
+# 2. Train root model
+route_to_persistence, model_name = train_model(model_path, model_name, num_topics_root)
+
+print("Model trained.")
+
+infile = open(route_to_persistence,'rb')
+model = pickle.load(infile)
+infile.close()
+
+nr_topics_sub_1 = 4
+nr_topics_sub_2 = 5
+nr_topics_sub_3 = 6
+nr_topics_sub_4 = 7
+nr_topics_sub_5 = 8
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_1)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_2)
+        
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_3)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_4)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_5)
+
+########################################################################################################
+print("Running for the third time")
+# 1. Create new HTM (folder of the root model)
+model_path, model_name = create_model()
+
+# 2. Train root model
+route_to_persistence, model_name = train_model(model_path, model_name, num_topics_root)
+
+print("Model trained.")
+
+infile = open(route_to_persistence,'rb')
+model = pickle.load(infile)
+infile.close()
+
+nr_topics_sub_1 = 4
+nr_topics_sub_2 = 5
+nr_topics_sub_3 = 6
+nr_topics_sub_4 = 7
+nr_topics_sub_5 = 8
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_1)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_2)
+        
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_3)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_4)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_5)
+
+########################################################################################################
+print("Running for the fourth time")
+# 1. Create new HTM (folder of the root model)
+model_path, model_name = create_model()
+
+# 2. Train root model
+route_to_persistence, model_name = train_model(model_path, model_name, num_topics_root)
+
+print("Model trained.")
+
+infile = open(route_to_persistence,'rb')
+model = pickle.load(infile)
+infile.close()
+
+nr_topics_sub_1 = 4
+nr_topics_sub_2 = 5
+nr_topics_sub_3 = 6
+nr_topics_sub_4 = 7
+nr_topics_sub_5 = 8
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_1, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_1)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_2, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_2)
+        
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_3, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_3)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_4, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_4)
+
+for i in np.arange(0, len(model.topics_models), 1):
+    if str(type(model.topics_models[i])) == "<class 'Topic.Topic'>":
+        topic_id = model.topics_models[i].id_topic
+        for thr in np.arange(0.1, 1, 0.1):
+            print(str(thr))
+            train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v2", thr)
+        train_save_submodels(model_path, route_to_persistence, model_name, model_name, topic_id, nr_topics_sub_5, "v1", "")
+
+print("Submodel trained with ", nr_topics_sub_5)
+
+########################################################################################################
+print("Running for the fifth time")
 # 1. Create new HTM (folder of the root model)
 model_path, model_name = create_model()
 

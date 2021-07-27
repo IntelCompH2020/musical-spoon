@@ -273,7 +273,7 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
             
             with open(text_to_save, 'w', encoding='utf-8') as fout:
                 for el in topic_to_corpus.values.tolist():
-                    print(el)
+                    #print(el)
                     fout.write(str(el[0]) + ' 0 ' + ' '.join(el[1])+ '\n')
     
             submodels_paths.append((submodel_dir / submodel_name).as_posix())
@@ -315,7 +315,7 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
              with open(text_to_save, 'w', encoding='utf-8') as fout:
                  for i in words_to_keep:
                      for el in i.values.tolist():
-                         print(el)
+                         #print(el)
                          fout.write(str(el[0]) + ' 0 ' + ' '.join(el[1])+ '\n')
     
              submodels_paths.append((submodel_dir / submodel_name).as_posix())

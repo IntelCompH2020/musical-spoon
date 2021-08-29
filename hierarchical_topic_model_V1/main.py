@@ -15,6 +15,10 @@ class PreConfig(QDialog):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setWindowTitle("MusicalSpoon")
         self.setStyleSheet(styleGrey.STYLE)
+        font = QtGui.QFont('Arial')
+        font.setStyleHint(QtGui.QFont.TypeWriter)
+        font.setPixelSize(10)
+        self.setFont(font)
 
         # Get home in any op
         self.home = str(Path.home())
@@ -67,6 +71,12 @@ class PreConfig(QDialog):
         widget.resize(1680, 960)
         return
 
+
+# Handle high resolution displays:
+if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, False)
+if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, False)
 
 # Main
 app = QApplication(sys.argv)

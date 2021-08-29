@@ -449,11 +449,14 @@ print(len(lemmatized_texts))
 x = list(np.arange(0,300,20))
 bins = list(np.arange(0,300,5)-0.5)
 plt.hist(n_tokens,bins=bins,color='#2a9d8f')
-plt.xticks(x,x)
+plt.xticks(x,x, fontsize=14, rotation=60)
 plt.axvline(x=80,color='r',linestyle='--',linewidth=3)
-plt.xlabel('Number of tokens')
-plt.ylabel('Number of documents')
+plt.xlabel('Number of tokens', fontsize=16)
+plt.ylabel('Number of documents', fontsize=16)
+plt.yticks(fontsize=14)
+#plt.xticks(fontsize=14, rotation=90)
 plt.show() # Based on this figure, we remove documents with less tokens than min_tokens = 80
+
 
 #We do not add to the corpus the documents with less than `min_tokens` = 80 tokens
 corpus = []
@@ -523,25 +526,32 @@ hot_tokens = [D_def[i] for i in idf_sorted[n_bins-1::-1]]
 y_pos = np.arange(len(hot_tokens))
 z = tf_sorted[n_bins-1::-1]
 
-plt.figure()
-plt.barh(y_pos, z, align='center', alpha=0.4, color='#2a9d8f', edgecolor='#2a9d8f')
-plt.yticks(y_pos, hot_tokens)
-plt.xlabel('Total number of occurrences')
-plt.title('Token distribution')
+plt.figsize=(8, 6)
+plt.barh(y_pos, z, align='center', alpha=0.4, color='#2a9d8f', edgecolor='#2a9d8f', height = 0.8)
+plt.yticks(y_pos, hot_tokens, fontsize=12)
+plt.xticks(fontsize=14)
+plt.xlabel('Total number of occurrences', fontsize=16)
+plt.title('Token distribution', fontsize=20)
+plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
 plt.show()
+
+
 
 # SORTED TOKEN FREQUENCIES (III):
 
 # Example data
-plt.figure()
+plt.figsize=(8, 6)
 plt.semilogy(tf_sorted, '#2a9d8f')
-plt.ylabel('Total number of occurrences')
-plt.xlabel('Token rank')
-plt.title('Token occurrences')
+plt.ylabel('Total number of occurrences', fontsize=16)
+plt.xlabel('Token rank', fontsize=16)
+plt.title('Token occurrences', fontsize=20)
+plt.xticks(fontsize=14)
+plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
+plt.yticks(fontsize=15)
 plt.show()
 
 indexes = np.arange(0, len(corpus_def))
-text_to_save = 'C:\\mallet\\data_news_txt_all_merged.txt'
+text_to_save = 'C:\\mallet\\data_news_txt_all_merged2.txt'
 #text_to_save = 'C:\\mallet\\data_news_txt_all_merged_test.txt'
 with open(text_to_save, 'w', encoding='utf-8') as fout:
     i = 0

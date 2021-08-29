@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1487</width>
-    <height>872</height>
+    <width>1460</width>
+    <height>816</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1425,7 +1425,7 @@ border:2px #676A6E;</string>
                    <string notr="true">background-color: #DFE6ED;</string>
                   </property>
                   <property name="currentIndex">
-                   <number>7</number>
+                   <number>3</number>
                   </property>
                   <widget class="QWidget" name="tabsPage">
                    <layout class="QVBoxLayout" name="verticalLayout_21">
@@ -1680,8 +1680,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>104</width>
-                             <height>116</height>
+                             <width>1310</width>
+                             <height>275</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1932,8 +1932,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>102</width>
-                             <height>114</height>
+                             <width>1310</width>
+                             <height>274</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2113,8 +2113,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
-                             <height>120</height>
+                             <width>1310</width>
+                             <height>277</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2365,8 +2365,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>100</width>
-                             <height>122</height>
+                             <width>1310</width>
+                             <height>278</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -4078,7 +4078,7 @@ QPushButton:pressed {
                               <property name="minimumSize">
                                <size>
                                 <width>550</width>
-                                <height>650</height>
+                                <height>450</height>
                                </size>
                               </property>
                               <property name="styleSheet">
@@ -5162,7 +5162,7 @@ QPushButton:pressed {
                         <property name="minimumSize">
                          <size>
                           <width>550</width>
-                          <height>650</height>
+                          <height>200</height>
                          </size>
                         </property>
                         <property name="maximumSize">

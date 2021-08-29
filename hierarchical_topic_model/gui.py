@@ -100,14 +100,14 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.pushButtonSelectDataset.setIcon(QIcon('Images/folder.png'))
         self.pushButtonSelectDataset.clicked.connect(self.show_datasets)
 
-        self.tableWidgetGeneralSettings.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetGeneralSettings.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetGeneralSettings.resizeColumnsToContents()
         self.tableWidgetGeneralSettings.setRowCount(2)
         self.tableWidgetGeneralSettings.setColumnCount(2)
 
-        self.tableWidgetMalletSettings.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetMalletSettings.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetMalletSettings.resizeColumnsToContents()
         self.tableWidgetMalletSettings.setRowCount(4)
         self.tableWidgetMalletSettings.setColumnCount(2)
@@ -116,14 +116,14 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         self.pushButtonResetSettings.clicked.connect(self.set_default_settings)
 
-        self.tableWidgetOutputFiles.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetOutputFiles.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetOutputFiles.resizeColumnsToContents()
         self.tableWidgetOutputFiles.setRowCount(5)
         self.tableWidgetOutputFiles.setColumnCount(2)
 
-        self.tableWidgetModelFiles.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetModelFiles.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetModelFiles.resizeColumnsToContents()
         self.tableWidgetModelFiles.setRowCount(2)
         self.tableWidgetModelFiles.setColumnCount(2)
@@ -820,8 +820,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             item_topic_description = QtWidgets.QTableWidgetItem(str(list_description[i]))
             self.tableWidgetModelTrained.setItem(i, 1, item_topic_description)
 
-        self.tableWidgetModelTrained.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetModelTrained.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetModelTrained.resizeColumnsToContents()
 
     def clicked_model_to_expand_selected(self):
@@ -882,12 +882,12 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             item_topic_description = QtWidgets.QTableWidgetItem(str(list_description[i]))
             self.tableWidgetTrainSubmodel_4.setItem(i, 2, item_topic_description)
 
-        self.tableWidgetTrainSubmodel_4.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetTrainSubmodel_4.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         #self.tableWidgetTrainSubmodel_4.resizeColumnsToContents()
 
-        self.tableWidgetNewTopicName_4.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetNewTopicName_4.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         #self.tableWidgetNewTopicName_4.resizeColumnsToContents()
 
     def clicked_train_submodel(self):
@@ -1001,8 +1001,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             item_topic_description = QtWidgets.QTableWidgetItem(str(self.list_description[i]))
             self.tableWidgetSubmodelTrained_4.setItem(i, 1, item_topic_description)
 
-        self.tableWidgetSubmodelTrained_4.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetSubmodelTrained_4.setSizeAdjustPolicy(
+        #   QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetSubmodelTrained_4.resizeColumnsToContents()
 
         self.statusBar().showMessage("A submodel for the topic " + str(self.topic_to_expand) + " from " +
@@ -1097,8 +1097,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             item_topic_description = QtWidgets.QTableWidgetItem(str(self.list_description[i]))
             self.tableWidgetShowModels.setItem(i, 2, item_topic_description)
 
-        self.tableWidgetShowModels.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetShowModels.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetShowModels.resizeColumnsToContents()
         print("Tiempo ver description")
         fin = time.time()
@@ -1158,12 +1158,12 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             item_topic_description = QtWidgets.QTableWidgetItem(str(self.list_description[i]))
             self.tableWidgetTrainSubmodel_4.setItem(i, 2, item_topic_description)
 
-        self.tableWidgetTrainSubmodel_4.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetTrainSubmodel_4.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetTrainSubmodel_4.resizeColumnsToContents()
 
-        self.tableWidgetNewTopicName_4.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableWidgetNewTopicName_4.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidgetNewTopicName_4.resizeColumnsToContents()
 
     def clicked_apply_changes(self):
@@ -1380,12 +1380,12 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             item_topic = QtWidgets.QTableWidgetItem(str(list_description[i]))
             self.tableDragFrom.setItem(i, 0, item_topic)
 
-        self.tableDragFrom.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableDragFrom.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableDragFrom.resizeColumnsToContents()
 
-        self.tableDragFrom.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+        #self.tableDragFrom.setSizeAdjustPolicy(
+        #    QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableDragFrom.resizeColumnsToContents()
         return
 

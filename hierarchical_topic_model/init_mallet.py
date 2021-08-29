@@ -135,7 +135,9 @@ def train_a_model(route_to_source, route_to_model, model):
                                                               + " --topic-word-weights-file " + topic_word_weights_model
                                                               + " --diagnostics-file " + diagnosis_file
                                                               + " --output-model " + output_model_file)
+    print(command)
     cmd(command)
+    
     
     # Create model's topics
     topics, dictionary, topic_keys_weight = Topic.create_topics(model.num_topics, topic_word_weights_model, topic_keys_model)
@@ -189,7 +191,6 @@ def train_a_submodel(submodel_name, submodel_path, submodel):
                                                       + " --diagnostics-file " + diagnosis_file
                                                       + " --output-model " + output_model_file)
     print(command)
-    print(command)                                                      
     cmd(command)
     
     # Create the topics of the submodel
@@ -286,24 +287,11 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
         for top_id in topic_id_list:
              thetas_list = model_obj.thetas
              doc_id_to_keep =[idx for idx, thetas in enumerate(thetas_list) if thetas[top_id] > thr]
-             words_to_keep = [topic_state_df[topic_state_df['docid'] == n_doc].groupby('docid')['word'].apply(list).reset_index(name='new') for n_doc in doc_id_to_keep]
-
-             # n_doc = 0
-             # #thr = 0.8
-             # words_to_keep = []
-             # for doc_thetas in thetas_list:
-             #     if doc_thetas[top_id] > thr:
-             #       print(doc_thetas[top_id])
-             #       print("")
-             #       topic_state_df_doc = topic_state_df[topic_state_df['docid'] == n_doc]
-             #       print(topic_state_df_doc)
-             #       print("")
-             #       doc_to_corpus = topic_state_df_doc.groupby('docid')['word'].apply(list).reset_index(name='new')
-             #       print(doc_to_corpus)
-             #       print("")
-             #       words_to_keep.append(doc_to_corpus)
-             #     n_doc +=1
-             # print(len(words_to_keep))
+             #words_to_keep = [topic_state_df[topic_state_df['docid'] == n_doc].groupby('docid')['word'].apply(list).reset_index(name='new') for n_doc in doc_id_to_keep]
+             
+             corpus_orig = pathlib.Path(source_path)
+             data = pd.read_csv(corpus_orig, sep = "\n", header=None)
+             data_to_keep = [data[data.index == n_doc].apply(list) for n_doc in doc_id_to_keep]
              
              text_name = submodel_file 
              submodel_name = 'SubmodelFromTopic_' + str(top_id) + time
@@ -313,11 +301,11 @@ def create_submodels(topic_id_list, route, time, option, model_obj, thr):
              text_to_save = (submodel_dir / submodel_name / text_name ).as_posix()
             
              with open(text_to_save, 'w', encoding='utf-8') as fout:
-                 for i in words_to_keep:
-                     for el in i.values.tolist():
-                         #print(el)
-                         fout.write(str(el[0]) + ' 0 ' + ' '.join(el[1])+ '\n')
-    
+                 for i in range(len(data_to_keep)):
+                     # for el in i.values.tolist():
+                     data_to_proc = ' '.join(data_to_keep[i].values[0][0].split(" ")[2:])
+                     # fout.write(str(el[0]) + ' 0 ' + ' '.join(el[1])+ '\n')
+                     fout.write(str(i) + ' 0 ' + data_to_proc + '\n')
              submodels_paths.append((submodel_dir / submodel_name).as_posix())
              submodels_names.append(submodel_name)
              print(Fore.GREEN + '"' + text_name + '"'+ " in submodel " + '"' + submodel_name + '"' + " created." + Fore.WHITE)

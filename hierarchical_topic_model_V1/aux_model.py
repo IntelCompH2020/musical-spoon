@@ -36,7 +36,6 @@ sys.setrecursionlimit(10 ** 6)
 from Topic import Topic
 from Model import Model
 from init_mallet import train_a_model, train_a_submodel, create_submodels
-from database.aux_funcs_db import ensureUtf
 from auxiliary_functions import xml_dir, indent
 from PyQt5 import QtWidgets
 
@@ -51,6 +50,13 @@ mallet_path = config['mallet']['mallet_path']
 
 time = strftime("_%Y-%m-%d_%H-%M-%S", gmtime())
 
+def ensureUtf(s):
+   try:
+       s.encode("utf-8")
+   except UnicodeEncodeError as e:
+       if e.reason == 'surrogates not allowed':
+           s = s.encode('utf-8', "backslashreplace").decode('utf-8')
+   return s
 
 def create_model():
     # Path to the models in project folder

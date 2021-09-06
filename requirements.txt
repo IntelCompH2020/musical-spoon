@@ -1,0 +1,10 @@
+PyQt5 >= 5.12
+PyQtWebEngine
+matplotlib
+gensim == 3.8.3
+langid
+nltk
+pandas >= 1.2.0
+pyLDAvis
+bs4
+numpy >= 1.20

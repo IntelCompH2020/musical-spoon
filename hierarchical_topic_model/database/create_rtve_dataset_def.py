@@ -550,13 +550,24 @@ plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
 plt.yticks(fontsize=15)
 plt.show()
 
+
+
+final_corpus = []
+for i in np.arange(0,len(corpus),1):
+    if not i%100:
+        print('\r Preprocessing doc', i, 'out of', len(corpus), end='', flush=True)
+    doc = []
+    for j in corpus[i]:
+        if j in dictionary_filtered_list:
+            doc.append(j)
+    final_corpus.append(doc)
+
 indexes = np.arange(0, len(corpus_def))
-text_to_save = 'C:\\mallet\\data_news_txt_all_merged2.txt'
+text_to_save = 'C:\\mallet\\data_news_txt_all_merged3.txt'
 #text_to_save = 'C:\\mallet\\data_news_txt_all_merged_test.txt'
 with open(text_to_save, 'w', encoding='utf-8') as fout:
     i = 0
-    for el in corpus_def:
-        #final_text = []
-        #[final_text.append(text_tok) for text_tok in el if (text_tok in dictionary_filtered_list)]
+    for el in final_corpus:
+        #print(el)
         fout.write(str(indexes[i]) + ' 0 ' + ' '.join(el) + '\n')
         i += 1

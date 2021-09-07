@@ -7,7 +7,7 @@ Created on Sat Feb  6 11:50:02 2021
 ##############################################################################
 #                                IMPORTS                                     #
 ##############################################################################
-import sys 
+import sys
 import os
 import numpy as np
 import pandas as pd
@@ -21,12 +21,10 @@ import time as timer
 import gensim
 import pyLDAvis.gensim as gensimvis
 import pyLDAvis
-from gensim.models.wrappers import LdaMallet
 import xml.etree.ElementTree as ET
 from colorama import init, Fore, Back, Style
 
 import matplotlib.pyplot as plt
-
 
 from random import randrange
 
@@ -429,46 +427,66 @@ def change_description(model_selected, topic, description):
     return topic_ids
 
 def generatePyLavis(model_to_plot_str):
-    tic = timer.perf_counter()
     route_to_persistence = config['models']['persistence_selected']
-    
+
     ## 1. Load the model from the persitence file
-    infile = open(route_to_persistence,'rb')
+    infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
     infile.close()
-        
+
     models = []
-    models_paths =  []
+    models_paths = []
     model.print_model(models, models_paths, True, '---', False)
-        
+
     if models == []:
         print("Any model has been trained yet.")
         print("Go to option 2 in order to trained the model selected in option 1.")
-        return 
-    
-    for i in np.arange(0,len(models),1):
-      if models[i] == model_to_plot_str:
-          model_to_plot_path = models_paths[i]
-    
+        return
+
+    for i in np.arange(0, len(models), 1):
+        if models[i] == model_to_plot_str:
+            model_to_plot_path = models_paths[i]
+
     model_to_plot = model.look_for_model(model_to_plot_str)
-    num_topics = model_to_plot.num_topics
-    
-    corpus = model_to_plot.dictionary
-    corpus_utf8 = []
-    [corpus_utf8.append(ensureUtf(word)) for word in corpus if type(word) != float]
-    corpus = [corpus_utf8]
-    
-    dictionary = gensim.corpora.Dictionary(corpus)
-    corpus_bow = [dictionary.doc2bow(doc) for doc in corpus]
-        
-    ldamallet = LdaMallet(mallet_path, corpus=corpus_bow, num_topics=int(num_topics), id2word=dictionary, workers=1) # workers=1
-    ldag_train = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(ldamallet)
-    vis_data = gensimvis.prepare(ldag_train, corpus_bow, dictionary)
+
+    params = extract_params(os.path.join(model_to_plot_path, 'topic-state.gz'))
+    alpha = [float(x) for x in params[0][1:]]
+    beta = params[1]
+    print("{}, {}".format(alpha, beta))
+
+    df_lda = state_to_df(os.path.join(model_to_plot_path, 'topic-state.gz'))
+    df_lda['type'] = df_lda.type.astype(str)
+    df_lda[:10]
+
+    # Get document lengths from statefile
+    docs = df_lda.groupby('#doc')['type'].count().reset_index(name='doc_length')
+
+    # Get vocab and term frequencies from statefile
+    vocab = df_lda['type'].value_counts().reset_index()
+    vocab.columns = ['type', 'term_freq']
+    vocab = vocab.sort_values(by='type', ascending=True)
+
+    phi_df = df_lda.groupby(['topic', 'type'])['type'].count().reset_index(name='token_count')
+    phi_df = phi_df.sort_values(by='type', ascending=True)
+    phi = pivot_and_smooth(phi_df, beta, 'topic', 'type', 'token_count')
+
+    theta_df = df_lda.groupby(['#doc', 'topic'])['topic'].count().reset_index(name='topic_count')
+    theta = pivot_and_smooth(theta_df, alpha, '#doc', 'topic', 'topic_count')
+
+    data = {'topic_term_dists': phi,
+            'doc_topic_dists': theta,
+            'doc_lengths': list(docs['doc_length']),
+            'vocab': list(vocab['type']),
+            'term_frequency': list(vocab['term_freq'])
+            }
+
+    vis_data = pyLDAvis.prepare(**data)
     pyLDAvis.display(vis_data)
 
-    file = pathlib.Path(model_to_plot_path,"pyLDAvis.html").as_posix()
-    pyLDAvis.save_html(vis_data,file)
-    return 
+    file = pathlib.Path(model_to_plot_path, "pyLDAvis.html").as_posix()
+    pyLDAvis.save_html(vis_data, file)
+
+    return
 
 
 def delete_model(model_to_delete):
@@ -541,28 +559,6 @@ def get_model_xml(path):
 def configure_project_folder(path2project):
     path2project = pathlib.Path(path2project)
     print(path2project)
-
-    # ######################
-    # Project file structure:
-    # Default file and folder names for the folder
-    # structure of the project.
-    #f_struct = {'models': 'models',
-    #            'persistence': 'persistence'}
-
-    #if f_struct is not None:
-    #    f_struct.update(f_struct)
-
-    #print("FSTRCUT: fstruct created")
-
-    # In the following, we assume that all files in self.f_struct are
-    # sub-folders of self.path2project
-    #for d in f_struct:
-    #    path2d = path2project / f_struct[d]
-    #    print(path2d)
-    #    if not path2d.exists():
-    #        print("entra porque no existe")
-    #        path2d.mkdir()
-
     models_dir = path2project / "models"
     if not os.path.isdir(models_dir):
         os.mkdir(models_dir)
@@ -664,3 +660,51 @@ def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxi
     if figure_to_save:
         plt.savefig(figure_to_save)
     return x,y
+
+def extract_params(statefile):
+    """Extract the alpha and beta values from the statefile.
+
+    Args:
+        statefile (str): Path to statefile produced by MALLET.
+    Returns:
+        tuple: alpha (list), beta
+    """
+    with gzip.open(statefile, 'r') as state:
+        params = [x.decode('utf8').strip() for x in state.readlines()[1:3]]
+    return (list(params[0].split(":")[1].split(" ")), float(params[1].split(":")[1]))
+
+
+def state_to_df(statefile):
+    """Transform state file into pandas dataframe.
+    The MALLET statefile is tab-separated, and the first two rows contain the alpha and beta hypterparamters.
+
+    Args:
+        statefile (str): Path to statefile produced by MALLET.
+    Returns:
+        datframe: topic assignment for each token in each document of the model
+    """
+    return pd.read_csv(statefile,
+                       compression='gzip',
+                       sep=' ',
+                       skiprows=[1, 2]
+                       )
+
+
+def pivot_and_smooth(df, smooth_value, rows_variable, cols_variable, values_variable):
+    """
+    Turns the pandas dataframe into a data matrix.
+    Args:
+        df (dataframe): aggregated dataframe
+        smooth_value (float): value to add to the matrix to account for the priors
+        rows_variable (str): name of dataframe column to use as the rows in the matrix
+        cols_variable (str): name of dataframe column to use as the columns in the matrix
+        values_variable(str): name of the dataframe column to use as the values in the matrix
+    Returns:
+        dataframe: pandas matrix that has been normalized on the rows.
+    """
+    matrix = df.pivot(index=rows_variable, columns=cols_variable, values=values_variable).fillna(value=0)
+    matrix = matrix.values + smooth_value
+
+    normed = sklearn.preprocessing.normalize(matrix, norm='l1', axis=1)
+
+    return pd.DataFrame(normed)

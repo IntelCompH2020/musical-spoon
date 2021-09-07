@@ -21,7 +21,6 @@ import time as timer
 import gensim
 import pyLDAvis.gensim as gensimvis
 import pyLDAvis
-from gensim.models.wrappers import LdaMallet
 import xml.etree.ElementTree as ET
 from colorama import init, Fore, Back, Style
 
@@ -38,6 +37,9 @@ from Model import Model
 from init_mallet import train_a_model, train_a_submodel, create_submodels
 from auxiliary_functions import xml_dir, indent
 from PyQt5 import QtWidgets
+import sklearn.preprocessing
+import gzip
+import pandas as pd
 
 config_file = 'config_project.ini'
 config = configparser.ConfigParser()
@@ -433,7 +435,6 @@ def change_description(model_selected, topic, description):
 
 
 def generatePyLavis(model_to_plot_str):
-    tic = timer.perf_counter()
     route_to_persistence = config['models']['persistence_selected']
 
     ## 1. Load the model from the persitence file
@@ -455,24 +456,44 @@ def generatePyLavis(model_to_plot_str):
             model_to_plot_path = models_paths[i]
 
     model_to_plot = model.look_for_model(model_to_plot_str)
-    num_topics = model_to_plot.num_topics
 
-    corpus = model_to_plot.dictionary
-    corpus_utf8 = []
-    [corpus_utf8.append(ensureUtf(word)) for word in corpus if type(word) != float]
-    corpus = [corpus_utf8]
+    params = extract_params(os.path.join(model_to_plot_path, 'topic-state.gz'))
+    alpha = [float(x) for x in params[0][1:]]
+    beta = params[1]
+    print("{}, {}".format(alpha, beta))
 
-    dictionary = gensim.corpora.Dictionary(corpus)
-    corpus_bow = [dictionary.doc2bow(doc) for doc in corpus]
+    df_lda = state_to_df(os.path.join(model_to_plot_path, 'topic-state.gz'))
+    df_lda['type'] = df_lda.type.astype(str)
+    df_lda[:10]
 
-    ldamallet = LdaMallet(mallet_path, corpus=corpus_bow, num_topics=int(num_topics), id2word=dictionary,
-                          workers=1)  # workers=1
-    ldag_train = gensim.models.wrappers.ldamallet.malletmodel2ldamodel(ldamallet)
-    vis_data = gensimvis.prepare(ldag_train, corpus_bow, dictionary)
+    # Get document lengths from statefile
+    docs = df_lda.groupby('#doc')['type'].count().reset_index(name='doc_length')
+
+    # Get vocab and term frequencies from statefile
+    vocab = df_lda['type'].value_counts().reset_index()
+    vocab.columns = ['type', 'term_freq']
+    vocab = vocab.sort_values(by='type', ascending=True)
+
+    phi_df = df_lda.groupby(['topic', 'type'])['type'].count().reset_index(name='token_count')
+    phi_df = phi_df.sort_values(by='type', ascending=True)
+    phi = pivot_and_smooth(phi_df, beta, 'topic', 'type', 'token_count')
+
+    theta_df = df_lda.groupby(['#doc', 'topic'])['topic'].count().reset_index(name='topic_count')
+    theta = pivot_and_smooth(theta_df, alpha, '#doc', 'topic', 'topic_count')
+
+    data = {'topic_term_dists': phi,
+            'doc_topic_dists': theta,
+            'doc_lengths': list(docs['doc_length']),
+            'vocab': list(vocab['type']),
+            'term_frequency': list(vocab['term_freq'])
+            }
+
+    vis_data = pyLDAvis.prepare(**data)
     pyLDAvis.display(vis_data)
 
     file = pathlib.Path(model_to_plot_path, "pyLDAvis.html").as_posix()
     pyLDAvis.save_html(vis_data, file)
+
     return
 
 
@@ -683,3 +704,52 @@ def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxi
     if figure_to_save:
         plt.savefig(figure_to_save)
     return x, y, model_names
+
+
+def extract_params(statefile):
+    """Extract the alpha and beta values from the statefile.
+
+    Args:
+        statefile (str): Path to statefile produced by MALLET.
+    Returns:
+        tuple: alpha (list), beta
+    """
+    with gzip.open(statefile, 'r') as state:
+        params = [x.decode('utf8').strip() for x in state.readlines()[1:3]]
+    return (list(params[0].split(":")[1].split(" ")), float(params[1].split(":")[1]))
+
+
+def state_to_df(statefile):
+    """Transform state file into pandas dataframe.
+    The MALLET statefile is tab-separated, and the first two rows contain the alpha and beta hypterparamters.
+
+    Args:
+        statefile (str): Path to statefile produced by MALLET.
+    Returns:
+        datframe: topic assignment for each token in each document of the model
+    """
+    return pd.read_csv(statefile,
+                       compression='gzip',
+                       sep=' ',
+                       skiprows=[1, 2]
+                       )
+
+
+def pivot_and_smooth(df, smooth_value, rows_variable, cols_variable, values_variable):
+    """
+    Turns the pandas dataframe into a data matrix.
+    Args:
+        df (dataframe): aggregated dataframe
+        smooth_value (float): value to add to the matrix to account for the priors
+        rows_variable (str): name of dataframe column to use as the rows in the matrix
+        cols_variable (str): name of dataframe column to use as the columns in the matrix
+        values_variable(str): name of the dataframe column to use as the values in the matrix
+    Returns:
+        dataframe: pandas matrix that has been normalized on the rows.
+    """
+    matrix = df.pivot(index=rows_variable, columns=cols_variable, values=values_variable).fillna(value=0)
+    matrix = matrix.values + smooth_value
+
+    normed = sklearn.preprocessing.normalize(matrix, norm='l1', axis=1)
+
+    return pd.DataFrame(normed)

@@ -57,7 +57,6 @@ pluggy==1.0.0
 prompt-toolkit==3.0.16
 py==1.10.0
 Pygments==2.8.0
-PyInstaller==3.4
 pyinstaller-hooks-contrib==2021.3
 pyLDAvis==2.1.2
 pyparsing==2.4.7

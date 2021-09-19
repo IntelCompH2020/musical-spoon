@@ -134,8 +134,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.removeModel.clicked.connect(self.clicked_delete_model)
         self.trainModel.clicked.connect(self.clicked_train_model)
         self.treeViewShowModelsToExpand_4.clicked.connect(self.clicked_model_to_change_description)
-        self.buttonApplyChanges.clicked.connect(self.clicked_apply_changes)
-        self.buttonResetDescriptions.clicked.connect(self.clicked_reset_changes)
+        #self.buttonApplyChanges.clicked.connect(self.clicked_apply_changes)
+        #self.buttonResetDescriptions.clicked.connect(self.clicked_reset_changes)
         # DELETE SUBMODEL
         self.treeViewShowModelsToExpand_4.clicked.connect(self.clicked_selected_model_to_delete)
         self.pushButtonToDeleteSubmodel_4.clicked.connect(self.clicked_delete_submodel)
@@ -342,8 +342,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         """
         item = self.treeViewShowModelsToExpand_4.currentItem()
         # Get names from the right table and show in the left one
-        for i in np.arange(0, self.tableWidgetNewTopicName_4.rowCount(), 1):
-            print(self.tableWidgetNewTopicName_4.item(i, 0))
+        for i in np.arange(0, self.tableWidgetNewTopicName_4.rowCount()-1, 1):
             new_name = self.tableWidgetNewTopicName_4.item(i, 0).text()
             change_description(item.text(0), i, new_name)
             self.tableWidgetTrainSubmodel_4.setItem(i, 1, QtWidgets.QTableWidgetItem(new_name))

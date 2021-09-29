@@ -52,13 +52,15 @@ mallet_path = config['mallet']['mallet_path']
 
 time = strftime("_%Y-%m-%d_%H-%M-%S", gmtime())
 
+
 def ensureUtf(s):
-   try:
-       s.encode("utf-8")
-   except UnicodeEncodeError as e:
-       if e.reason == 'surrogates not allowed':
-           s = s.encode('utf-8', "backslashreplace").decode('utf-8')
-   return s
+    try:
+        s.encode("utf-8")
+    except UnicodeEncodeError as e:
+        if e.reason == 'surrogates not allowed':
+            s = s.encode('utf-8', "backslashreplace").decode('utf-8')
+    return s
+
 
 def create_model():
     # Path to the models in project folder
@@ -295,12 +297,10 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
     # 4.3 Create the submodel files
     # time_rnd = time + "_" + str(randrange(100))
 
-
     time_rnd = time + "_" + str(randrange(100))
     submodels_paths, submodels_names = create_submodels([selected_topic], model_selected_path, time_rnd, version,
                                                         model, thr)
     print("Generating submodels with HTM v1")
-
 
     ## 5. Train submodels
     num_topics_all = []
@@ -617,18 +617,31 @@ def printTree(xml_ret, treeWidget):
 def get_pickle(model_selected, project_path):
     project_path = pathlib.Path(project_path)
     models_dir = (project_path / "persistence").as_posix()
+    print(models_dir)
     with os.scandir(models_dir) as entries:
         for entry in entries:
             if entry.is_file():
                 infile = open(entry.path, 'rb')
                 model = pickle.load(infile)
-                if model.model_name == model_selected:
-                    return entry.path
+                result = get_son_pickle(model, model_selected, entry)
+                if result:
+                    return result
+
+
+def get_son_pickle(this_model, model_selected, entry):
+    if this_model.model_name == model_selected:
+        return entry.path
+    else:
+        for i in np.arange(0, len(this_model.topics_models), 1):
+            if str(type(this_model.topics_models[i])) == "<class 'Model.Model'>":
+                print(this_model.topics_models[i].model_name)
+                if this_model.topics_models[i].model_name == model_selected:
+                    result = this_model.topics_models[i].model_path
                 else:
-                    for i in np.arange(0, len(model.topics_models), 1):
-                        if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
-                            if model.topics_models[i].model_name == model_selected:
-                                return entry.path
+                    result = get_son_child(this_model.topics_models[i], model_selected)
+                if result:
+                    return entry.path
+        return None
 
 
 def get_root_path(model_selected, project_path):
@@ -639,13 +652,25 @@ def get_root_path(model_selected, project_path):
             if entry.is_file():
                 infile = open(entry.path, 'rb')
                 model = pickle.load(infile)
-                if model.model_name == model_selected:
-                    return model.model_path
+                result = get_son_child(model, model_selected)
+                if result:
+                    return result
+
+
+def get_son_child(this_model, model_selected):
+    if this_model.model_name == model_selected:
+        return this_model.model_path
+    else:
+        for i in np.arange(0, len(this_model.topics_models), 1):
+            if str(type(this_model.topics_models[i])) == "<class 'Model.Model'>":
+                print(this_model.topics_models[i].model_name)
+                if this_model.topics_models[i].model_name == model_selected:
+                    result = this_model.topics_models[i].model_path
                 else:
-                    for i in np.arange(0, len(model.topics_models), 1):
-                        if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
-                            if model.topics_models[i].model_name == model_selected:
-                                return model.model_path
+                    result = get_son_child(this_model.topics_models[i], model_selected)
+                if result:
+                    return result
+        return None
 
 
 def get_root_child(model_selected, project_path):
@@ -656,13 +681,9 @@ def get_root_child(model_selected, project_path):
             if entry.is_file():
                 infile = open(entry.path, 'rb')
                 model = pickle.load(infile)
-                if model.model_name == model_selected:
-                    return model.model_path
-                else:
-                    for i in np.arange(0, len(model.topics_models), 1):
-                        if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
-                            if model.topics_models[i].model_name == model_selected:
-                                return model.topics_models[i].model_path
+                result = get_son_child(model, model_selected)
+                if result:
+                    return result
 
 
 def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxis, title, figure_to_save):

@@ -342,7 +342,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         """
         item = self.treeViewShowModelsToExpand_4.currentItem()
         # Get names from the right table and show in the left one
-        for i in np.arange(0, self.tableWidgetNewTopicName_4.rowCount()-1, 1):
+        for i in np.arange(0, self.tableWidgetNewTopicName_4.rowCount(), 1):
             new_name = self.tableWidgetNewTopicName_4.item(i, 0).text()
             change_description(item.text(0), i, new_name)
             self.tableWidgetTrainSubmodel_4.setItem(i, 1, QtWidgets.QTableWidgetItem(new_name))
@@ -1405,6 +1405,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         for i in np.arange(0, self.tableDragTo.rowCount(), 1):
             model_name = self.tableDragTo.item(i, 0).text()
             model_path = get_root_child(model_name, project_path)
+            print(model_path)
             diagnostics_path = ((pathlib.Path(model_path)) / "diagnostics.xml").as_posix()
             diagnostics_paths.append([diagnostics_path, model_name])
 

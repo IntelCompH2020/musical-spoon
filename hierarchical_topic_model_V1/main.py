@@ -8,6 +8,7 @@ import configparser
 from gui import *
 from PyQt5.QtGui import QIcon
 
+
 class PreConfig(QDialog):
     def __init__(self):
         super(PreConfig, self).__init__()
@@ -32,15 +33,18 @@ class PreConfig(QDialog):
         self.start.clicked.connect(self.startApplication)
 
     def getProjectFolder(self):
-        self.projectFolder = QFileDialog.getExistingDirectory(self, 'Select directory', self.home)
+        self.projectFolder = QFileDialog.getExistingDirectory(
+            self, 'Select directory', self.home)
         self.showProjectFolder.setText(self.projectFolder)
 
     def getDatabaseFile(self):
-        self.databaseFile = QFileDialog.getOpenFileName(self, "Open File", "~", "Text Files (*.txt)")[0]
+        self.databaseFile = QFileDialog.getOpenFileName(
+            self, "Open File", "~", "Text Files (*.txt)")[0]
         self.showDatabaseFolder.setText(self.databaseFile)
 
     def getMalletPath(self):
-        self.malletPath = QFileDialog.getOpenFileName(self, 'Select executable', self.home)[0]
+        self.malletPath = QFileDialog.getOpenFileName(
+            self, 'Select executable', self.home)[0]
         self.showMalletPath.setText(self.malletPath)
 
     def startApplication(self):
@@ -74,7 +78,8 @@ class PreConfig(QDialog):
 
 # Handle high resolution displays:
 if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
-    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, False)
+    QtWidgets.QApplication.setAttribute(
+        QtCore.Qt.AA_EnableHighDpiScaling, False)
 if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, False)
 

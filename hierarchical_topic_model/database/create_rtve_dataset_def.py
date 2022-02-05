@@ -41,7 +41,7 @@ num_txt_files = config['production']['num_txt_files']
 num_texts = 20
 
 patterns = [(r'real madrid', 'real_madrid'),
-            (r'estados unidos','eeuu'),
+            (r'estados unidos', 'eeuu'),
             (r'estadounidense', 'eeuu'),
             (r'carmen calvo', 'carmen_calvo'),
             (r'pedro sanchez', 'predo_sánchez'),
@@ -90,7 +90,7 @@ patterns = [(r'real madrid', 'real_madrid'),
             (r'pau gasol', 'pau_gasol'),
             (r'leo suárez', 'leo_suárez'),
             (r'dani rodriguez', 'dani_rodriguez'),
-            (r'carlos belmonte', 'carlos_belmonte'),    
+            (r'carlos belmonte', 'carlos_belmonte'),
             (r'ximo puig', 'ximo_puig'),
             (r'jordi sánchez', 'jordi_sánchez'),
             (r'jordi turull', 'jordi_turull'),
@@ -179,7 +179,7 @@ patterns = [(r'real madrid', 'real_madrid'),
             (r'josé barea', 'josé_barea'),
             (r'josé luis', 'josé_luis'),
             (r'josé luis gaya', 'josé_luis_gaya'),
-            (r'josé zorrilla', 'josé_zorrilla'), 
+            (r'josé zorrilla', 'josé_zorrilla'),
             (r'josé cura', 'josé_cura'),
             (r'josé carreras', 'josé_carreras'),
             (r'josé díaz', 'josé_díaz'),
@@ -344,7 +344,8 @@ patterns = [(r'real madrid', 'real_madrid'),
             (r'josé maría romero tejada', 'josé_maría_romero_tejada'),
             (r'josé ribera', 'josé_ribera'),
             (r'josé enrique serrano', 'josé_enrique_serrano'),
-            (r'josé antonio bermudez castro', 'josé_antonio_bermudez_castro'), #1900 
+            (r'josé antonio bermudez castro',
+             'josé_antonio_bermudez_castro'),  # 1900
             (r'juan antonio madrid pérez', 'juan_antonio_madrid_pérez'),
             (r'juan carlos fernández lópez', 'juan_carlos_fernández_lópez'),
             (r'manuel marcos delgado', 'manuel_marcos_delgado'),
@@ -389,28 +390,30 @@ patterns = [(r'real madrid', 'real_madrid'),
             (r'juan francisco rosa', 'juan_francisco_rosa'),
             (r'juan josé padilla', 'juan_josé_padilla'),
             (r'juan josé', 'juan_josé'),
-            (r'josé_luis rodríguez_zapatero','josé_luis_rodríguez_zapatero'),
+            (r'josé_luis rodríguez_zapatero', 'josé_luis_rodríguez_zapatero'),
             (r'mireia belmonte', 'mireia_belmonte')]
 
-columns = ['id','breadCrumbRef','contentType','htmlShortUrl', 'htmlUrl', 'ids', 'image', 'imageSEO', 
+columns = ['id', 'breadCrumbRef', 'contentType', 'htmlShortUrl', 'htmlUrl', 'ids', 'image', 'imageSEO',
            'language', 'comentariosRef', 'encuestaDestacadaRef', 'encuestasRelacionadasRef', 'encuestasTotemRef',
            'estadisticasRef', 'galeriasRelacionadasRef', 'galeriasTotemRef', 'tagsRef', 'longTitle',
-           'mainCategory', 'mainCategoryLang', 'mainCategoryRef', 'newsRelatedRef', 'numVisits', 
-           'otherTopicsRef', 'popHistoric','popularity', 'code', 'description' , 'publicationDate',
-           'publicationDateTimestamp', 'refreshSeconds', 'relatedByLangRef', 'firma', 'numComentarios', 
-           'numCompartidas', 'summary', 'text','textLemmatized', 'tickerNews', 'tickerSports', 'title', 'uri']
+           'mainCategory', 'mainCategoryLang', 'mainCategoryRef', 'newsRelatedRef', 'numVisits',
+           'otherTopicsRef', 'popHistoric', 'popularity', 'code', 'description', 'publicationDate',
+           'publicationDateTimestamp', 'refreshSeconds', 'relatedByLangRef', 'firma', 'numComentarios',
+           'numCompartidas', 'summary', 'text', 'textLemmatized', 'tickerNews', 'tickerSports', 'title', 'uri']
 
-def replace(text,patterns):
-    for(raw,rep) in patterns:
+
+def replace(text, patterns):
+    for(raw, rep) in patterns:
         regex = re.compile(raw)
-        text = regex.sub(rep,text)
+        text = regex.sub(rep, text)
     return text
 
 ##########################################################################################################################################
 
+
 corpus_pickle = 'C:\\Users\\lcalv\\OneDrive\\Documentos\\MASTER\\TFM_teleco\\rtve_corpus.pickle'
-infile = open(corpus_pickle,'rb')
-rtve_data  = pickle.load(infile)   
+infile = open(corpus_pickle, 'rb')
+rtve_data = pickle.load(infile)
 
 # LOAD DATA
 # # DATABASE CONNECTION
@@ -433,68 +436,69 @@ DB = BaseDMsql(db_name=dbNAME, db_connector='mysql', path2db=None,
 lemmatized_texts = []
 n_tokens = []
 for df in DB.readDBchunks(dbTABLENAME, 'id', chunksize=50000, selectOptions='textLemmatized', limit=int(num_txt_files)*num_texts, filterOptions=None, verbose=True):
-    news_df  = pd.DataFrame(df, columns = ['textLemmatized'])
+    news_df = pd.DataFrame(df, columns=['textLemmatized'])
     # Get lemmatized texts
-    for i in np.arange(0,len(news_df),1):
+    for i in np.arange(0, len(news_df), 1):
         text = news_df.values[i].tolist()
-        text = [replace(word,patterns) for word in text]
+        text = [replace(word, patterns) for word in text]
         text_str = ', '.join(text)
         text_toks = word_tokenize(text_str)
-        #tok_ok = [token for token in text_toks if token not in stopwords]      
+        #tok_ok = [token for token in text_toks if token not in stopwords]
         n_tokens.append(len(text_toks))
         lemmatized_texts.append(text_toks)
 
 print("Lematized texts")
 print(len(lemmatized_texts))
-x = list(np.arange(0,300,20))
-bins = list(np.arange(0,300,5)-0.5)
-plt.hist(n_tokens,bins=bins,color='#2a9d8f')
-plt.xticks(x,x, fontsize=14, rotation=60)
-plt.axvline(x=80,color='r',linestyle='--',linewidth=3)
+x = list(np.arange(0, 300, 20))
+bins = list(np.arange(0, 300, 5)-0.5)
+plt.hist(n_tokens, bins=bins, color='#2a9d8f')
+plt.xticks(x, x, fontsize=14, rotation=60)
+plt.axvline(x=80, color='r', linestyle='--', linewidth=3)
 plt.xlabel('Number of tokens', fontsize=16)
 plt.ylabel('Number of documents', fontsize=16)
 plt.yticks(fontsize=14)
 #plt.xticks(fontsize=14, rotation=90)
-plt.show() # Based on this figure, we remove documents with less tokens than min_tokens = 80
+plt.show()  # Based on this figure, we remove documents with less tokens than min_tokens = 80
 
 
-#We do not add to the corpus the documents with less than `min_tokens` = 80 tokens
+# We do not add to the corpus the documents with less than `min_tokens` = 80 tokens
 corpus = []
 min_tokens = 80
-for i in np.arange(0,len(lemmatized_texts),1):
-  if n_tokens[i] >= min_tokens:
-    corpus.append(lemmatized_texts[i])
-    
+for i in np.arange(0, len(lemmatized_texts), 1):
+    if n_tokens[i] >= min_tokens:
+        corpus.append(lemmatized_texts[i])
+
 print("Final corpus")
 print(len(corpus))
 
 
 phrase_model = Phrases(corpus, min_count=2, threshold=20)
-corpus = [el for el in phrase_model[corpus]] 
+corpus = [el for el in phrase_model[corpus]]
 corpus_def = corpus
-print("Len of the final corpus:",len(corpus_def))
+print("Len of the final corpus:", len(corpus_def))
 
 # Create dictionary
-D_def = gensim.corpora.Dictionary(corpus_def) # Created from all tokens
+D_def = gensim.corpora.Dictionary(corpus_def)  # Created from all tokens
 n_tokens_init = len(D_def)
 
 print('Len of the init dictionary', n_tokens_init)
 print('First terms in the dictionary:')
 for n in range(10):
-  print(str(n), ':', D_def[n])
-  
-no_below = 5 # Minimum number of documents in which a term must appear to keep this term in the dictionary
-no_above = 0.75 # Maximum proportion of documents in which a term can appear to be kept in the dictionary
+    print(str(n), ':', D_def[n])
+
+no_below = 5  # Minimum number of documents in which a term must appear to keep this term in the dictionary
+no_above = 0.75  # Maximum proportion of documents in which a term can appear to be kept in the dictionary
 D_def.filter_extremes(no_below=no_below, no_above=no_above, keep_n=None)
 n_tokens_def = len(D_def)
 print('Len of the filtered dictionary', n_tokens_def)
 print('First terms in the dictionary:')
 for n in range(10):
-  print(str(n), ':', D_def[n])
-  
+    print(str(n), ':', D_def[n])
+
 dictionary_filtered_list = []
-[dictionary_filtered_list.append(D_def.get(i)) for i in np.arange(0,len(D_def),1)] # convertir a set
-  
+[dictionary_filtered_list.append(D_def.get(i)) for i in np.arange(
+    0, len(D_def), 1)]  # convertir a set
+
 corpus_bow_def = [D_def.doc2bow(doc) for doc in corpus_def]
 
 
@@ -509,8 +513,8 @@ token_count = np.zeros(n_tokens)
 
 # Count the number of occurrences of each token.
 for x in corpus_bow_flat:
-  # Update the proper element in token_count
-  token_count[x[0]] += x[1]
+    # Update the proper element in token_count
+    token_count[x[0]] += x[1]
 
 # Sort by decreasing number of occurences
 idf_sorted = np.argsort(- token_count)
@@ -526,36 +530,36 @@ hot_tokens = [D_def[i] for i in idf_sorted[n_bins-1::-1]]
 y_pos = np.arange(len(hot_tokens))
 z = tf_sorted[n_bins-1::-1]
 
-plt.figsize=(8, 6)
-plt.barh(y_pos, z, align='center', alpha=0.4, color='#2a9d8f', edgecolor='#2a9d8f', height = 0.8)
+plt.figsize = (8, 6)
+plt.barh(y_pos, z, align='center', alpha=0.4,
+         color='#2a9d8f', edgecolor='#2a9d8f', height=0.8)
 plt.yticks(y_pos, hot_tokens, fontsize=12)
 plt.xticks(fontsize=14)
 plt.xlabel('Total number of occurrences', fontsize=16)
 plt.title('Token distribution', fontsize=20)
-plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
+plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
 plt.show()
-
 
 
 # SORTED TOKEN FREQUENCIES (III):
 
 # Example data
-plt.figsize=(8, 6)
+plt.figsize = (8, 6)
 plt.semilogy(tf_sorted, '#2a9d8f')
 plt.ylabel('Total number of occurrences', fontsize=16)
 plt.xlabel('Token rank', fontsize=16)
 plt.title('Token occurrences', fontsize=20)
 plt.xticks(fontsize=14)
-plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
+plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
 plt.yticks(fontsize=15)
 plt.show()
 
 
-
 final_corpus = []
-for i in np.arange(0,len(corpus),1):
-    if not i%100:
-        print('\r Preprocessing doc', i, 'out of', len(corpus), end='', flush=True)
+for i in np.arange(0, len(corpus), 1):
+    if not i % 100:
+        print('\r Preprocessing doc', i, 'out of',
+              len(corpus), end='', flush=True)
     doc = []
     for j in corpus[i]:
         if j in dictionary_filtered_list:
@@ -568,6 +572,6 @@ text_to_save = 'C:\\mallet\\data_news_txt_all_merged3.txt'
 with open(text_to_save, 'w', encoding='utf-8') as fout:
     i = 0
     for el in final_corpus:
-        #print(el)
+        # print(el)
         fout.write(str(indexes[i]) + ' 0 ' + ' '.join(el) + '\n')
         i += 1

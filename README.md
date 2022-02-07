@@ -15,11 +15,13 @@ After a couple of seconds, the GUI’s starting window is shown, through which t
 
 After selecting the required parameters and clicking the START button, the user is redirected to the main window of the application, which is composed of the following subwindows:
 
-Configuration view         |  Select / train root model view
-:----------------------------------:|:----------------------------------:
-![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/configuration.JPG?raw=true) |  ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/train_select.png?raw=true)
+| Subwindow     | Example view     |
+| ------------- | ------------- |
+| Configuration             | ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/configuration.JPG?raw=true)   |
+| Select / train root model | ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/train_select.png?raw=true)    |
+| Train / edit submodels    | ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/edit_model.JPG?raw=true)      |
+| See topic's description   | ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/see_topic_desc.JPG?raw=true)  |
+| Diagnosis                 | ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/diagnostics_view.JPG?raw=true)|
+| Draw graphs               | ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/drawGraphView.JPG?raw=true)   |
 
-Train / edit submodels view         |  See topic's description view
-:----------------------------------:|:----------------------------------:
-![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/edit_model.JPG?raw=true) |  ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/see_topic_desc.JPG?raw=true)
-
+Note that the application has been developed in Windows and it may look a little different in other operating systems.

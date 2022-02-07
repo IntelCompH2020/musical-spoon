@@ -11,10 +11,10 @@ python3 main.py
 
 After a couple of seconds, the GUI’s starting window is shown, through which the user can select the project folder to save the hierarchical topic models, the training corpus, and the directory in which he has Mallet locally located. These three constitute the required input parameters of the application.
 
-![alt text]![alt text](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/mainWindow.png?raw=true)
+![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/mainWindow.png?raw=true)
 
-Solarized dark             |  Solarized Ocean
-:-------------------------:|:-------------------------:
+Configuration view                  |  Select / train root model view
+:----------------------------------:|:----------------------------------:
 ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/configuration.JPG?raw=true) |  ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/train_select.png?raw=true)
 
 

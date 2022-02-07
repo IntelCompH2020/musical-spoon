@@ -61,9 +61,10 @@ mallet_path = config['mallet']['mallet_path']
 #                                FUNCTIONS                                   #
 ##############################################################################
 def create_model():
+    """Creates a model in the "models" folder within the project folder specified by the user, which is read from the configuration file.
+    """    
     # Path to the models in project folder
     models_dir = pathlib.Path(project_path, "models")
-    route_to_persistence = pathlib.Path(project_path, "persistence")
 
     # Available models
     models = [model.name for model in models_dir.iterdir() if model.is_dir()]
@@ -83,6 +84,11 @@ def create_model():
 
 
 def list_models():
+    """Lists all the models (root models, each root model referring to a Hierarchical topic model), and all the submodels under it.
+
+    Returns:
+        [List[str]]: List of names, each name referring to a model / submodel.
+    """    
     # Reload config file just in case changes are found
     config.read(config_file)
     project_path = config['files']['project_path']
@@ -105,6 +111,11 @@ def list_models():
 
 
 def select_model(model_name):
+    """It writes in the configuration file's "selected_model", "model_name" and "persistence_selected" fields the details of the model given by the user.
+
+    Args:
+        model_name (str): Name of the model selected by the user.
+    """    
     # Reload config file just in case changes are found
     config.read(config_file)
     project_path = config['files']['project_path']
@@ -138,7 +149,11 @@ def select_model(model_name):
 
 
 def train_model(nr_topics):
+    """It trains a root model via LDA Mallet.
 
+    Args:
+        nr_topics (int): Number of topics to train the model with.
+    """    
     # 1. Get route to model, route to persistence and model's name
     config.read(config_file)
     route_to_model = config['models']['model_selected']
@@ -187,12 +202,18 @@ def train_model(nr_topics):
 def show_topic_model_description(model_selected):
     """Shows the topic's chemical description from the model selected 
        by the user in option 2 and all its submodels.
-    """
+
+    Args:
+        model_selected (str): Name of the model selected by the user to show its topics' chemical description.
+
+    Returns:
+        [List[str]]: List of strings, each string being of the form: "Topic XX - (topic description) - topic's chemical description". The size of the list is given by the number of topics with which the model selected was trained with.
+    """    
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
 
-    # 1. Check if a model has been trained already. Otherwise, its
+    # Check if a model has been trained already. Otherwise, its
     # chemical description can not be shown
     models = []
     models_paths = []
@@ -214,14 +235,21 @@ def show_topic_model_description(model_selected):
                   '"' + " has not been trained yet.")
             print("Go to option 2 in order to train it if it is a model, and to option 3 in case it is a submodel.")
         else:
-            # 4. Print the description
+            # Print the description
             topics_ids_df = pd.read_csv(file, sep="\t", header=None)
             topic_ids = topics_ids_df.values[:, 0].tolist()
-            # print
         return topic_ids
 
 
 def show_topics_to_expand(model_selected):
+    """From a model selected by the user, its shows all the topics that are available for expansion, as well as its chemical description.
+
+    Args:
+        model_selected (str): Model selected by the user.
+
+    Returns:
+        [List[str]]: List of strings, each string being of the form: "Topic XX - (topic description) - topic's chemical description". The size of the list is given by the number of topics with which the model selected was trained with.
+    """    
     # Load the model from the persistence file
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
@@ -242,6 +270,15 @@ def show_topics_to_expand(model_selected):
 
 
 def show_topics_to_expand_general(model_selected, model):
+    """From a model selected by the user, which does not need to be a child of the model previously selected by the user in the train/select vie, its shows all the topics that are available for expansion, as well as its chemical description.
+
+    Args:
+        model_selected (str): Model selected by the user.
+        model (Model): Model structure under which a model is going to be searched.
+
+    Returns:
+        [List[str]]: List of strings, each string being of the form: "Topic XX - (topic description) - topic's chemical description". The size of the list is given by the number of topics with which the model selected was trained with.
+    """  
     models = []
     models_paths = []
     model.print_model(models, models_paths, True, '---', False)
@@ -256,6 +293,16 @@ def show_topics_to_expand_general(model_selected, model):
 
 
 def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, version, thr):
+    """It trains a submodel with either HTM-WS or HTM-DS, depending on the user's choice.
+
+    Args:
+        model_for_expansion (str): Topic model that has been selected for expansion, i.e. for creating a child submodel from it.
+        selected_topic (int): Topic of the selected model ("model_for_expansion") that has been selected to generate the submodel from.
+        nr_topics (int): Number of topics to train the submodel with.
+        app (UI_MainWindow): GUI
+        version (str): Either "V1" or "V2", indicationg which HTM version is going to be used for the training of the model.
+        thr (float): Threshold for the generation of the submodel's reduced corpus, in case version V2 (i.e. HTM-DS) has been selected by the user.
+    """    
     # 1. Load model from persistence file
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
@@ -341,7 +388,18 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
 
 
 def save_submodel(submodels_paths, submodels_names, num_topics_all, saving):
-    # 1. Load the model from the persistence file
+    """[summary]
+
+    Args:
+        submodels_paths ([type]): [description]
+        submodels_names ([type]): [description]
+        num_topics_all ([type]): [description]
+        saving ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """    
+    # Load the model from the persistence file
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)

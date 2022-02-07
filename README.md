@@ -15,7 +15,7 @@ After a couple of seconds, the GUI’s starting window is shown, through which t
 
 After selecting the required parameters and clicking the START button, the user is redirected to the main window of the application, which is composed of the following subwindows:
 
-Configuration view                  |  Select / train root model view
+Configuration view         |  Select / train root model view
 :----------------------------------:|:----------------------------------:
 ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/configuration.JPG?raw=true) |  ![](https://github.com/Nemesis1303/MusicalSpoonV3/blob/main/gui/Images/train_select.png?raw=true)
 

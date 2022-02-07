@@ -5,15 +5,14 @@ Created on Sat Feb  6 11:50:02 2021
 ******************************************************************************
 ***                              AUX_MODEL                                 ***
 ******************************************************************************
-Module that contains functionalities similar to that of the module
-task_manager.py from the command-line version, but adapted to be callable from
-gui.py, which consists of the class governing the whole application management.
-With this, it is possible to disengage the processing (i.e. models/submodels
-training and creation, pyLDAvis generation, etc.) of the windows, widgets,
-and dialogs conforming and controlling. Thus, this module contains a method for 
-each of the functionalities provided. Besides, it includes some auxiliary
-functions, such as methods for managing the configuration of the project folder
-or the display of the hierarchical topics models in a hierarchic way.
+Module that contains functionalities callable from gui.py, which consists of the
+class governing the whole application management. With this, it is possible to
+disengage the processing (i.e. models/submodels training and creation, pyLDAvis
+generation, etc.) of the windows, widgets, and dialogs conforming and controlling.
+Thus, this module contains a method for each of the functionalities provided.
+Besides, it includes some auxiliary functions, such as methods for managing the
+configuration of the project folder or the display of the hierarchical topics
+models in a hierarchic way.
 """
 
 ##############################################################################
@@ -36,11 +35,11 @@ import pandas as pd
 import pyLDAvis
 from colorama import Fore
 from PyQt5 import QtWidgets
-
+import sklearn
 
 from htms.auxiliary_functions import indent, xml_dir
 from htms.init_mallet import create_submodels, train_a_model, train_a_submodel
-from htms.Model import Model
+from htms.model import Model
 
 ##############################################################################
 #                                CONFIG                                      #
@@ -137,8 +136,6 @@ def select_model(model_name):
     with open(config_file, 'w') as configfile:
         config.write(configfile)
 
-    #print(models_list[model_selected_nr-1] + " loaded.")
-
 
 def train_model(nr_topics):
 
@@ -191,17 +188,12 @@ def show_topic_model_description(model_selected):
     """Shows the topic's chemical description from the model selected 
        by the user in option 2 and all its submodels.
     """
-    # Model path and model name
-    route_to_model = config['models']['model_selected']
-    model_name = config['models']['model_name']
     route_to_persistence = config['models']['persistence_selected']
-
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
 
     # 1. Check if a model has been trained already. Otherwise, its
     # chemical description can not be shown
-    #models,model_nr,models_paths =  Model.list_models_names(route_to_model, False)
     models = []
     models_paths = []
     model.print_model(models, models_paths, True, '---', False)
@@ -214,7 +206,6 @@ def show_topic_model_description(model_selected):
         for i in np.arange(0, len(models), 1):
             if models[i] == model_selected:
                 model_selected_path = models_paths[i]
-        #model_selected_path = models_paths[model_selected]
         file = pathlib.Path(model_selected_path, model_ids)
 
         if not(os.path.isfile((file).as_posix())):
@@ -231,14 +222,8 @@ def show_topic_model_description(model_selected):
 
 
 def show_topics_to_expand(model_selected):
-    # Path to the models in project folder, model path, persistence path
-    # and model name
-    route_to_models = pathlib.Path(project_path, "models")
-    route_to_model = config['models']['model_selected']
+    # Load the model from the persistence file
     route_to_persistence = config['models']['persistence_selected']
-    model_name = config['models']['model_name']
-
-    # 1. Load the model from the persitence file
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
     infile.close()
@@ -271,20 +256,13 @@ def show_topics_to_expand_general(model_selected, model):
 
 
 def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, version, thr):
-
-    # Path to the models in project folder, model path, persistence path
-    # and model name
-    route_to_models = pathlib.Path(project_path, "models")
-    route_to_model = config['models']['model_selected']
+    # 1. Load model from persistence file
     route_to_persistence = config['models']['persistence_selected']
-    model_name = config['models']['model_name']
-
-    # 1. Load the model from the persitence file
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
     infile.close()
 
-    # 3. Select model/submodel for expansion
+    # 2.Select model/submodel for expansion
     models_list = []
     models_paths = []
     model.print_model(models_list, models_paths, True, '---', False)
@@ -294,14 +272,7 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
             print(models_list[i])
             model_selected_path = models_paths[i]
             model_selected_name = models_list[i]
-
-    # print(Fore.GREEN + "The model/submodel selected is: " + model_selected_name + Fore.WHITE)
-
-    # 4. Create subfiles
-
-    # 4.3 Create the submodel files
-    #time_rnd = time + "_" + str(randrange(100))
-
+    # 3. Create submodel files
     if version == "v1":
         time_rnd = time + "_" + str(randrange(100)) + "_v1"
         submodels_paths, submodels_names = create_submodels(
@@ -316,20 +287,20 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
         print("No HTM version has been given.")
         return
 
-    # 5. Train submodels
+    # 4. Train submodels
     num_topics_all = []
     for i in np.arange(0, len(submodels_paths), 1):
-        # 5.1 Create submodel object
+        # 4.1 Create submodel object
         submodel = Model("", "", 0, [], [], [], [], [], [], 0)
         submodel.set_nr_topics(nr_topics)
         num_topics_all.append(submodel.num_topics)
-        # 5.3 Train the submodel (create an object of type model)
+        # 4.2 Train the submodel (create an object of type model)
         train_a_submodel(str(submodels_names[i]), str(
             submodels_paths[i]), submodel)
-        # 5.4 Add the name of the submodel to the submodel object
+        # 4.3 Add the name of the submodel to the submodel object
         submodel.set_name(str(submodels_names[i]))
         submodel.set_path(str(submodels_paths[i]))
-        # 5.4.1 Check if the model selected for expansion is directly the
+        # 4.3.1 Check if the model selected for expansion is directly the
         # model selected in option 2 (father model). If yes, the submodel
         # is directly append to the topics_models lists of the father model
         submodel.add_to_father(model_selected_name, model)
@@ -343,11 +314,10 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
         num_docs_model = len(model.thetas)
         submodel.set_n_docs_father(num_docs_model)
 
+        # 5. Save submodel
         saving = True
         for i in np.arange(0, len(submodels_paths), 1):
             if saving:
-                # if button_reply_delete_model == QtWidgets.QMessageBox.Yes:
-                print("entra")
                 new_submodel_path = submodels_paths[i] + \
                     "_" + str(num_topics_all[i]) + "_topics"
                 new_submodel_name = submodels_names[i] + \
@@ -358,10 +328,7 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
                 os.rename(submodels_paths[i], new_submodel_path)
                 print("")
                 print("saved")
-                #print(Fore.GREEN + "Submodel " + '"' + new_submodel_name + '"' + "was saved." + Fore.WHITE)
                 print("")
-            # 6.2.4 If the answer is no, we remove both the submodel's folder
-            # and the submodel object
             else:
                 rmtree(submodels_paths[i])
                 model.delete_child(submodels_names[i])
@@ -370,16 +337,12 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
         pickle.dump(model, outfile)
         outfile.close()
 
-    # return [submodels_paths, submodels_names , topic_ids, num_topics_all]
     return
 
 
 def save_submodel(submodels_paths, submodels_names, num_topics_all, saving):
-    # Path to the models in project folder, model path, persistence path
-    # and model name
+    # 1. Load the model from the persistence file
     route_to_persistence = config['models']['persistence_selected']
-
-    # 1. Load the model from the persitence file
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
     infile.close()
@@ -396,12 +359,9 @@ def save_submodel(submodels_paths, submodels_names, num_topics_all, saving):
             print(Fore.GREEN + "Submodel " + '"' +
                   new_submodel_name + '"' + "was saved." + Fore.WHITE)
             print("")
-        # 6.2.4 If the answer is no, we remove both the submodel's folder
-        # and the submodel object
         else:
             rmtree(submodels_paths[i])
             model.delete_child(submodels_names[i])
-    # The model is saved in the persistance file
     outfile = open(route_to_persistence, 'wb')
     pickle.dump(model, outfile)
     outfile.close()
@@ -410,11 +370,8 @@ def save_submodel(submodels_paths, submodels_names, num_topics_all, saving):
 
 
 def change_description(model_selected, topic, description):
-    # Path to the models in project folder, model path, persistence path
-    # and model name
-    route_to_persistence = config['models']['persistence_selected']
-
     # 1. Load the model from the persitence file
+    route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
     infile.close()
@@ -430,21 +387,17 @@ def change_description(model_selected, topic, description):
             model_selected_path = models_paths[i]
             model_selected_name = models_list[i]
 
-    #print(Fore.GREEN + "The model/submodel selected is: " + model_selected_name + Fore.WHITE)
-
-    # 3.3 Look for the submodel object within the model
+    # Look for the submodel object within the model
     model_selected = model.look_for_model(model_selected_name)
 
-    # 5.
-    # 5.1 Add the description in the submodel and update the submodel
+    # Add the description in the submodel and update the submodel
     # object within the model object
-
     model_selected.set_one_topic_description(
         model_selected_path, model_ids, topic, description)
 
     model.update_submodel(model_selected)
 
-    # 6. Save the model in the persistance file
+    # Save the model in the persistance file
     outfile = open(route_to_persistence, 'wb')
     pickle.dump(model, outfile)
     outfile.close()
@@ -458,9 +411,8 @@ def change_description(model_selected, topic, description):
 
 
 def generatePyLavis(model_to_plot_str):
-    route_to_persistence = config['models']['persistence_selected']
-
     # 1. Load the model from the persitence file
+    route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
     infile.close()
@@ -469,7 +421,7 @@ def generatePyLavis(model_to_plot_str):
     models_paths = []
     model.print_model(models, models_paths, True, '---', False)
 
-    if models == []:
+    if not models:
         print("Any model has been trained yet.")
         print("Go to option 2 in order to trained the model selected in option 1.")
         return

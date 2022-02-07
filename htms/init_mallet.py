@@ -18,7 +18,7 @@ import configparser
 from colorama import Fore
 import shutil
 
-from htms.Topic import Topic
+from htms.topic import Topic
 from htms.auxiliary_functions import cmd
 
 ##############################################################################

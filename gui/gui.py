@@ -31,8 +31,8 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import *
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
-from gui.MessagesGui import MessagesGui
-from gui.Worker import Worker
+from gui.messages_gui import MessagesGui
+from gui.worker import Worker
 from gui.aux_model import create_model, list_models, select_model, train_model,         show_topic_model_description, show_topics_to_expand, show_topics_to_expand, train_save_submodels, change_description, generatePyLavis, delete_submodel, delete_model, get_model_xml, configure_project_folder, clearQTreeWidget, printTree, show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics
 
 
@@ -59,7 +59,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         else:
             self.version = "v2"
 
-        uic.loadUi("UIS/musicalSpoonV2.ui", self)
+        uic.loadUi("gui/UIS/musicalSpoonV2.ui", self)
 
         self.setGeometry(100, 60, 2000, 1600)
         self.centralwidget.setGeometry(100, 60, 2000, 1600)
@@ -79,15 +79,15 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         # INFORMATION BUTTONS
         ########################################################################
-        self.infoButtonSelectDataset.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonLoadFiles.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonTrainModel.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonSelectSubmodel_4.setIcon(QIcon('Images/help2.png'))
-        self.infoButtoSelectTopicExpand_4.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonShowDescription.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonDiagnostics.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonSelectModelDiagnostic.setIcon(QIcon('Images/help2.png'))
-        self.infoButtonDragTopicDiagnostic.setIcon(QIcon('Images/help2.png'))
+        self.infoButtonSelectDataset.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonLoadFiles.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonTrainModel.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonSelectSubmodel_4.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtoSelectTopicExpand_4.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonShowDescription.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonDiagnostics.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonSelectModelDiagnostic.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonDragTopicDiagnostic.setIcon(QIcon('gui/Images/help2.png'))
 
         self.infoButtonSelectDataset.setToolTip(
             MessagesGui.INFO_SELECT_DATASET)
@@ -117,7 +117,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             nameFilterDisables=False)
         self.modelTreeView.setRootPath((QtCore.QDir.rootPath()))
 
-        self.pushButtonSelectDataset.setIcon(QIcon('Images/folder.png'))
+        self.pushButtonSelectDataset.setIcon(QIcon('gui/Images/folder.png'))
         self.pushButtonSelectDataset.clicked.connect(self.show_datasets)
 
         self.tableWidgetGeneralSettings.resizeColumnsToContents()
@@ -237,50 +237,50 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         # TOGGLE MENU
         ########################################################################
         self.Btn_Toggle.clicked.connect(lambda: self.toggleMenu(250))
-        self.Btn_Toggle.setIcon(QIcon('Images/menu.png'))
+        self.Btn_Toggle.setIcon(QIcon('gui/Images/menu.png'))
 
         # PAGES
         ########################################################################
         # PAGE 1: Configuration: Change dataset, see porject settings
         self.pushButtonConfiguration_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage))
-        self.pushButtonConfiguration_2.setIcon(QIcon('Images/settings.png'))
+        self.pushButtonConfiguration_2.setIcon(QIcon('gui/Images/settings.png'))
 
         # PAGE 2: Create new model/select model /train model /delete model
         self.pushButtonSelectModel_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage2))
-        self.pushButtonSelectModel_2.setIcon(QIcon('Images/new.png'))
+        self.pushButtonSelectModel_2.setIcon(QIcon('gui/Images/new.png'))
 
         # PAGE 3: Create/train submodel /add description to topics
         self.pushButtonTrainSubmodel_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage3))
-        self.pushButtonTrainSubmodel_2.setIcon(QIcon('Images/create.png'))
+        self.pushButtonTrainSubmodel_2.setIcon(QIcon('gui/Images/create.png'))
 
         # PAGE 4: See topics' description / generate and plot PyLDAvis
         self.pushButtonShowDescription_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage4))
-        self.pushButtonShowDescription_2.setIcon(QIcon('Images/show.png'))
+        self.pushButtonShowDescription_2.setIcon(QIcon('gui/Images/show.png'))
 
         # PAGE 5: See PyLDAvis plot expanded
         self.pushButtonShowPylavisBig.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage5))
-        self.pushButtonShowPylavisBig.setIcon(QIcon('Images/expand.png'))
+        self.pushButtonShowPylavisBig.setIcon(QIcon('gui/Images/expand.png'))
 
         # PAGE 6: See diagnostics
         self.pushButtonShowDiagnosis.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage6))
         self.pushButtonShowDiagnosis.setIcon(
-            QIcon('Images/diagnostic_white2.png'))
+            QIcon('gui/Images/diagnostic_white2.png'))
 
         # PAGE 7: See diagnostics plot expanded
         self.pushButtonShowDiagnosticsBig.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage7))
-        self.pushButtonShowDiagnosticsBig.setIcon(QIcon('Images/expand.png'))
+        self.pushButtonShowDiagnosticsBig.setIcon(QIcon('gui/Images/expand.png'))
 
         # PAGE 8: Draw diagnostics graphs
         self.pushButtonDraw.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage8))
-        self.pushButtonDraw.setIcon(QIcon('Images/draw_white.png'))
+        self.pushButtonDraw.setIcon(QIcon('gui/Images/draw_white.png'))
 
     def toggleMenu(self, maxWidth):
         """Method to control the movement of the Toggle menu located on the
@@ -346,7 +346,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         # self.loading_window.exec_()  # blocks all other windows until this window is closed.
 
         movie = QtGui.QMovie(
-            'Images/ZC9Y.gif', cacheMode=QtGui.QMovie.CacheAll)
+            'gui/Images/ZC9Y.gif', cacheMode=QtGui.QMovie.CacheAll)
 
         movie_label = QtWidgets.QLabel(alignment=QtCore.Qt.AlignCenter)
         movie_label.setStyleSheet("border: 0px;")

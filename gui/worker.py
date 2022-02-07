@@ -20,7 +20,7 @@ import sys
 import traceback
 from PyQt5 import QtCore
 
-from gui.WorkerSignals import WorkerSignals
+from gui.worker_signals import WorkerSignals
 
 
 class Worker(QtCore.QRunnable):

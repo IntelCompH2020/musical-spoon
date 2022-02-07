@@ -24,7 +24,7 @@ import configparser
 
 from gui.gui import *
 from gui.styles.styleGrey import styleGrey
-from gui.MessagesGui import MessagesGui
+from gui.messages_gui import MessagesGui
 from PyQt5.QtGui import QIcon
 
 
@@ -122,22 +122,17 @@ class PreConfig(QDialog):
         return
 
 
-def main():
-    # Main
-    app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("logo.png"))
-    widget = QtWidgets.QStackedWidget()
-    widget.setWindowTitle("MusicalSpoon")
-    width = widget.frameGeometry().width()
-    height = widget.frameGeometry().height()
-    print(height)
-    print(width)
-    configWindow = PreConfig()
-    widget.addWidget(configWindow)
-    widget.resize(1540, 880)
-    widget.show()
-    sys.exit(app.exec_())
-
-
-if __name__ == '__main__':
-    main()
+# Main
+app = QApplication(sys.argv)
+app.setWindowIcon(QIcon("logo.png"))
+widget = QtWidgets.QStackedWidget()
+widget.setWindowTitle("MusicalSpoon")
+width = widget.frameGeometry().width()
+height = widget.frameGeometry().height()
+print(height)
+print(width)
+configWindow = PreConfig()
+widget.addWidget(configWindow)
+widget.resize(1540, 880)
+widget.show()
+sys.exit(app.exec_())

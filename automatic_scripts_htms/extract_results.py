@@ -261,7 +261,6 @@ def save_in_pickle(structure, pickle_to_save_in):
 
 
 sources = []
-# añadir sólo si endswith 10 topics para el mío
 for x in os.listdir(persistence_path):
     if x.endswith("10_topics.pickle"):
         print(pathlib.Path(persistence_path) / x)

@@ -2,134 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="334b032c-e51d-4500-8ae0-83c87cc48448" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gui/Images/mainWindow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gui/WorkerSignals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MusicalSpoonV3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MusicalSpoonV3.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/ZC9Y.gif" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/ZC9Y.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/create.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/create.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/create_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/diagnostic_white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/diagnostic_white2.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/diagnostic_white2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/diagnostic_white3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/draw.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/draw_white.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/draw_white.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/expand.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/expand.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/folder.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/folder.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/folder_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/help2.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/help2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/help_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/menu.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/menu.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/menu_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/new.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/new.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/settings.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/settings.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/settings_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Images/show.png" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Images/show.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/MessagesGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/MessagesGui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/htms/Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Topic.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/UIS/menuConfig.ui" beforeDir="false" afterPath="$PROJECT_DIR$/gui/UIS/menuConfig.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/UIS/musicalSpoonV1.ui" beforeDir="false" afterPath="$PROJECT_DIR$/gui/UIS/musicalSpoonV1.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/UIS/musicalSpoonV2.ui" beforeDir="false" afterPath="$PROJECT_DIR$/gui/UIS/musicalSpoonV2.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/Worker.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/WorkerSignals.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/automatic_scripts_htms/exec_in_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/automatic_scripts_htms/exec_in_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/automatic_scripts_htms/extract_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/automatic_scripts_htms/extract_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/aux_model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/auxiliary_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/htms/auxiliary_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/config_project.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config_project.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/aux_funcs_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/aux_funcs_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/base_dm_sql.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/base_dm_sql.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/config_database.ini" beforeDir="false" afterPath="$PROJECT_DIR$/database/config_database.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/create_rtve_dataset_def.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/create_rtve_dataset_def.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/getting_text_database_small.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/getting_text_database_small.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/load_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/load_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/database/read_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/read_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/diagnostic_files/d3.js" beforeDir="false" afterPath="$PROJECT_DIR$/gui/diagnostic_files/d3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/diagnostic_files/diagnosis.html" beforeDir="false" afterPath="$PROJECT_DIR$/gui/diagnostic_files/diagnosis.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/init_mallet.py" beforeDir="false" afterPath="$PROJECT_DIR$/htms/init_mallet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/config/options_menu.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/config/parameters.default.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/config_project.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/menu_code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/menu_code/base_taskmanager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/menu_code/menu_navigator/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/styles/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/menu_code/menu_navigator/menu_navigator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/menu_code/task_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/myMenuNavigator/python" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/readme.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/styleDarkOrange.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/styleGrey.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/styles/styleGrey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model/test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Diagnostics_files/d3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Diagnostics_files/diagnosis.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/ZC9Y.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/create.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/create_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/diagnostic_white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/diagnostic_white2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/diagnostic_white3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/draw.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/draw_white.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/expand.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/folder.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/folder_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/help2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/help_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/menu.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/menu_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/new.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/settings.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/settings_blue.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Images/show.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/MessagesGui.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Topic.py" beforeDir="false" afterPath="$PROJECT_DIR$/htms/Topic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/UIS/menuConfig.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/UIS/musicalSpoonV1.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/UIS/musicalSpoonV2.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/Worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/WorkerSignals.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/aux_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/aux_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/auxiliary_functions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/config_project.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/database/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/htms/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/database/aux_funcs_db.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/database/base_dm_sql.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/database/config_database.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/database/getting_text_database_small.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/database/load_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/database/read_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/gui.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/guiToggle.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/init_mallet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/config/options_menu.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/config/parameters.default.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/config_project.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/menu_code/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/menu_code/base_taskmanager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/menu_code/menu_navigator/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/menu_code/menu_navigator/menu_navigator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/menu_code/task_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/myMenuNavigator/python" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/readme.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/styleDarkOrange.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/styleGrey.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hierarchical_topic_model_V1/test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/automatic_scripts_htms/extract_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/automatic_scripts_htms/extract_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config_project.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config_project.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/MessagesGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/messages_gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/WorkerSignals.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/worker_signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/aux_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/aux_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,6 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1644088767613</updated>
       <workItem from="1644088775395" duration="1533000" />
+      <workItem from="1644218782215" duration="1083000" />
     </task>
     <servers />
   </component>
@@ -216,6 +98,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MusicalSpoonV3$main.coverage" NAME="main Coverage Results" MODIFIED="1644090459731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MusicalSpoonV3$main.coverage" NAME="main Coverage Results" MODIFIED="1644219769119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

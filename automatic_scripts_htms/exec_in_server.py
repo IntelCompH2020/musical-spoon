@@ -26,7 +26,7 @@ import pandas as pd
 from colorama import Fore
 
 from htms.init_mallet import create_submodels, train_a_model, train_a_submodel
-from htms.Model import Model
+from htms.model import Model
 
 
 sys.setrecursionlimit(10**6)

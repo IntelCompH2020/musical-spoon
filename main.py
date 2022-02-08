@@ -29,7 +29,7 @@ from PyQt5.QtGui import QIcon
 
 
 class PreConfig(QDialog):
-    def __init__(self):
+    def __init__(self, widget):
         super(PreConfig, self).__init__()
         loadUi("gui/UIS/menuConfig.ui", self)
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -42,6 +42,7 @@ class PreConfig(QDialog):
         self.databaseFile = ""
         self.malletPath = ""
         self.version = "v1"  # default version is v1
+        self.widget = widget
 
         self.selectProjectFolder.clicked.connect(self.getProjectFolder)
         self.selectDatabase.clicked.connect(self.getDatabaseFile)
@@ -116,23 +117,28 @@ class PreConfig(QDialog):
 
         # Change to gui
         mainWindow = UI_MainWindow(self.version)
-        widget.addWidget(mainWindow)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-        widget.resize(1680, 960)
+        self.widget.addWidget(mainWindow)
+        self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
+        self.widget.resize(1680, 960)
         return
 
 
-# Main
-app = QApplication(sys.argv)
-app.setWindowIcon(QIcon("logo.png"))
-widget = QtWidgets.QStackedWidget()
-widget.setWindowTitle("MusicalSpoon")
-width = widget.frameGeometry().width()
-height = widget.frameGeometry().height()
-print(height)
-print(width)
-configWindow = PreConfig()
-widget.addWidget(configWindow)
-widget.resize(1540, 880)
-widget.show()
-sys.exit(app.exec_())
+def main():
+    # Main
+    app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon("logo.png"))
+    widget = QtWidgets.QStackedWidget()
+    widget.setWindowTitle("MusicalSpoon")
+    width = widget.frameGeometry().width()
+    height = widget.frameGeometry().height()
+    print(height)
+    print(width)
+    configWindow = PreConfig(widget)
+    widget.addWidget(configWindow)
+    widget.resize(1540, 880)
+    widget.show()
+    sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()

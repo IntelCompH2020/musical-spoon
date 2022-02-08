@@ -7,7 +7,7 @@ Created on Tue Mar  2 13:19:34 2021
 ***                           CLASS WORKER                                 ***
 ******************************************************************************
 Module that inherits from QRunnable and is used to handler worker
-thread setup, signals and wrap-up. It has been created based on the correspondent
+thread setup, signals and wrap-up. It has been created based on the analogous
 class provided by:
 https://www.pythonguis.com/tutorials/multithreading-pyqt-applications-qthreadpool/.
 """

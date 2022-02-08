@@ -47,7 +47,7 @@ from htms.model import Model
 sys.setrecursionlimit(10**6)
 time = strftime("_%Y-%m-%d_%H-%M-%S", gmtime())
 
-config_file = os.path.dirname(__file__) + '/../config_project.ini' 
+config_file = os.path.dirname(__file__) + '/../config_project.ini'
 config = configparser.ConfigParser()
 config.read(config_file)
 
@@ -62,7 +62,7 @@ mallet_path = config['mallet']['mallet_path']
 ##############################################################################
 def create_model():
     """Creates a model in the "models" folder within the project folder specified by the user, which is read from the configuration file.
-    """    
+    """
     # Path to the models in project folder
     models_dir = pathlib.Path(project_path, "models")
 
@@ -87,8 +87,9 @@ def list_models():
     """Lists all the models (root models, each root model referring to a Hierarchical topic model), and all the submodels under it.
 
     Returns:
-        [List[str]]: List of names, each name referring to a model / submodel.
-    """    
+    --------
+        * List[str]: List of names, each name referring to a model / submodel.
+    """
     # Reload config file just in case changes are found
     config.read(config_file)
     project_path = config['files']['project_path']
@@ -114,8 +115,9 @@ def select_model(model_name):
     """It writes in the configuration file's "selected_model", "model_name" and "persistence_selected" fields the details of the model given by the user.
 
     Args:
-        model_name (str): Name of the model selected by the user.
-    """    
+    -----
+        * model_name (str): Name of the model selected by the user.
+    """
     # Reload config file just in case changes are found
     config.read(config_file)
     project_path = config['files']['project_path']
@@ -152,8 +154,9 @@ def train_model(nr_topics):
     """It trains a root model via LDA Mallet.
 
     Args:
-        nr_topics (int): Number of topics to train the model with.
-    """    
+    -----
+       * nr_topics (int): Number of topics to train the model with.
+    """
     # 1. Get route to model, route to persistence and model's name
     config.read(config_file)
     route_to_model = config['models']['model_selected']
@@ -204,11 +207,16 @@ def show_topic_model_description(model_selected):
        by the user in option 2 and all its submodels.
 
     Args:
-        model_selected (str): Name of the model selected by the user to show its topics' chemical description.
+    -----
+       * model_selected (str): Name of the model selected by the user to show its topics' 
+                               chemical description.
 
     Returns:
-        [List[str]]: List of strings, each string being of the form: "Topic XX - (topic description) - topic's chemical description". The size of the list is given by the number of topics with which the model selected was trained with.
-    """    
+    --------
+       * List[str]: List of strings, each string being of the form: 
+                    "Topic XX - (topic description) - topic's chemical description". 
+                    The size of the list is given by the number of topics with which the model selected was trained with.
+    """
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
     model = pickle.load(infile)
@@ -245,11 +253,15 @@ def show_topics_to_expand(model_selected):
     """From a model selected by the user, its shows all the topics that are available for expansion, as well as its chemical description.
 
     Args:
-        model_selected (str): Model selected by the user.
+    -----
+       * model_selected (str): Model selected by the user.
 
     Returns:
-        [List[str]]: List of strings, each string being of the form: "Topic XX - (topic description) - topic's chemical description". The size of the list is given by the number of topics with which the model selected was trained with.
-    """    
+    --------
+       * List[str]: List of strings, each string being of the form: 
+                    "Topic XX - (topic description) - topic's chemical description". 
+                    The size of the list is given by the number of topics with which the model selected was trained with.
+    """
     # Load the model from the persistence file
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
@@ -273,12 +285,16 @@ def show_topics_to_expand_general(model_selected, model):
     """From a model selected by the user, which does not need to be a child of the model previously selected by the user in the train/select vie, its shows all the topics that are available for expansion, as well as its chemical description.
 
     Args:
-        model_selected (str): Model selected by the user.
-        model (Model): Model structure under which a model is going to be searched.
+    -----
+       * model_selected (str): Model selected by the user.
+       * model (Model): Model structure under which a model is going to be searched.
 
     Returns:
-        [List[str]]: List of strings, each string being of the form: "Topic XX - (topic description) - topic's chemical description". The size of the list is given by the number of topics with which the model selected was trained with.
-    """  
+    --------
+        * List[str]: List of strings, each string being of the form: 
+                     "Topic XX - (topic description) - topic's chemical description". 
+                     The size of the list is given by the number of topics with which the model selected was trained with.
+    """
     models = []
     models_paths = []
     model.print_model(models, models_paths, True, '---', False)
@@ -296,13 +312,18 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
     """It trains a submodel with either HTM-WS or HTM-DS, depending on the user's choice.
 
     Args:
-        model_for_expansion (str): Topic model that has been selected for expansion, i.e. for creating a child submodel from it.
-        selected_topic (int): Topic of the selected model ("model_for_expansion") that has been selected to generate the submodel from.
-        nr_topics (int): Number of topics to train the submodel with.
-        app (UI_MainWindow): GUI
-        version (str): Either "V1" or "V2", indicationg which HTM version is going to be used for the training of the model.
-        thr (float): Threshold for the generation of the submodel's reduced corpus, in case version V2 (i.e. HTM-DS) has been selected by the user.
-    """    
+    -----
+       *  model_for_expansion (str): Topic model that has been selected for expansion, i.e. 
+                                     for creating a child submodel from it.
+       * selected_topic (int):       Topic of the selected model ("model_for_expansion") that 
+                                     has been selected to generate the submodel from.
+       * nr_topics (int):            Number of topics to train the submodel with.
+       * app (UI_MainWindow):        GUI
+       * version (str):              Either "V1" or "V2", indicationg which HTM version is     
+                                     going to be used for the training of the model.
+       * thr (float):                Threshold for the generation of the submodel's reduced 
+                                     corpus, in case version V2 (i.e. HTM-DS) has been selected by the user.
+    """
     # 1. Load model from persistence file
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
@@ -387,47 +408,22 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
     return
 
 
-def save_submodel(submodels_paths, submodels_names, num_topics_all, saving):
-    """[summary]
+def change_description(model_selected, topic, description):
+    """Changes the description of a topic within a topic model by a string that is specified by the user.
 
     Args:
-        submodels_paths ([type]): [description]
-        submodels_names ([type]): [description]
-        num_topics_all ([type]): [description]
-        saving ([type]): [description]
+    -----
+        * model_selected (str): Name of the model which is going to have the description of 
+                                one of its topics changed.
+        * topic (int):          Id of the topic whose description is going to be changed
+        * description (str):    Description that is going to be given to the selected topic.
 
     Returns:
-        [type]: [description]
-    """    
-    # Load the model from the persistence file
-    route_to_persistence = config['models']['persistence_selected']
-    infile = open(route_to_persistence, 'rb')
-    model = pickle.load(infile)
-    infile.close()
-
-    for i in np.arange(0, len(submodels_paths), 1):
-        if saving:
-            new_submodel_path = submodels_paths[i] + \
-                "_" + str(num_topics_all[i]) + "_topics"
-            new_submodel_name = submodels_names[i] + \
-                "_" + str(num_topics_all[i]) + "_topics"
-            model.rename_child(
-                submodels_names[i], new_submodel_name, new_submodel_path)
-            print("")
-            print(Fore.GREEN + "Submodel " + '"' +
-                  new_submodel_name + '"' + "was saved." + Fore.WHITE)
-            print("")
-        else:
-            rmtree(submodels_paths[i])
-            model.delete_child(submodels_names[i])
-    outfile = open(route_to_persistence, 'wb')
-    pickle.dump(model, outfile)
-    outfile.close()
-
-    return new_submodel_name
-
-
-def change_description(model_selected, topic, description):
+    --------
+        * List[str]: Updated list of strings, each string being of the form: 
+                   "Topic XX - (topic description) - topic's chemical description". 
+                   The size of the list is given by the number of topics with which the model selected was trained with.
+    """
     # 1. Load the model from the persitence file
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
@@ -469,6 +465,11 @@ def change_description(model_selected, topic, description):
 
 
 def generatePyLavis(model_to_plot_str):
+    """It generate the PyLDAvis graph a model.
+
+    Args:
+       *  model_to_plot_str (str): Model to get the PyLDAvis representation of.
+    """
     # 1. Load the model from the persitence file
     route_to_persistence = config['models']['persistence_selected']
     infile = open(route_to_persistence, 'rb')
@@ -534,9 +535,17 @@ def generatePyLavis(model_to_plot_str):
 
 
 def delete_model(model_to_delete):
-    # Path to the models in project folder, model path and
-    # persitance path
-    models_dir = pathlib.Path(project_path, "models")
+    """Deletes a model (i.e. root model). Since the root model is the main reference of the hierarchical topic model to which it belongs, all the submodels that are located under it are deleted as well. Hence, both the whole folder with name equals to "model_to_delete" and its respective persistence file are erased from the project folder.
+
+    Args:
+    -----
+        * model_to_delete (str): Name of the model that the user wants to delete.
+
+    Returns:
+    --------
+        * boolean: True indicating that the model has been removed.
+    """
+    # Model path and persitance path
     route_to_model = config['models']['model_selected']
     route_to_persistence = config['models']['persistence_selected']
 
@@ -549,6 +558,16 @@ def delete_model(model_to_delete):
 
 
 def delete_submodel(model_to_delete_str):
+    """Deletes a submodel specified by the user and all the other submodels that are located under it in the hierarchy of the HTM.
+
+    Args:
+    -----
+        * model_to_delete_str (str): Name of the submodel to be deleted.
+
+    Returns:
+    --------
+        * boolean: True indicating that the submodel has been deleted.
+    """
     deleted = False
     # Path to the models in project folder, model path and
     # persitance path
@@ -598,12 +617,29 @@ def delete_submodel(model_to_delete_str):
 
 
 def get_model_xml(path):
+    """Gets a XML ET.Element in which the hierarchical structure of all HTMs contained in the project folder.
+
+    Args:
+    -----
+        * path (str): String referring to the path to the "models" directoy in the project 
+                      folder.
+
+    Returns:
+    --------
+        * ET.Element: Pretty printed XML ElementTree with the project folder's HTMs structure.
+    """
     ret = xml_dir(pathlib.Path(path))
     indent(ret)
     return ret
 
 
 def configure_project_folder(path2project):
+    """It configures the project folder, that is, it creates the "models" and "persistence" directories within it.
+
+    Args:
+    -----
+        * path2project (str): String referring to the path of the project folder.
+    """
     path2project = pathlib.Path(path2project)
     print(path2project)
     models_dir = path2project / "models"
@@ -616,10 +652,22 @@ def configure_project_folder(path2project):
 
 
 def progress_fn(n):
+    """Funtion to print status.
+
+    Args:
+    -----
+        * n (int): Status to print.
+    """
     print("%d%% done" % n)
 
 
 def clearQTreeWidget(tree):
+    """Removes all the elements of a QTreeWidget.
+
+    Args:
+    -----
+        * tree (QTreeWidget): QTreeWidget whose elements are desired to be removed.
+    """
     iterator = QtWidgets.QTreeWidgetItemIterator(
         tree, QtWidgets.QTreeWidgetItemIterator.All)
     while iterator.value():
@@ -632,6 +680,14 @@ def clearQTreeWidget(tree):
 
 
 def printTree(xml_ret, treeWidget):
+    """Displays the elements of a XML ET.Element into a QTreeWidget.
+
+    Args:
+    -----
+        * xml_ret (ET.Element):     ET.Element whose elements are going to be displayed in the 
+                                    QTreeWidget.
+        * treeWidget (QTreeWidget): QTreeWidget object to visualize the items on.
+    """
     treeWidget.setColumnCount(1)
     treeWidget.setHeaderHidden(True)
     a = QtWidgets.QTreeWidgetItem([xml_ret.tag])
@@ -652,6 +708,18 @@ def printTree(xml_ret, treeWidget):
 
 
 def get_pickle(model_selected, project_path):
+    """Gets the pickle in which a model or submodel object is saved.
+
+    Args:
+    -----
+        * model_selected (str): Name of the model or submodel whose persistence file is     
+                                desired to be acquired.
+        * project_path (str):   Path to the project folder.
+
+    Returns:
+    --------
+        * pathlib.Path: Path of the persistence file of the model / submodel.
+    """
     project_path = pathlib.Path(project_path)
     models_dir = (project_path / "persistence").as_posix()
     with os.scandir(models_dir) as entries:
@@ -669,6 +737,18 @@ def get_pickle(model_selected, project_path):
 
 
 def get_root_path(model_selected, project_path):
+    """Gets the persistence file that is associated with a root model.
+
+    Args:
+    -----
+        * model_selected (str): Name of the model whose persistence file is desired to be 
+                                acquired.
+        * project_path (str):   Path to the project folder.
+
+    Returns:
+    --------
+        * pathlib.Path: Persistence file associated with the asked root model.
+    """
     project_path = pathlib.Path(project_path)
     models_dir = (project_path / "persistence").as_posix()
     with os.scandir(models_dir) as entries:
@@ -686,6 +766,25 @@ def get_root_path(model_selected, project_path):
 
 
 def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxis, title, figure_to_save):
+    """Plots a diagnostics graph, i.e. depending on the measures that the user selects, the corresponding scores per topic are extracted from the XML file for each of the models located at the Selected models to plot table, and its average value is calculated and added to the graph. So as to render the figure into the application, the class FigureCanvasQTAgg56 from matplotlib, which is in charge of creating the rendering canvas and drawing the figure on it, is utilized.
+
+    Args:
+    -----
+        * list_diagnostics_id (List[List]): List of lists of the form "diagnostics_path, 
+                                            model_name, topic_id", referring to the path where the Mallet diagnostic file for the model with name "model_name" is located, the name of the topic model that is desired to be represented, and the topic from such a topic model that is desired to be included in the comparisson graph.
+        * measurement (str):                Measurement on the X axis.
+        * measurement2 (str):               Measurement on the Y axis.
+        * xaxis (str):                      Label of the X axis.
+        * yaxis (str):                      Label of the Y axis.
+        * title (str):                      Title of the graph.
+        * figure_to_save (boolean):         Boolean describing whether the user wants to save 
+                                            the graph within the project folder.
+
+    Returns:
+    --------
+        * List[float]: List of values for the X axis.
+        * List[float]: List of values for the Y axis.
+    """
     # version = name.split("v2_")[1].split("_")[0]
     x = []
     y = []
@@ -717,11 +816,15 @@ def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxi
 
 def extract_params(statefile):
     """Extract the alpha and beta values from the statefile.
+    Taken from: http://dissertation.jeriwieringa.com/notebooks/6-Evaluate/pyldavis_and_mallet/
 
     Args:
-        statefile (str): Path to statefile produced by MALLET.
+    -----
+        * statefile (str): Path to statefile produced by MALLET.
+
     Returns:
-        tuple: alpha (list), beta
+    --------
+        * tuple: alpha (list), beta
     """
     with gzip.open(statefile, 'r') as state:
         params = [x.decode('utf8').strip() for x in state.readlines()[1:3]]
@@ -731,11 +834,14 @@ def extract_params(statefile):
 def state_to_df(statefile):
     """Transform state file into pandas dataframe.
     The MALLET statefile is tab-separated, and the first two rows contain the alpha and beta hypterparamters.
+    Taken from: http://dissertation.jeriwieringa.com/notebooks/6-Evaluate/pyldavis_and_mallet/
 
     Args:
-        statefile (str): Path to statefile produced by MALLET.
+    -----
+        * statefile (str): Path to statefile produced by MALLET.
     Returns:
-        datframe: topic assignment for each token in each document of the model
+    --------
+        * datframe: topic assignment for each token in each document of the model
     """
     return pd.read_csv(statefile,
                        compression='gzip',
@@ -747,14 +853,19 @@ def state_to_df(statefile):
 def pivot_and_smooth(df, smooth_value, rows_variable, cols_variable, values_variable):
     """
     Turns the pandas dataframe into a data matrix.
+    Taken from: http://dissertation.jeriwieringa.com/notebooks/6-Evaluate/pyldavis_and_mallet/
+
     Args:
-        df (dataframe): aggregated dataframe
-        smooth_value (float): value to add to the matrix to account for the priors
-        rows_variable (str): name of dataframe column to use as the rows in the matrix
-        cols_variable (str): name of dataframe column to use as the columns in the matrix
-        values_variable(str): name of the dataframe column to use as the values in the matrix
+    -----
+        * df (dataframe):       aggregated dataframe
+        * smooth_value (float): value to add to the matrix to account for the priors
+        * rows_variable (str):  name of dataframe column to use as the rows in the matrix
+        * cols_variable (str):  name of dataframe column to use as the columns in the matrix
+        * values_variable(str): name of the dataframe column to use as the values in the matrix
+
     Returns:
-        dataframe: pandas matrix that has been normalized on the rows.
+    --------
+        * dataframe: pandas matrix that has been normalized on the rows.
     """
     matrix = df.pivot(index=rows_variable, columns=cols_variable,
                       values=values_variable).fillna(value=0)

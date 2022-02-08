@@ -33,10 +33,10 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from gui.messages_gui import MessagesGui
 from gui.worker import Worker
-from gui.aux_model import create_model, list_models, select_model, train_model,         show_topic_model_description, show_topics_to_expand, show_topics_to_expand, train_save_submodels, change_description, generatePyLavis, delete_submodel, delete_model, get_model_xml, configure_project_folder, clearQTreeWidget, printTree, show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics
+from gui.aux_model import create_model, list_models, select_model, train_model,     show_topic_model_description, show_topics_to_expand, show_topics_to_expand, train_save_submodels, change_description, generatePyLavis, delete_submodel, delete_model, get_model_xml, configure_project_folder, clearQTreeWidget, printTree, show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics
 
 
-config_file = os.path.dirname(__file__) + '/../config_project.ini' 
+config_file = os.path.dirname(__file__) + '/../config_project.ini'
 config = configparser.ConfigParser()
 config.read(config_file)
 
@@ -83,11 +83,14 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.infoButtonLoadFiles.setIcon(QIcon('gui/Images/help2.png'))
         self.infoButtonTrainModel.setIcon(QIcon('gui/Images/help2.png'))
         self.infoButtonSelectSubmodel_4.setIcon(QIcon('gui/Images/help2.png'))
-        self.infoButtoSelectTopicExpand_4.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtoSelectTopicExpand_4.setIcon(
+            QIcon('gui/Images/help2.png'))
         self.infoButtonShowDescription.setIcon(QIcon('gui/Images/help2.png'))
         self.infoButtonDiagnostics.setIcon(QIcon('gui/Images/help2.png'))
-        self.infoButtonSelectModelDiagnostic.setIcon(QIcon('gui/Images/help2.png'))
-        self.infoButtonDragTopicDiagnostic.setIcon(QIcon('gui/Images/help2.png'))
+        self.infoButtonSelectModelDiagnostic.setIcon(
+            QIcon('gui/Images/help2.png'))
+        self.infoButtonDragTopicDiagnostic.setIcon(
+            QIcon('gui/Images/help2.png'))
 
         self.infoButtonSelectDataset.setToolTip(
             MessagesGui.INFO_SELECT_DATASET)
@@ -244,7 +247,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         # PAGE 1: Configuration: Change dataset, see porject settings
         self.pushButtonConfiguration_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage))
-        self.pushButtonConfiguration_2.setIcon(QIcon('gui/Images/settings.png'))
+        self.pushButtonConfiguration_2.setIcon(
+            QIcon('gui/Images/settings.png'))
 
         # PAGE 2: Create new model/select model /train model /delete model
         self.pushButtonSelectModel_2.clicked.connect(
@@ -275,7 +279,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         # PAGE 7: See diagnostics plot expanded
         self.pushButtonShowDiagnosticsBig.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage7))
-        self.pushButtonShowDiagnosticsBig.setIcon(QIcon('gui/Images/expand.png'))
+        self.pushButtonShowDiagnosticsBig.setIcon(
+            QIcon('gui/Images/expand.png'))
 
         # PAGE 8: Draw diagnostics graphs
         self.pushButtonDraw.clicked.connect(
@@ -540,7 +545,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         QtWidgets.QMessageBox.information(self, 'MusicalSpoon message',
                                           "All values were restore to the default settings.")
-        # self.logging.info('All values were restore to the default settings.')
 
         self.show_models()
         self.refresh()
@@ -966,9 +970,9 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
     def clicked_train_submodel(self):
         """Method to control the training of a submodel. It checks whether the
-                parameters selected for training the model are adequate and calls the
-                execution in thread in case the parameters are satisfied
-                """
+            parameters selected for training the model are adequate and calls the
+            execution in thread in case the parameters are satisfied
+        """
         self.inicio = time.time()
         self.tableWidgetSubmodelTrained_4.clearContents()
         route_to_models = pathlib.Path(project_path, "models")
@@ -1425,7 +1429,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         return
 
     def clicked_showTopicsDragDiagnosis(self):
-
+        """Method to control the showing of  the topics that can be dragged in the "Draw graph" view for selecting the the topics that is desired to have represented in the graph.
+        """
         config.read(config_file)
         project_path = config['files']['project_path']
 
@@ -1476,7 +1481,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         return
 
     def click_draw_diagnosis(self):
-
+        """Method to control the showing of the diagnostic graph of the selected model/submodel when the button "See diagnosis" is clicked.
+        """
         if not self.comboBox.currentText():
             QtWidgets.QMessageBox.warning(self, 'MusicalSpoon message',
                                           "You must select a measurement for the Y axis to be represented in the graph.")
@@ -1530,6 +1536,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.canvas.draw()
 
     def clear_tables_graph_diagnostics(self):
+        """Method to control the erasing of the contents of the tables "Available model/submodels in the selected HTM" and "Selected models to plot" in the "Draw graphs" view when the button "Clear" is clicked."
+        """
         self.tableDragFrom.clearContents()
         self.tableDragTo.clearContents()
         self.figure.clear()

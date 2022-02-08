@@ -71,6 +71,18 @@ def cmd(command):
 
 
 def xml_dir(pth, et_element=None):
+    """Recursively creates an xml file which lists all the contents of a directory. Based on:
+    https://stackoverflow.com/questions/44435618/python-programatically-create-an-xml-file-which-lists-all-the-contents-of-a-dir
+
+    Args:
+    -----
+        pth (Pathlib.path): Directory whose contents are going to be listed.
+        et_element (ET.Element, optional): Root of the XML file. Defaults to None.
+
+    Returns:
+    --------
+        ET.Element: ET structure of the directoy
+    """
     if et_element is None:
         et_element = ET.Element(pth.name)
     else:
@@ -84,6 +96,15 @@ def xml_dir(pth, et_element=None):
 
 
 def indent(elem, level=0):
+    """Pretty prints a XML ElementTree. 
+    Taken from: http://effbot.org/zone/element-lib.htm#prettyprint
+
+
+    Args:
+    -----
+        elem (ET.Element):     XML ElementTree to pretty print.
+        level (int, optional): Level to start the indentation at. Defaults to 0.
+    """
     i = "\n" + level * "  "
     if len(elem):
         if not elem.text or not elem.text.strip():

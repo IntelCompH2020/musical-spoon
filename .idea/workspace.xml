@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="334b032c-e51d-4500-8ae0-83c87cc48448" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/aux_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/aux_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/worker_signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/worker_signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/htms/auxiliary_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/htms/auxiliary_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="334b032c-e51d-4500-8ae0-83c87cc48448" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -101,7 +93,7 @@
       <updated>1644088767613</updated>
       <workItem from="1644088775395" duration="1533000" />
       <workItem from="1644218782215" duration="1793000" />
-      <workItem from="1644301789465" duration="3270000" />
+      <workItem from="1644301789465" duration="3376000" />
     </task>
     <servers />
   </component>
@@ -121,6 +113,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MusicalSpoonV3$gui.coverage" NAME="gui Coverage Results" MODIFIED="1644301878658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gui" />
-    <SUITE FILE_PATH="coverage/MusicalSpoonV3$main.coverage" NAME="main Coverage Results" MODIFIED="1644308946366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MusicalSpoonV3$main.coverage" NAME="main Coverage Results" MODIFIED="1644327385144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

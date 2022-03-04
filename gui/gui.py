@@ -287,25 +287,27 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             lambda: self.tabs.setCurrentWidget(self.tabsPage8))
         self.pushButtonDraw.setIcon(QIcon('gui/Images/draw_white.png'))
 
-    def toggleMenu(self, maxWidth):
+    def toggleMenu(self, max_width):
         """Method to control the movement of the Toggle menu located on the
         left. When collapsed, only the icon for each of the options is shown;
         when expanded, both icons and name indicating the description of the
         functionality are shown.
+        It has been built based on the code available at:
+        https://github.com/Wanderson-Magalhaes/Toggle_Burguer_Menu_Python_PySide2/blob/master/ui_functions.py
 
         Parameters:
         ----------
-        * maxWidth  -  Maximum width to which the toggle menu is going to be
+        * max_width  -  Maximum width to which the toggle menu is going to be
                        expanded.
         """
         # GET WIDTH
         width = self.frame_left_menu.width()
-        maxExtend = maxWidth
+        max_extend = max_width
         standard = 70
 
         # SET MAX WIDTH
         if width == 70:
-            widthExtended = maxExtend
+            width_extended = max_extend
             # SHOW TEXT INSTEAD OF ICON
             self.pushButtonConfiguration_2.setText('Configuration')
             self.pushButtonSelectModel_2.setText('Select model')
@@ -313,24 +315,24 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.pushButtonTrainSubmodel_2.setText('Edit model')
             self.pushButtonShowDiagnosis.setText('Diagnostics')
             self.pushButtonDraw.setText('Draw graph')
-            self.label_logo.setFixedSize(widthExtended, widthExtended)
+            self.label_logo.setFixedSize(width_extended, width_extended)
 
         else:
-            widthExtended = standard
+            width_extended = standard
             self.pushButtonConfiguration_2.setText('')
             self.pushButtonSelectModel_2.setText('')
             self.pushButtonShowDescription_2.setText('')
             self.pushButtonTrainSubmodel_2.setText('')
             self.pushButtonShowDiagnosis.setText('')
             self.pushButtonDraw.setText('')
-            self.label_logo.setFixedSize(widthExtended, widthExtended)
+            self.label_logo.setFixedSize(width_extended, width_extended)
 
         # ANIMATION
         self.animation = QtCore.QPropertyAnimation(
             self.frame_left_menu, b"minimumWidth")
         self.animation.setDuration(400)
         self.animation.setStartValue(width)
-        self.animation.setEndValue(widthExtended)
+        self.animation.setEndValue(width_extended)
         self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
         self.animation.start()
 

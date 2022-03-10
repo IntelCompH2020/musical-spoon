@@ -153,7 +153,7 @@ class Model():
             return
         else:
             for i in np.arange(0, len(model.topics_models), 1):
-                if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
+                if str(type(model.topics_models[i])) == "<class 'htms.model.Model'>":
                     if model.topics_models[i].model_name == model_selected:
                         model.topics_models[i].topics_models.append(self)
                         return
@@ -172,7 +172,7 @@ class Model():
         * model          - Father model
         """
         for i in np.arange(0, len(self.topics_models), 1):
-            if str(type(self.topics_models[i])) == "<class 'Model.Model'>":
+            if str(type(self.topics_models[i])) == "<class 'htms.model.Model'>":
                 if self.topics_models[i].model_name == old_name:
                     self.topics_models[i].set_name(new_name)
                     self.topics_models[i].set_path(new_path)
@@ -192,7 +192,7 @@ class Model():
         * model          - Father model
         """
         for i in np.arange(0, len(self.topics_models), 1):
-            if str(type(self.topics_models[i])) == "<class 'Model.Model'>":
+            if str(type(self.topics_models[i])) == "<class 'htms.model.Model'>":
                 if self.topics_models[i].model_name == model_to_delete:
                     self.topics_models.pop(i)
                     print("removed")
@@ -213,7 +213,7 @@ class Model():
             return
         else:
             for i in np.arange(0, len(model.topics_models), 1):
-                if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
+                if str(type(model.topics_models[i])) == "<class 'htms.model.Model'>":
                     if model.topics_models[i].model_name == father_model:
                         self.father_models.append(
                             model.topics_models[i].model_name)
@@ -235,7 +235,7 @@ class Model():
             return self
         else:
             for i in np.arange(0, len(self.topics_models), 1):
-                if str(type(self.topics_models[i])) == "<class 'Model.Model'>":
+                if str(type(self.topics_models[i])) == "<class 'htms.model.Model'>":
                     result = self.topics_models[i].look_for_model(name)
                     if result:
                         return result
@@ -252,7 +252,7 @@ class Model():
             return
         else:
             for i in np.arange(0, len(self.topics_models), 1):
-                if str(type(self.topics_models[i])) == "<class 'Model.Model'>":
+                if str(type(self.topics_models[i])) == "<class 'htms.model.Model'>":
                     if self.topics_models[i].model_name == new_submodel.model_name:
                         self.topics_models[i] = new_submodel
                     else:
@@ -282,7 +282,7 @@ class Model():
 
         else:
             for i in np.arange(0, len(self.topics_models), 1):
-                if str(type(self.topics_models[i])) == "<class 'Model.Model'>":
+                if str(type(self.topics_models[i])) == "<class 'htms.model.Model'>":
                     models_names.append(self.topics_models[i].model_name)
                     models_paths.append(self.topics_models[i].model_path)
                     model_ident = ident * \
@@ -316,7 +316,7 @@ class Model():
             self.print_model(models_names, models_paths, route_model, ident)
         else:
             for i in np.arange(0, len(self.topics_models), 1):
-                if str(type(self.topics_models[i])) == "<class 'Model.Model'>":
+                if str(type(self.topics_models[i])) == "<class 'htms.model.Model'>":
                     models_names.append(self.topics_models[i].model_name)
                     models_paths.append(self.topics_models[i].model_path)
                     model_ident = ident * \
@@ -437,7 +437,7 @@ class Model():
         print("Write the name you want to give for each topic.")
         print("If there is a topic for which you do not want to give a description, press Enter.")
         for i in np.arange(0, len(self.topics_models), 1):
-            if str(type(self.topics_models[i])) == "<class 'Topic.Topic'>":
+            if str(type(self.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 while True:
                     try:
                         print("")
@@ -450,7 +450,7 @@ class Model():
         # Create document "model_ids"
         topic_ids = []
         for i in np.arange(0, len(self.topics_models), 1):
-            if str(type(self.topics_models[i])) == "<class 'Topic.Topic'>":
+            if str(type(self.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 if self.topics_models[i].get_description_name() == "":
                     topic_ids.append("* TOPIC " + str(self.topics_models[i].get_topics()) + " -> " + str(
                         self.topics_models[i].get_description()))
@@ -474,13 +474,13 @@ class Model():
         * topic_name     - Name that is going to be given to the topic.
         """
         for i in np.arange(0, len(self.topics_models), 1):
-            if str(type(self.topics_models[i])) == "<class 'Topic.Topic'>":
+            if str(type(self.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 if self.topics_models[i].id_topic == topic_id:
                     self.topics_models[i].set_description_name(topic_name)
             # Create document "model_ids"
         topic_ids = []
         for i in np.arange(0, len(self.topics_models), 1):
-            if str(type(self.topics_models[i])) == "<class 'Topic.Topic'>":
+            if str(type(self.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 # reducir para que no haga el bloque completo
                 if self.topics_models[i].get_description_name() == "":
                     topic_ids.append("* TOPIC " + str(self.topics_models[i].get_topics()) + " -> " + str(

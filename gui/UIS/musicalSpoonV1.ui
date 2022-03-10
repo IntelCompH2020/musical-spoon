@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1201</width>
-    <height>880</height>
+    <width>1115</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -37,6 +37,10 @@ QToolTip {
    <property name="styleSheet">
     <string notr="true">background: transparent;
 color: rgb(0, 0, 0);
+
+QWidget{
+	font: 12pt &quot;Arial&quot;;
+}
 
 </string>
    </property>
@@ -845,6 +849,12 @@ border:2px #676A6E;</string>
                                 <height>35</height>
                                </size>
                               </property>
+                              <property name="maximumSize">
+                               <size>
+                                <width>35</width>
+                                <height>35</height>
+                               </size>
+                              </property>
                               <property name="styleSheet">
                                <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -968,6 +978,12 @@ QHeaderView::section:vertical
                             <height>50</height>
                            </size>
                           </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>50</width>
+                            <height>50</height>
+                           </size>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -1074,8 +1090,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1039</width>
-                             <height>271</height>
+                             <width>953</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1326,8 +1342,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1039</width>
-                             <height>270</height>
+                             <width>953</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1507,8 +1523,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1039</width>
-                             <height>275</height>
+                             <width>953</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1759,8 +1775,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1039</width>
-                             <height>276</height>
+                             <width>953</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1947,8 +1963,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1039</width>
-                             <height>216</height>
+                             <width>953</width>
+                             <height>139</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2192,6 +2208,12 @@ QPushButton:pressed {
                            </sizepolicy>
                           </property>
                           <property name="minimumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
                            <size>
                             <width>35</width>
                             <height>35</height>
@@ -2448,6 +2470,12 @@ QPushButton:pressed {
                             <height>35</height>
                            </size>
                           </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -2539,7 +2567,7 @@ QLineEdit:focus {
                           <property name="font">
                            <font>
                             <family>MS Shell Dlg 2</family>
-                            <pointsize>8</pointsize>
+                            <pointsize>13</pointsize>
                            </font>
                           </property>
                           <property name="styleSheet">
@@ -2686,6 +2714,12 @@ QHeaderView::section:vertical
                           <height>35</height>
                          </size>
                         </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>35</width>
+                          <height>35</height>
+                         </size>
+                        </property>
                         <property name="styleSheet">
                          <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -2807,6 +2841,12 @@ QHeaderView::section:vertical
                          </sizepolicy>
                         </property>
                         <property name="minimumSize">
+                         <size>
+                          <width>35</width>
+                          <height>35</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
                          <size>
                           <width>35</width>
                           <height>35</height>
@@ -3412,6 +3452,12 @@ QHeaderView::section:vertical
                             <height>35</height>
                            </size>
                           </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -3713,6 +3759,12 @@ QPushButton:pressed {
                              </sizepolicy>
                             </property>
                             <property name="minimumSize">
+                             <size>
+                              <width>35</width>
+                              <height>35</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
                              <size>
                               <width>35</width>
                               <height>35</height>

@@ -22,6 +22,7 @@ import configparser
 import os
 import pathlib
 import pickle
+import gzip
 
 import sys
 import xml.etree.ElementTree as ET
@@ -44,7 +45,7 @@ from htms.model import Model
 ##############################################################################
 #                                CONFIG                                      #
 ##############################################################################
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10 ** 6)
 time = strftime("_%Y-%m-%d_%H-%M-%S", gmtime())
 
 config_file = os.path.dirname(__file__) + '/../config_project.ini'
@@ -69,7 +70,7 @@ def create_model():
     # Available models
     models = [model.name for model in models_dir.iterdir() if model.is_dir()]
     model_name = "model" + time + "_" + str(randrange(100))
-    if not(os.path.isdir((models_dir / model_name).as_posix())):
+    if not (os.path.isdir((models_dir / model_name).as_posix())):
         # 1.1. Create model's folder
         model_selected = (models_dir / model_name).as_posix()
         os.makedirs(model_selected)
@@ -141,10 +142,10 @@ def select_model(model_name):
             model_selected_nr = model_nr
 
     config.read(config_file)
-    config.set('models', 'model_selected', models_list[model_selected_nr-1])
-    config.set('models', 'model_name',  models_name[model_selected_nr-1])
-    persis_name = models_name[model_selected_nr-1] + ".pickle"
-    config.set('models', 'persistence_selected',  pathlib.Path(
+    config.set('models', 'model_selected', models_list[model_selected_nr - 1])
+    config.set('models', 'model_name', models_name[model_selected_nr - 1])
+    persis_name = models_name[model_selected_nr - 1] + ".pickle"
+    config.set('models', 'persistence_selected', pathlib.Path(
         route_to_persistence, persis_name).as_posix())
     with open(config_file, 'w') as configfile:
         config.write(configfile)
@@ -188,7 +189,7 @@ def train_model(nr_topics):
 
     # 2.5. Save the model object created into the persitence file
     name_persistance = name + "_" + \
-        str(model.num_topics) + "_topics" + ".pickle"
+                       str(model.num_topics) + "_topics" + ".pickle"
     filename_persistence = pathlib.Path(
         route_to_persistence, name_persistance).as_posix()
     outfile = open(filename_persistence, 'wb')
@@ -237,7 +238,7 @@ def show_topic_model_description(model_selected):
                 model_selected_path = models_paths[i]
         file = pathlib.Path(model_selected_path, model_ids)
 
-        if not(os.path.isfile((file).as_posix())):
+        if not (os.path.isfile((file).as_posix())):
             print("")
             print("The model " + '"' + model_selected_path +
                   '"' + " has not been trained yet.")
@@ -387,9 +388,9 @@ def train_save_submodels(model_for_expansion, selected_topic, nr_topics, app, ve
         for i in np.arange(0, len(submodels_paths), 1):
             if saving:
                 new_submodel_path = submodels_paths[i] + \
-                    "_" + str(num_topics_all[i]) + "_topics"
+                                    "_" + str(num_topics_all[i]) + "_topics"
                 new_submodel_name = submodels_names[i] + \
-                    "_" + str(num_topics_all[i]) + "_topics"
+                                    "_" + str(num_topics_all[i]) + "_topics"
                 app.new_submodel = new_submodel_name
                 model.rename_child(
                     submodels_names[i], new_submodel_name, new_submodel_path)
@@ -465,7 +466,7 @@ def change_description(model_selected, topic, description):
 
 
 def generatePyLavis(model_to_plot_str):
-    """It generate the PyLDAvis graph a model.
+    """It generates the PyLDAvis graph a model.
 
     Args:
        *  model_to_plot_str (str): Model to get the PyLDAvis representation of.
@@ -489,10 +490,10 @@ def generatePyLavis(model_to_plot_str):
         if models[i] == model_to_plot_str:
             model_to_plot_path = models_paths[i]
 
-    model_to_plot = model.look_for_model(model_to_plot_str)
-
     params = extract_params(os.path.join(model_to_plot_path, 'topic-state.gz'))
+    print(params)
     alpha = [float(x) for x in params[0][1:]]
+    print("alpha", alpha)
     beta = params[1]
     print("{}, {}".format(alpha, beta))
 
@@ -509,14 +510,18 @@ def generatePyLavis(model_to_plot_str):
     vocab.columns = ['type', 'term_freq']
     vocab = vocab.sort_values(by='type', ascending=True)
 
+    print(len(vocab))
+
     phi_df = df_lda.groupby(['topic', 'type'])[
         'type'].count().reset_index(name='token_count')
     phi_df = phi_df.sort_values(by='type', ascending=True)
     phi = pivot_and_smooth(phi_df, beta, 'topic', 'type', 'token_count')
+    print(phi_df)
 
     theta_df = df_lda.groupby(['#doc', 'topic'])[
         'topic'].count().reset_index(name='topic_count')
     theta = pivot_and_smooth(theta_df, alpha, '#doc', 'topic', 'topic_count')
+    print(theta_df)
 
     data = {'topic_term_dists': phi,
             'doc_topic_dists': theta,
@@ -526,6 +531,111 @@ def generatePyLavis(model_to_plot_str):
             }
 
     vis_data = pyLDAvis.prepare(**data)
+    pyLDAvis.display(vis_data)
+
+    file = pathlib.Path(model_to_plot_path, "pyLDAvis.html").as_posix()
+    pyLDAvis.save_html(vis_data, file)
+
+    return
+
+
+def plotLDAvis(model_to_plot_str):
+    """
+    Prepare information to represent topics with pyLDAvis
+
+    Parameters
+    ----------
+        dir_model: Path
+            Location of model files
+        data_txt: Path
+            Path to training data.txt (original texts)
+
+    Output
+    ------
+        vis_data: pyLDAvis
+            Data for visualization
+
+    """
+
+    route_to_persistence = config['models']['persistence_selected']
+    infile = open(route_to_persistence, 'rb')
+    model = pickle.load(infile)
+    infile.close()
+
+    models = []
+    models_paths = []
+    model.print_model(models, models_paths, True, '---', False)
+
+    if not models:
+        print("Any model has been trained yet.")
+        print("Go to option 2 in order to trained the model selected in option 1.")
+        return
+
+    for i in np.arange(0, len(models), 1):
+        if models[i] == model_to_plot_str:
+            model_to_plot_path = models_paths[i]
+
+    if "Submodel" in model_to_plot_str:
+        data_txt = pathlib.Path(model_to_plot_path, "submodel.txt")
+    else:
+        data_txt = pathlib.Path(config['files']['source_path'])
+
+    # Doctopics
+    with pathlib.Path(model_to_plot_path, "doc-topics.txt").open("r", encoding="utf8") as f:
+        doc_topic_dists = np.array(
+            [el.strip().split()[2:] for el in f.readlines()]
+        ).astype(float)
+
+    # Word weights
+    topic_term_dists = np.loadtxt(
+        pathlib.Path(model_to_plot_path, "topic-word-weights.txt"),
+        delimiter="\t",
+        dtype=str,
+        encoding="utf8",
+    )
+
+    df = pd.DataFrame(data=topic_term_dists, columns=["topic", "term", "prob"])
+    df.prob = pd.to_numeric(df.prob)
+    table = pd.pivot_table(
+        df, values=["prob"], index=["topic"], columns=["term"], fill_value=0
+    )
+    topic_term_dists = table.to_numpy()
+
+    # Doc lengths
+    with data_txt.open("r", encoding="utf8") as f:
+        corpus = [el.strip().split()[2:] for el in f.readlines()]
+        doc_lengths = [len(c) for c in corpus]
+
+    # Vocabulary and total number of appearances
+    with pathlib.Path(model_to_plot_path, "word-topic-counts.txt").open("r", encoding="utf8") as f:
+        word_counts = np.array([el.strip() for el in f.readlines()])
+        vocab = []
+        term_frequency = []
+        for t in word_counts:
+            t = t.split()
+            vocab.append(t[1])
+            term_frequency.append(
+                np.array([c.split(":")[1] for c in t[2:]]).astype(int).sum()
+            )
+        vocab, term_frequency = zip(
+            *(
+                [
+                    (v, f)
+                    for v, f in sorted(zip(vocab, term_frequency), key=lambda el: el[0])
+                ]
+            )
+        )
+
+    # Prepare pyLDAvis
+    vis_data = pyLDAvis.prepare(
+        topic_term_dists,
+        doc_topic_dists,
+        doc_lengths,
+        vocab,
+        term_frequency,
+        sort_topics=False,
+    )
+
     pyLDAvis.display(vis_data)
 
     file = pathlib.Path(model_to_plot_path, "pyLDAvis.html").as_posix()
@@ -731,7 +841,7 @@ def get_pickle(model_selected, project_path):
                     return entry.path
                 else:
                     for i in np.arange(0, len(model.topics_models), 1):
-                        if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
+                        if str(type(model.topics_models[i])) == "<class 'htms.model.Model'>":
                             if model.topics_models[i].model_name == model_selected:
                                 return entry.path
 
@@ -741,7 +851,7 @@ def get_root_path(model_selected, project_path):
 
     Args:
     -----
-        * model_selected (str): Name of the model whose persistence file is desired to be 
+        * model_selected (str): Name of the model whose persistence file is desired to be
                                 acquired.
         * project_path (str):   Path to the project folder.
 
@@ -760,7 +870,7 @@ def get_root_path(model_selected, project_path):
                     return model.model_path
                 else:
                     for i in np.arange(0, len(model.topics_models), 1):
-                        if str(type(model.topics_models[i])) == "<class 'Model.Model'>":
+                        if str(type(model.topics_models[i])) == "<class 'htms.model.Model'>":
                             if model.topics_models[i].model_name == model_selected:
                                 return model.model_path
 
@@ -796,7 +906,10 @@ def plot_diagnostics(list_diagnostics_id, measurement, measurement2, xaxis, yaxi
         model_name = el[1]
         topic_id = el[2]
         if measurement2 == "threshold":
-            valueY = model_name.split("v2_")[1].split("_")[0]
+            if "v2" in model_name:
+                valueY = model_name.split("_")[-2]
+            else:
+                valueY = model_name.split("v2_")[1].split("_")[0]
         elif measurement2 == "topics":
             valueY = model_name.split("_")[-2]
         else:

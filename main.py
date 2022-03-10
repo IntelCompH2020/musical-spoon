@@ -119,7 +119,7 @@ class PreConfig(QDialog):
         mainWindow = UI_MainWindow(self.version)
         self.widget.addWidget(mainWindow)
         self.widget.setCurrentIndex(self.widget.currentIndex() + 1)
-        self.widget.resize(1680, 960)
+        self.widget.showMaximized()
         return
 
 
@@ -135,7 +135,7 @@ def main():
     print(width)
     configWindow = PreConfig(widget)
     widget.addWidget(configWindow)
-    widget.resize(1540, 880)
+    widget.showMaximized()
     widget.show()
     sys.exit(app.exec_())
 

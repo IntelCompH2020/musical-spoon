@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1487</width>
-    <height>872</height>
+    <width>1205</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,7 +26,8 @@
    <string>Musical Spoon</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {background: transparent; }
+   <string notr="true">QMainWindow {background: transparent; 
+color:black;}
 QToolTip {
 	color: #ffffff;
 	background-color: #676A6E;
@@ -37,6 +38,10 @@ QToolTip {
    <property name="styleSheet">
     <string notr="true">background: transparent;
 color: rgb(0, 0, 0);
+
+QWidget{
+	font: 12pt &quot;Arial&quot;;
+}
 
 </string>
    </property>
@@ -190,7 +195,8 @@ color: rgb(0, 0, 0);
 	background-repeat: no-reperat;
 	border: none;
 	background-color: #676A6E;
-	padding-left: 5px;
+	padding-left: 20px;
+	text-align: left;
 }
 QPushButton:hover {
 	background-color: #676A6E;
@@ -502,10 +508,10 @@ QPushButton:pressed {
         background-position: left center;
         background-repeat: no-repeat;
         color: rgb(255, 255, 255);
-		 border: none;
+	    border: none;
         background-color: #676A6E;
         text-align: left;
-        padding-left: 15px;
+        padding-left:20px;
     }
     QPushButton[Active=true] {
         background-image: ICON_REPLACE;
@@ -514,7 +520,7 @@ QPushButton:pressed {
         border: none;
         background-color: #676A6E;
         text-align: left;
-		 padding-left: 15px;
+		 padding-left: 10px;
     }
     QPushButton:hover {
         background-color: #676A6E;
@@ -543,10 +549,10 @@ QPushButton:pressed {
         background-position: left center;
         background-repeat: no-repeat;
         color: rgb(255, 255, 255);
-		 border: none;
+	    border: none;
         background-color: #676A6E;
         text-align: left;
-        padding-left: 15px;
+        padding-left: 20px;
     }
     QPushButton[Active=true] {
         background-image: ICON_REPLACE;
@@ -555,7 +561,7 @@ QPushButton:pressed {
         border: none;
         background-color: #676A6E;
         text-align: left;
-		 padding-left: 15px;
+		 padding-left: 10px;
     }
     QPushButton:hover {
         background-color: #676A6E;
@@ -584,10 +590,10 @@ QPushButton:pressed {
         background-position: left center;
         background-repeat: no-repeat;
         color: rgb(255, 255, 255);
-		 border: none;
+	    border: none;
         background-color: #676A6E;
         text-align: left;
-        padding-left: 15px;
+        padding-left: 20px;
     }
     QPushButton[Active=true] {
         background-image: ICON_REPLACE;
@@ -596,7 +602,7 @@ QPushButton:pressed {
         border: none;
         background-color: #676A6E;
         text-align: left;
-		 padding-left: 15px;
+		 padding-left: 10px;
     }
     QPushButton:hover {
         background-color: #676A6E;
@@ -625,10 +631,10 @@ QPushButton:pressed {
         background-position: left center;
         background-repeat: no-repeat;
         color: rgb(255, 255, 255);
-		 border: none;
+	    border: none;
         background-color: #676A6E;
         text-align: left;
-        padding-left: 15px;
+        padding-left: 20px;
     }
     QPushButton[Active=true] {
         background-image: ICON_REPLACE;
@@ -637,7 +643,7 @@ QPushButton:pressed {
         border: none;
         background-color: #676A6E;
         text-align: left;
-		 padding-left: 15px;
+		 padding-left: 10px;
     }
     QPushButton:hover {
         background-color: #676A6E;
@@ -666,10 +672,10 @@ QPushButton:pressed {
         background-position: left center;
         background-repeat: no-repeat;
         color: rgb(255, 255, 255);
-		 border: none;
+	    border: none;
         background-color: #676A6E;
         text-align: left;
-        padding-left: 15px;
+        padding-left: 20px;
     }
     QPushButton[Active=true] {
         background-image: ICON_REPLACE;
@@ -678,7 +684,7 @@ QPushButton:pressed {
         border: none;
         background-color: #676A6E;
         text-align: left;
-		 padding-left: 15px;
+		 padding-left: 10px;
     }
     QPushButton:hover {
         background-color: #676A6E;
@@ -707,10 +713,10 @@ QPushButton:pressed {
         background-position: left center;
         background-repeat: no-repeat;
         color: rgb(255, 255, 255);
-		 border: none;
+	    border: none;
         background-color: #676A6E;
         text-align: left;
-        padding-left: 15px;
+        padding-left: 20px;
     }
     QPushButton[Active=true] {
         background-image: ICON_REPLACE;
@@ -719,7 +725,7 @@ QPushButton:pressed {
         border: none;
         background-color: #676A6E;
         text-align: left;
-		 padding-left: 15px;
+		 padding-left: 10px;
     }
     QPushButton:hover {
         background-color: #676A6E;
@@ -927,6 +933,12 @@ border:2px #676A6E;</string>
                                 <height>35</height>
                                </size>
                               </property>
+                              <property name="maximumSize">
+                               <size>
+                                <width>35</width>
+                                <height>35</height>
+                               </size>
+                              </property>
                               <property name="styleSheet">
                                <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -1046,8 +1058,14 @@ QHeaderView::section:vertical
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>50</width>
-                            <height>50</height>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
                            </size>
                           </property>
                           <property name="styleSheet">
@@ -1156,8 +1174,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1325</width>
-                             <height>267</height>
+                             <width>1043</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1408,8 +1426,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1325</width>
-                             <height>266</height>
+                             <width>1043</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1589,8 +1607,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1325</width>
-                             <height>271</height>
+                             <width>1043</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -1841,8 +1859,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1325</width>
-                             <height>272</height>
+                             <width>1043</width>
+                             <height>166</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2029,8 +2047,8 @@ QHeaderView::section:vertical
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>1325</width>
-                             <height>215</height>
+                             <width>1043</width>
+                             <height>139</height>
                             </rect>
                            </property>
                            <attribute name="label">
@@ -2282,6 +2300,12 @@ QPushButton:pressed {
                             <height>35</height>
                            </size>
                           </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -2323,7 +2347,11 @@ QPushButton:pressed {
                          <widget class="QListWidget" name="column_listSelectModel">
                           <property name="font">
                            <font>
-                            <pointsize>8</pointsize>
+                            <family>Arial</family>
+                            <pointsize>12</pointsize>
+                            <weight>50</weight>
+                            <italic>false</italic>
+                            <bold>false</bold>
                            </font>
                           </property>
                           <property name="styleSheet">
@@ -2333,6 +2361,7 @@ QPushButton:pressed {
 	border-radius: 5px;
 	gridline-color: #DFE6ED;
 	border-bottom: 1px solid #DFE6ED;
+	font: 12pt &quot;Arial&quot;;
 }
 QListWidget::item{
 	border-color: #DFE6ED;
@@ -2533,6 +2562,12 @@ QPushButton:pressed {
                             <height>35</height>
                            </size>
                           </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -2663,16 +2698,18 @@ QPushButton:pressed {
                         <property name="styleSheet">
                          <string notr="true">QTableWidget {	
 	background-color: rgb(235, 242, 250);
-	padding: 10px;
+	padding: 0px;
 	border-radius: 5px;
 	gridline-color: #DFE6ED;
 	border-bottom: 1px solid #DFE6ED;
 }
 QTableWidget::item{
-	border-color: #DFE6ED;
 	padding-left: 5px;
 	padding-right: 5px;
-	gridline-color: #DFE6ED;
+    	border-bottom: 0.7px solid #DFE6ED;
+	border-top: 0.7px solid #DFE6ED;
+	border-left: 0.7px solid #DFE6ED;
+	border-right: 0.7px solid #DFE6ED;
 }
 QTableWidget::item:selected{
 	background-color: #C7CDDA;
@@ -2709,12 +2746,10 @@ QHeaderView::section:horizontal
 	padding: 3px;
 	border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-}
-QHeaderView::section:vertical
-{
-    border: 1px solid #A3A8AD;
-}
-</string>
+}</string>
+                        </property>
+                        <property name="sizeAdjustPolicy">
+                         <enum>QAbstractScrollArea::AdjustToContents</enum>
                         </property>
                         <property name="editTriggers">
                          <set>QAbstractItemView::NoEditTriggers</set>
@@ -2772,6 +2807,12 @@ QHeaderView::section:vertical
                                </sizepolicy>
                               </property>
                               <property name="minimumSize">
+                               <size>
+                                <width>35</width>
+                                <height>35</height>
+                               </size>
+                              </property>
+                              <property name="maximumSize">
                                <size>
                                 <width>35</width>
                                 <height>35</height>
@@ -2901,6 +2942,12 @@ QHeaderView::section:vertical
                                   <height>35</height>
                                  </size>
                                 </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>35</width>
+                                  <height>35</height>
+                                 </size>
+                                </property>
                                 <property name="styleSheet">
                                  <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -2944,23 +2991,25 @@ QPushButton:pressed {
                                  <widget class="QTableWidget" name="tableWidgetTrainSubmodel_4">
                                   <property name="minimumSize">
                                    <size>
-                                    <width>400</width>
+                                    <width>0</width>
                                     <height>0</height>
                                    </size>
                                   </property>
                                   <property name="styleSheet">
                                    <string notr="true">QTableWidget {	
 	background-color: rgb(235, 242, 250);
-	padding: 10px;
+	padding: 0px;
 	border-radius: 5px;
 	gridline-color: #DFE6ED;
 	border-bottom: 1px solid #DFE6ED;
 }
 QTableWidget::item{
-	border-color: #DFE6ED;
 	padding-left: 5px;
 	padding-right: 5px;
-	gridline-color: #DFE6ED;
+    	border-bottom: 0.7px solid #DFE6ED;
+	border-top: 0.7px solid #DFE6ED;
+	border-left: 0.7px solid #DFE6ED;
+	border-right: 0.7px solid #DFE6ED;
 }
 QTableWidget::item:selected{
 	background-color: #C7CDDA;
@@ -2998,14 +3047,14 @@ QHeaderView::section:horizontal
 	border-top-left-radius: 7px;
     border-top-right-radius: 7px;
 }
-QHeaderView::section:vertical
-{
-    border: 1px solid #A3A8AD;
-}
+
 </string>
                                   </property>
                                   <property name="midLineWidth">
                                    <number>1</number>
+                                  </property>
+                                  <property name="sizeAdjustPolicy">
+                                   <enum>QAbstractScrollArea::AdjustToContents</enum>
                                   </property>
                                   <property name="editTriggers">
                                    <set>QAbstractItemView::NoEditTriggers</set>
@@ -3064,23 +3113,25 @@ QHeaderView::section:vertical
                                   </property>
                                   <property name="minimumSize">
                                    <size>
-                                    <width>150</width>
+                                    <width>0</width>
                                     <height>0</height>
                                    </size>
                                   </property>
                                   <property name="styleSheet">
                                    <string notr="true">QTableWidget {	
 	background-color: rgb(235, 242, 250);
-	padding: 10px;
+	padding: 0px;
 	border-radius: 5px;
 	gridline-color: #DFE6ED;
 	border-bottom: 1px solid #DFE6ED;
 }
 QTableWidget::item{
-	border-color: #DFE6ED;
 	padding-left: 5px;
 	padding-right: 5px;
-	gridline-color: #DFE6ED;
+    	border-bottom: 0.7px solid #DFE6ED;
+	border-top: 0.7px solid #DFE6ED;
+	border-left: 0.7px solid #DFE6ED;
+	border-right: 0.7px solid #DFE6ED;
 }
 QTableWidget::item:selected{
 	background-color: #C7CDDA;
@@ -3117,12 +3168,10 @@ QHeaderView::section:horizontal
 	padding: 3px;
 	border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-}
-QHeaderView::section:vertical
-{
-    border: 1px solid #A3A8AD;
-}
-</string>
+}</string>
+                                  </property>
+                                  <property name="sizeAdjustPolicy">
+                                   <enum>QAbstractScrollArea::AdjustToContents</enum>
                                   </property>
                                   <attribute name="horizontalHeaderStretchLastSection">
                                    <bool>true</bool>
@@ -3132,7 +3181,7 @@ QHeaderView::section:vertical
                                   </attribute>
                                   <column>
                                    <property name="text">
-                                    <string>NEW TOPIC NAME</string>
+                                    <string>NEW TOPIC NAME         </string>
                                    </property>
                                    <property name="font">
                                     <font>
@@ -3497,6 +3546,9 @@ QHeaderView::section:vertical
 }
 </string>
                               </property>
+                              <property name="sizeAdjustPolicy">
+                               <enum>QAbstractScrollArea::AdjustToContents</enum>
+                              </property>
                               <property name="editTriggers">
                                <set>QAbstractItemView::NoEditTriggers</set>
                               </property>
@@ -3555,6 +3607,12 @@ QHeaderView::section:vertical
                            </sizepolicy>
                           </property>
                           <property name="minimumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
                            <size>
                             <width>35</width>
                             <height>35</height>
@@ -3750,10 +3808,22 @@ QPushButton:pressed {
                            <layout class="QVBoxLayout" name="verticalLayout_32">
                             <item>
                              <widget class="QWidget" name="plotPylavis" native="true">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
                               <property name="minimumSize">
                                <size>
-                                <width>550</width>
-                                <height>650</height>
+                                <width>0</width>
+                                <height>0</height>
+                               </size>
+                              </property>
+                              <property name="maximumSize">
+                               <size>
+                                <width>16777215</width>
+                                <height>16777215</height>
                                </size>
                               </property>
                               <property name="styleSheet">
@@ -3866,6 +3936,12 @@ QPushButton:pressed {
                               <height>35</height>
                              </size>
                             </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>35</width>
+                              <height>35</height>
+                             </size>
+                            </property>
                             <property name="styleSheet">
                              <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -3887,19 +3963,6 @@ QPushButton:pressed {
                            </widget>
                           </item>
                          </layout>
-                        </item>
-                        <item>
-                         <spacer name="horizontalSpacer_3">
-                          <property name="orientation">
-                           <enum>Qt::Horizontal</enum>
-                          </property>
-                          <property name="sizeHint" stdset="0">
-                           <size>
-                            <width>40</width>
-                            <height>20</height>
-                           </size>
-                          </property>
-                         </spacer>
                         </item>
                         <item>
                          <widget class="QTableWidget" name="tableWidgetShowModels">
@@ -4059,6 +4122,12 @@ QWidget:focus {
                              </sizepolicy>
                             </property>
                             <property name="minimumSize">
+                             <size>
+                              <width>35</width>
+                              <height>35</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
                              <size>
                               <width>35</width>
                               <height>35</height>
@@ -4318,6 +4387,12 @@ QWidget:focus {
                             <height>35</height>
                            </size>
                           </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -4397,6 +4472,12 @@ QWidget:focus {
                             <height>35</height>
                            </size>
                           </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>35</width>
+                            <height>35</height>
+                           </size>
+                          </property>
                           <property name="styleSheet">
                            <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -4435,7 +4516,7 @@ QPushButton:pressed {
                       <item>
                        <widget class="QTreeWidget" name="treeWidgetSelectModelToDiagnostic">
                         <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
                           <verstretch>0</verstretch>
                          </sizepolicy>
@@ -4443,13 +4524,13 @@ QPushButton:pressed {
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
-                          <height>400</height>
+                          <height>0</height>
                          </size>
                         </property>
                         <property name="maximumSize">
                          <size>
                           <width>16777215</width>
-                          <height>400</height>
+                          <height>16777215</height>
                          </size>
                         </property>
                         <property name="styleSheet">
@@ -4532,6 +4613,12 @@ QHeaderView::section:vertical
                           <height>35</height>
                          </size>
                         </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>35</width>
+                          <height>35</height>
+                         </size>
+                        </property>
                         <property name="styleSheet">
                          <string notr="true">QPushButton {
 	border: 5px solid #676A6E;
@@ -4574,36 +4661,38 @@ QPushButton:pressed {
                         <item>
                          <widget class="QTableWidget" name="tableDragFrom">
                           <property name="sizePolicy">
-                           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>1800</width>
+                            <width>0</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>1800</width>
+                            <width>16777215</width>
                             <height>16777215</height>
                            </size>
                           </property>
                           <property name="styleSheet">
                            <string notr="true">QTableWidget {	
 	background-color: rgb(235, 242, 250);
-	padding: 10px;
+	padding: 0px;
 	border-radius: 5px;
 	gridline-color: #DFE6ED;
 	border-bottom: 1px solid #DFE6ED;
 }
 QTableWidget::item{
-	border-color: #DFE6ED;
 	padding-left: 5px;
 	padding-right: 5px;
-	gridline-color: #DFE6ED;
+    	border-bottom: 0.7px solid #DFE6ED;
+	border-top: 0.7px solid #DFE6ED;
+	border-left: 0.7px solid #DFE6ED;
+	border-right: 0.7px solid #DFE6ED;
 }
 QTableWidget::item:selected{
 	background-color: #C7CDDA;
@@ -4640,12 +4729,10 @@ QHeaderView::section:horizontal
 	padding: 3px;
 	border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-}
-QHeaderView::section:vertical
-{
-    border: 1px solid #A3A8AD;
-}
-</string>
+}</string>
+                          </property>
+                          <property name="sizeAdjustPolicy">
+                           <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
                           </property>
                           <property name="editTriggers">
                            <set>QAbstractItemView::NoEditTriggers</set>
@@ -4687,36 +4774,38 @@ QHeaderView::section:vertical
                         <item>
                          <widget class="QTableWidget" name="tableDragTo">
                           <property name="sizePolicy">
-                           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>1800</width>
+                            <width>0</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>1800</width>
+                            <width>16777215</width>
                             <height>16777215</height>
                            </size>
                           </property>
                           <property name="styleSheet">
                            <string notr="true">QTableWidget {	
 	background-color: rgb(235, 242, 250);
-	padding: 10px;
+	padding: 0px;
 	border-radius: 5px;
 	gridline-color: #DFE6ED;
 	border-bottom: 1px solid #DFE6ED;
 }
 QTableWidget::item{
-	border-color: #DFE6ED;
 	padding-left: 5px;
 	padding-right: 5px;
-	gridline-color: #DFE6ED;
+    	border-bottom: 0.7px solid #DFE6ED;
+	border-top: 0.7px solid #DFE6ED;
+	border-left: 0.7px solid #DFE6ED;
+	border-right: 0.7px solid #DFE6ED;
 }
 QTableWidget::item:selected{
 	background-color: #C7CDDA;
@@ -4753,12 +4842,10 @@ QHeaderView::section:horizontal
 	padding: 3px;
 	border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-}
-QHeaderView::section:vertical
-{
-    border: 1px solid #A3A8AD;
-}
-</string>
+}</string>
+                          </property>
+                          <property name="sizeAdjustPolicy">
+                           <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
                           </property>
                           <property name="editTriggers">
                            <set>QAbstractItemView::NoEditTriggers</set>
@@ -4826,15 +4913,15 @@ QPushButton:pressed {
                       <item>
                        <widget class="QWidget" name="plotPylavis_4" native="true">
                         <property name="sizePolicy">
-                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                           <horstretch>0</horstretch>
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
                         <property name="minimumSize">
                          <size>
-                          <width>550</width>
-                          <height>650</height>
+                          <width>0</width>
+                          <height>0</height>
                          </size>
                         </property>
                         <property name="maximumSize">

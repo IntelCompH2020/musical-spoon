@@ -38,6 +38,7 @@ submodel_file = config['mallet']['submodel_file']
 topic_state = config['out-documents']['topic_state']
 topic_keys = config['out-documents']['topic_keys']
 doc_topics = config['out-documents']['doc_topics']
+topic_word_counts = config['out-documents']['topic_word_count']
 topic_word_weights = config['out-documents']['topic_word_weights']
 model_ids = config['out-documents']['model_ids']
 diagnostics_html = config['files']['diagnostics_html_path']
@@ -67,6 +68,7 @@ def create_mallet(route_to_source, route_to_model):
                + " --output " + output_mallet
                + " --keep-sequence --remove-stopwords")
     cmd(command)
+    print(command)
 
     shutil.copy(diagnostics_json, pathlib.Path(route_to_model))
     shutil.copy(diagnostics_html, pathlib.Path(route_to_model))
@@ -128,6 +130,7 @@ def train_a_model(route_to_source, route_to_model, model):
     topic_keys_model = (model_dir / topic_keys).as_posix()
     doc_topics_model = (model_dir / doc_topics).as_posix()
     topic_word_weights_model = (model_dir / topic_word_weights).as_posix()
+    topic_word_counts_file =  (model_dir / topic_word_counts).as_posix()
     diagnosis_file = (model_dir / "diagnostics.xml").as_posix()
     output_model_file = (model_dir / "model.bin").as_posix()
     # Train the model
@@ -138,6 +141,7 @@ def train_a_model(route_to_source, route_to_model, model):
                            + " --output-topic-keys " + topic_keys_model
                            + " --output-doc-topics " + doc_topics_model
                            + " --topic-word-weights-file " + topic_word_weights_model
+                           + " --word-topic-counts-file " + topic_word_counts_file
                            + " --diagnostics-file " + diagnosis_file
                            + " --output-model " + output_model_file)
     print(command)
@@ -184,6 +188,7 @@ def train_a_submodel(submodel_name, submodel_path, submodel):
     topic_keys_model = (folder_dir / topic_keys).as_posix()
     doc_topics_model = (folder_dir / doc_topics).as_posix()
     topic_word_weights_model = (folder_dir / topic_word_weights).as_posix()
+    topic_word_counts_file = (folder_dir / topic_word_counts).as_posix()
     diagnosis_file = (folder_dir / "diagnostics.xml").as_posix()
     output_model_file = (folder_dir / "model.bin").as_posix()
 
@@ -195,6 +200,7 @@ def train_a_submodel(submodel_name, submodel_path, submodel):
                            + " --output-topic-keys " + topic_keys_model
                            + " --output-doc-topics " + doc_topics_model
                            + " --topic-word-weights-file " + topic_word_weights_model
+                           + " --word-topic-counts-file " + topic_word_counts_file
                            + " --diagnostics-file " + diagnosis_file
                            + " --output-model " + output_model_file)
     print(command)

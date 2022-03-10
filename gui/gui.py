@@ -22,19 +22,23 @@ import os
 import pathlib
 import pickle
 import time
+import numpy as np
+import pandas as pd
 
 from matplotlib import pyplot as plt
 
 from PyQt5 import uic, QtWidgets, QtCore, QtGui
-from PyQt5.QtCore import QUrl, Qt, QThreadPool
+from PyQt5.QtCore import QUrl, Qt, QThreadPool, QSize
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import *
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from gui.messages_gui import MessagesGui
 from gui.worker import Worker
-from gui.aux_model import create_model, list_models, select_model, train_model,     show_topic_model_description, show_topics_to_expand, show_topics_to_expand, train_save_submodels, change_description, generatePyLavis, delete_submodel, delete_model, get_model_xml, configure_project_folder, clearQTreeWidget, printTree, show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics
-
+from gui.aux_model import create_model, list_models, select_model, train_model, show_topic_model_description, \
+    show_topics_to_expand, show_topics_to_expand, train_save_submodels, change_description, generatePyLavis, \
+    delete_submodel, delete_model, get_model_xml, configure_project_folder, clearQTreeWidget, printTree, \
+    show_topics_to_expand_general, get_root_path, get_pickle, plot_diagnostics, plotLDAvis
 
 config_file = os.path.dirname(__file__) + '/../config_project.ini'
 config = configparser.ConfigParser()
@@ -46,6 +50,7 @@ model_ids = config['out-documents']['model_ids']
 pldavis = config['out-documents']['pldavis']
 diagnostics = config['out-documents']['diagnosis']
 default_project_path = config['default']['project_path']
+BUTTONS_SCALE = 0.5
 
 
 class UI_MainWindow(QtWidgets.QMainWindow):
@@ -58,6 +63,8 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             self.version = "v1"
         else:
             self.version = "v2"
+
+        print(self.version)
 
         uic.loadUi("gui/UIS/musicalSpoonV2.ui", self)
 
@@ -241,6 +248,9 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         ########################################################################
         self.Btn_Toggle.clicked.connect(lambda: self.toggleMenu(250))
         self.Btn_Toggle.setIcon(QIcon('gui/Images/menu.png'))
+        self.Btn_Toggle.setIconSize(
+            BUTTONS_SCALE * QSize(self.Btn_Toggle.width(),
+                                  self.Btn_Toggle.height()))
 
         # PAGES
         ########################################################################
@@ -249,43 +259,67 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             lambda: self.tabs.setCurrentWidget(self.tabsPage))
         self.pushButtonConfiguration_2.setIcon(
             QIcon('gui/Images/settings.png'))
+        self.pushButtonConfiguration_2.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonConfiguration_2.width(),
+                                  self.pushButtonConfiguration_2.height()))
 
         # PAGE 2: Create new model/select model /train model /delete model
         self.pushButtonSelectModel_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage2))
         self.pushButtonSelectModel_2.setIcon(QIcon('gui/Images/new.png'))
+        self.pushButtonSelectModel_2.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonSelectModel_2.width(),
+                                  self.pushButtonSelectModel_2.height()))
 
         # PAGE 3: Create/train submodel /add description to topics
         self.pushButtonTrainSubmodel_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage3))
         self.pushButtonTrainSubmodel_2.setIcon(QIcon('gui/Images/create.png'))
+        self.pushButtonTrainSubmodel_2.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonTrainSubmodel_2.width(),
+                                  self.pushButtonTrainSubmodel_2.height()))
 
         # PAGE 4: See topics' description / generate and plot PyLDAvis
         self.pushButtonShowDescription_2.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage4))
         self.pushButtonShowDescription_2.setIcon(QIcon('gui/Images/show.png'))
+        self.pushButtonShowDescription_2.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonShowDescription_2.width(),
+                                  self.pushButtonShowDescription_2.height()))
 
         # PAGE 5: See PyLDAvis plot expanded
         self.pushButtonShowPylavisBig.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage5))
         self.pushButtonShowPylavisBig.setIcon(QIcon('gui/Images/expand.png'))
+        self.pushButtonShowPylavisBig.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonShowPylavisBig.width(),
+                                  self.pushButtonShowPylavisBig.height()))
 
         # PAGE 6: See diagnostics
         self.pushButtonShowDiagnosis.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage6))
         self.pushButtonShowDiagnosis.setIcon(
             QIcon('gui/Images/diagnostic_white2.png'))
+        self.pushButtonShowDiagnosis.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonShowDiagnosis.width(),
+                                  self.pushButtonShowDiagnosis.height()))
 
         # PAGE 7: See diagnostics plot expanded
         self.pushButtonShowDiagnosticsBig.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage7))
         self.pushButtonShowDiagnosticsBig.setIcon(
             QIcon('gui/Images/expand.png'))
+        self.pushButtonShowDiagnosticsBig.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonShowDiagnosticsBig.width(),
+                                  self.pushButtonShowDiagnosticsBig.height()))
 
         # PAGE 8: Draw diagnostics graphs
         self.pushButtonDraw.clicked.connect(
             lambda: self.tabs.setCurrentWidget(self.tabsPage8))
         self.pushButtonDraw.setIcon(QIcon('gui/Images/draw_white.png'))
+        self.pushButtonDraw.setIconSize(
+            BUTTONS_SCALE * QSize(self.pushButtonDraw.width(),
+                                  self.pushButtonDraw.height()))
 
     def toggleMenu(self, max_width):
         """Method to control the movement of the Toggle menu located on the
@@ -387,7 +421,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
     def execute_to_get_pyldavis(self, progress_callback):
         """Method to control the execution of the generation of a PyLDAVis.
         """
-        generatePyLavis(self.model_to_plot)
+        plotLDAvis(self.model_to_plot)
 
     def execute_apply_changes(self, progress_callback):
         """Method to control the change the description of the topics of a
@@ -398,7 +432,6 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         for i in np.arange(0, self.tableWidgetNewTopicName_4.rowCount(), 1):
             print(self.tableWidgetNewTopicName_4.item(i, 0))
             new_name = self.tableWidgetNewTopicName_4.item(i, 0).text()
-            change_description(item.text(0), i, new_name)
             self.tableWidgetTrainSubmodel_4.setItem(
                 i, 1, QtWidgets.QTableWidgetItem(new_name))
             self.tableWidgetNewTopicName_4.setItem(
@@ -423,7 +456,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.list_names = []
         self.list_description = []
         for i in np.arange(0, len(self.model_get_ids.topics_models), 1):
-            if str(type(self.model_get_ids.topics_models[i])) == "<class 'Topic.Topic'>":
+            if str(type(self.model_get_ids.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 self.list_description.append(
                     self.model_get_ids.topics_models[i].get_description()[0][0])
                 if self.model_get_ids.topics_models[i].get_description_name() == "":
@@ -894,10 +927,12 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         self.tableWidgetModelTrained.setRowCount(len(topic_ids))
         self.tableWidgetModelTrained.setColumnCount(2)
         new_trained_model = model.look_for_model(str(new_model_name))
+        print("new train", new_trained_model.topics_models[0].get_description()[0])
 
         list_description = []
         for i in np.arange(0, len(new_trained_model.topics_models), 1):
-            if str(type(new_trained_model.topics_models[i])) == "<class 'Topic.Topic'>":
+            print(type(new_trained_model.topics_models[i]))
+            if str(type(new_trained_model.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 list_description.append(
                     new_trained_model.topics_models[i].get_description()[0][0])
 
@@ -950,7 +985,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
         list_names = []
         list_description = []
         for i in np.arange(0, len(model_to_change.topics_models), 1):
-            if str(type(model_to_change.topics_models[i])) == "<class 'Topic.Topic'>":
+            if str(type(model_to_change.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 list_description.append(
                     model_to_change.topics_models[i].get_description()[0][0])
                 if model_to_change.topics_models[i].get_description_name() == "":
@@ -1393,7 +1428,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.question(self, 'MusicalSpoon message',
                                            "Are you sure you want to delete the submodel " +
                                            '"' + model_to_delete_str + '"' + "? If you "
-                                           "delete this model, all its children submodels will be deleted as  well.",
+                                                                             "delete this model, all its children submodels will be deleted as  well.",
                                            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         else:
             button_reply_delete_model = QtWidgets.QMessageBox.question(self, 'MusicalSpoon message',
@@ -1469,7 +1504,7 @@ class UI_MainWindow(QtWidgets.QMainWindow):
 
         list_description = []
         for i in np.arange(0, len(model_to_show.topics_models), 1):
-            if str(type(model_to_show.topics_models[i])) == "<class 'Topic.Topic'>":
+            if str(type(model_to_show.topics_models[i])) == "<class 'htms.topic.Topic'>":
                 list_description.append(
                     model_selected + " / " + str(i) + " / " + model_to_show.topics_models[i].get_description()[0][0])
 

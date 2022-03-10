@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>723</width>
-    <height>409</height>
+    <width>1278</width>
+    <height>753</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -253,6 +253,9 @@
              <bold>true</bold>
             </font>
            </property>
+           <property name="styleSheet">
+            <string notr="true">color:black;</string>
+           </property>
            <property name="text">
             <string>Select the version of the hierarchical topic model to use:     </string>
            </property>
@@ -280,8 +283,14 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>45</width>
-               <height>45</height>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
               </size>
              </property>
              <property name="styleSheet">
@@ -325,8 +334,14 @@ QPushButton:pressed {
              </property>
              <property name="minimumSize">
               <size>
-               <width>45</width>
-               <height>45</height>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
               </size>
              </property>
              <property name="styleSheet">

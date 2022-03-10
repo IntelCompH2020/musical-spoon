@@ -22,6 +22,7 @@ class styleGrey:
         border-radius: 5px;
         border: 2px solid #EBF2FA;
         padding-left: 10px;
+        color:black;
     }
     QLineEdit:hover {
         border: 2px solid #A3A8AD;
@@ -248,6 +249,7 @@ class styleGrey:
 
     QPushButton {
         background-color: #A3A8AD;
+        color:black;
     }
     QPushButton:hover {
         background-color: #A3A8AD;
